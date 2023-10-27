@@ -6,29 +6,34 @@ using System.Text;
 using System.Threading.Tasks;
 using MTCG.Classes; //here we connect with the classes folder
 
+
 namespace MTCG
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("hello, world");
             User user = new User("Nat", "1234");
             user.Print();
-            Card card = new Card("carta", ElementType.Water, 5);
-            card.Print();
+            Monster card = new Monster("carta", ElementType.Water, 5, MonsterType.Knight);
+           // card.Print();
             Stack stack = new Stack();
-            stack.AddCard(card);
-            Card card2 = new Card("carta", ElementType.Water, 6);
-            stack.AddCard(card2);
-            Card card3 = new Card("carta", ElementType.Fire, 5);
-            stack.AddCard(card3);
-            stack.Print();
+
+            Spell card2 = new Spell("carta", ElementType.Water, 6);
+            
+            Monster card3 = new Monster("carta", ElementType.Fire, 5, MonsterType.Goblin);
+  
             Spell spellCard = new Spell("magic", ElementType.Normal, 10);
-            stack.AddCard(spellCard);
-            stack.Print();
 
+            user.AddCardToStack(card);
+            user.AddCardToStack(card2);
+            user.AddCardToStack(card3);
+            user.AddCardToStack(spellCard);
 
+            user.Print();
+
+            Battle fight = new Battle();
+            fight.Round(card, card3);
 
         }
     }

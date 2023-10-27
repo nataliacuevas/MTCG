@@ -11,21 +11,23 @@ namespace MTCG.Classes
         public string Name { get; }
         private string _password;
         private Stack _stack = new Stack();
+        public int Coins { get; }
 
         public User(string name, string password)
         {
             Name = name;
             _password = password;
+            Coins = 20;
 
         }
-        public void addCardToStack(Card card) 
+        public void AddCardToStack(Card card) 
         {
             _stack.AddCard(card);
         }
 
         public void Print ()
         {
-            Console.WriteLine("user: {0}, pass: {1}, stack: ", Name, _password);
+            Console.WriteLine("user: {0}, pass: {1}, coins: {2} stack: ", Name, _password, Coins);
             _stack.Print();
         }
 

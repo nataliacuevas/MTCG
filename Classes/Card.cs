@@ -12,7 +12,7 @@ namespace MTCG.Classes
         Water,
         Normal,
     }
-    class Card
+    abstract public class Card
     {
         public string Name { get; }
         public ElementType Type { get; }
@@ -24,9 +24,6 @@ namespace MTCG.Classes
             Type = type;
             Damage = damage;
         }
-        public void Print()
-        {
-            Console.WriteLine("Card name: {0}, Element Type:  {1}, Damage: {2}", Name, Type, Damage);
-        }
+        public abstract void Print();
     }
 }
