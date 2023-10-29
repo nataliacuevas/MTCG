@@ -34,8 +34,8 @@ namespace MTCG
 
             Battle fight = new Battle();
 
-            RoundLog log = fight.Round(spellCard, card2);
-            Console.WriteLine(log.Log);
+            var (log, winner)  = fight.Round(spellCard, card2);
+            Console.WriteLine(log);
         }
     }
 }
