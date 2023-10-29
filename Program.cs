@@ -15,7 +15,7 @@ namespace MTCG
         {
             User user = new User("Nat", "1234");
             user.Print();
-            Monster card = new Monster("carta", ElementType.Water, 5, MonsterType.Knight);
+            Monster card = new Monster("carta", ElementType.Water, 1, MonsterType.Knight);
            // card.Print();
             Stack stack = new Stack();
 
@@ -33,8 +33,9 @@ namespace MTCG
             user.Print();
 
             Battle fight = new Battle();
-            fight.Round(card, card3);
 
+            RoundLog log = fight.Round(spellCard, card2);
+            Console.WriteLine(log.Log);
         }
     }
 }
