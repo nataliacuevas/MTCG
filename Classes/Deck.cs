@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MTCG.Classes
 {
-    class Stack
+    class Deck
     {
         private List<Card> _cards = new List<Card>();
 
-        public Stack() { }
+        public Deck() { }
 
         public void AddCard(Card card)
         {

@@ -19,6 +19,7 @@ namespace MTCG.Classes
     }
     public class Battle
     {
+        private const int _maxRounds = 100;
 
         public Battle()
         {
@@ -49,5 +50,8 @@ namespace MTCG.Classes
                 return new RoundLog() { Log = log  + " Draw. ", Winner = null };
             }
         }
+
+        // public (string, Players) Match(); 
+
     }
 }

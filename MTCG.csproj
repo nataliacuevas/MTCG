@@ -47,7 +47,7 @@
     <Compile Include="Classes\Card.cs" />
     <Compile Include="Classes\Monster.cs" />
     <Compile Include="Classes\Spell.cs" />
-    <Compile Include="Classes\Stack.cs" />
+    <Compile Include="Classes\Deck.cs" />
     <Compile Include="Classes\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -13,11 +13,11 @@ namespace MTCG
     {
         static void Main(string[] args)
         {
-            User user = new User("Nat", "1234");
+            User user = new User("Nat", "1234", 100); 
             user.Print();
             Monster card = new Monster("carta", ElementType.Water, 1, MonsterType.Knight);
-           // card.Print();
-            Stack stack = new Stack();
+            // card.Print();
+            Deck deck = new Deck();
 
             Spell card2 = new Spell("carta", ElementType.Water, 6);
             
@@ -25,10 +25,10 @@ namespace MTCG
   
             Spell spellCard = new Spell("magic", ElementType.Normal, 10);
 
-            user.AddCardToStack(card);
-            user.AddCardToStack(card2);
-            user.AddCardToStack(card3);
-            user.AddCardToStack(spellCard);
+            user.AddCardToDeck(card);
+            user.AddCardToDeck(card2);
+            user.AddCardToDeck(card3);
+            user.AddCardToDeck(spellCard);
 
             user.Print();
 

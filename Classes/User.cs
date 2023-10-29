@@ -10,25 +10,28 @@ namespace MTCG.Classes
     {
         public string Name { get; }
         private string _password;
-        private Stack _stack = new Stack();
+        private Deck _deck = new Deck();
         public int Coins { get; }
+        public int ELO { get; set; }
 
-        public User(string name, string password)
+        public User(string name, string password, int elo)
         {
             Name = name;
             _password = password;
             Coins = 20;
+            ELO = elo;
+
 
         }
-        public void AddCardToStack(Card card) 
+        public void AddCardToDeck(Card card) 
         {
-            _stack.AddCard(card);
+            _deck.AddCard(card);
         }
 
         public void Print ()
         {
-            Console.WriteLine("user: {0}, pass: {1}, coins: {2} stack: ", Name, _password, Coins);
-            _stack.Print();
+            Console.WriteLine("user: {0}, pass: {1}, coins: {2} deck: ", Name, _password, Coins);
+            _deck.Print();
         }
 
     }
