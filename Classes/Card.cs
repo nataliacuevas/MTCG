@@ -6,12 +6,6 @@ using System.Threading.Tasks;
 
 namespace MTCG.Classes
 {
-    public struct CommentedInteger
-    {
-        public string Description { get; set; }
-        public int Value { get; set; }
-    }
-
     public enum ElementType
     {
         Fire,

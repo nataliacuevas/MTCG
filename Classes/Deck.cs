@@ -51,7 +51,6 @@ namespace MTCG.Classes
             // get a random index within range of the available cards
             var random = new Random();
             int index = random.Next(0, _cards.Count);
-            System.Console.WriteLine("random index: {0} ", index);
             //get the card in the given index
             Card randomCard = _cards[index];
             //remove card from deck

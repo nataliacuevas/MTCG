@@ -13,11 +13,6 @@ namespace MTCG.Classes
         PlayerA,
         PlayerB,
     }
-    public struct RoundLog
-    {
-        public string Log {  get; set; } 
-        public Players? Winner { get; set; } //null if draw
-    }
     public class Battle
     {
         private const int _maxRounds = 100;
