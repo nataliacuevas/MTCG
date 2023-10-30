@@ -55,26 +55,27 @@ namespace MTCG.Classes
         public (string, Players?) Match(Deck deckA, Deck deckB)
         {
             //TODOO RANDOMIZE CARD
-            int counter = 0;
             string finaLog = "";
+            int roundCounter = 0;
 
 
             do
             {
                 //method to get card out of list deck A
                 //method to get card out of list deck B
-                Card cardA = deckA.PopRandom();
-                Card cardB = deckB.PopRandom();
+                Card cardA = deckA.PopRandomCard();
+                Card cardB = deckB.PopRandomCard();
                 var(log, winner) = Round(cardA, cardB);
                 finaLog += "\n" + log;
-                counter++;
+                ++roundCounter;
                 if (winner == Players.PlayerA)
                 { 
                     deckA.AddCard(cardA);
                     deckA.AddCard(cardB);
 
-                    if (deckB.size() == 0)
-                    {
+                    if (deckB.Count == 0)
+                    {   
+
                         return (finaLog, Players.PlayerA);
                     }
                 }
@@ -83,7 +84,7 @@ namespace MTCG.Classes
                     deckB.AddCard(cardA);
                     deckB.AddCard(cardB);
 
-                    if (deckA.size() == 0)
+                    if (deckA.Count == 0)
                     {
                         return (finaLog, Players.PlayerB);
                     }
@@ -95,9 +96,21 @@ namespace MTCG.Classes
                     deckB.AddCard(cardB);
                 }
             }
-            while(counter <= _maxRounds);
+            while(roundCounter < _maxRounds);
             
             return (finaLog, null);
+        }
+
+        public string FinalMatchText(Players? winner)
+        {
+            if (winner == null)
+            {
+                return "Draw, there is no winner";
+            }
+            else
+            {
+                return "The winner of the Battle is " + winner.ToString();
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ namespace MTCG.Classes
     {
         Goblin,
         Dragon,
-        Wizzard,
+        Wizard,
         Orc,
         Knight,
         Kraken,
@@ -40,7 +40,7 @@ namespace MTCG.Classes
                 {
                     return ("Goblin is too afraid of Dragon to attack", 0);
                 }
-                else if (this.Mtype == MonsterType.Orc && otherMonster.Mtype == MonsterType.Wizzard)
+                else if (this.Mtype == MonsterType.Orc && otherMonster.Mtype == MonsterType.Wizard)
                 {
                     return  ("The Orc is controled by the Wizzard, therefore cannot do any damage", 0);
                 }
