@@ -1,36 +1,15 @@
-﻿using System;
+﻿using MTCG.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTCG.Classes
+namespace MTCG.BLL
 {
-    public enum ElementType
+    public static class ElementLogic
     {
-        Fire,
-        Water,
-        Normal,
-    }
-
-    abstract public class Card
-    {
-        public string Name { get; }
-        public ElementType Type { get; }
-        public int Damage { get; }
-
-        public Card(string name, ElementType type, int damage)
-        {
-            Name = name;
-            Type = type;
-            Damage = damage;
-        }
-        public abstract void Print();
-         // get damage value modified when this.card interacts with another one
-        public abstract (string, int) DamageModifier(Card otherCard);
-
-        //TODO PuT IT in some class 
-        public double ElementModifier(ElementType dis, ElementType other)
+        public static double ElementModifier(ElementType dis, ElementType other)
         {
             //Fire & water cases
             if (dis == ElementType.Water && other == ElementType.Fire)

@@ -1,25 +1,28 @@
-﻿using System;
+﻿using MTCG.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
+using MTCG.Interfaces;
 
-namespace MTCG.Classes
+namespace MTCG.BLL
 {
-    class Spell : Card
+    class SpellLogic : CardLogic, ISpell
     {
-        public Spell(string name, ElementType type, int damage) : base(name, type, damage) { }
-
+        public SpellLogic(string name, ElementType type, int damage) : base(name, type, damage) { }
         public override void Print()
         {
             Console.WriteLine("Spell Card Name: {0}, Element Type:  {1}, Damage: {2}", Name, Type, Damage);
         }
 
-        public override (string, int) DamageModifier(Card other)
+        public override (string, int) DamageModifier(CardLogic other)
         {
-            if (other is Monster)
+            if (other is MonsterLogic)
             {
-                Monster otherMonster = (Monster)other;
+                MonsterLogic otherMonster = (MonsterLogic)other;
                 //Special cases
                 if (otherMonster.Mtype == MonsterType.Kraken)
                 {
@@ -27,13 +30,13 @@ namespace MTCG.Classes
                 }
                 else // Normal case: ElementModifier handles all the elemental cases
                 {
-                    return ("", (int)(this.Damage * ElementModifier(this.Type, other.Type)));
+                    return ("", (int)(this.Damage * ElementLogic.ElementModifier(this.Type, other.Type)));
                 }
             }
-            else if (other is Spell)
+            else if (other is SpellLogic)
             {
                 // Normal case: ElementModifier handles all the elemental cases
-                return ("", (int)(this.Damage * ElementModifier(this.Type, other.Type)));
+                return ("", (int)(this.Damage * ElementLogic.ElementModifier(this.Type, other.Type)));
             }
             else
             {

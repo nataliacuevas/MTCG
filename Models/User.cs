@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MTCG.Classes;
+using MTCG.BLL;
 
-namespace MTCG.Classes
+namespace MTCG.Models
 {
     public class User
     {
@@ -24,7 +26,7 @@ namespace MTCG.Classes
 
 
         }
-        public void AddCardToDeck(Card card) 
+        public void AddCardToDeck(CardLogic card) 
         {
             UserDeck.AddCard(card);
         }

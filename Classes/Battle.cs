@@ -4,7 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using MTCG.Classes;
+using MTCG.BLL;
+using MTCG.Models;
 
 namespace MTCG.Classes
 {
@@ -21,7 +22,7 @@ namespace MTCG.Classes
         {
         }
 
-        public (string, Players?) Round(Card cardOne, Card cardTwo)
+        public (string, Players?) Round(CardLogic cardOne, CardLogic cardTwo)
         {
 
             //using deconstruction to get the output results
@@ -58,8 +59,8 @@ namespace MTCG.Classes
             {
                 //method to get card out of list deck A
                 //method to get card out of list deck B
-                Card cardA = deckA.PopRandomCard();
-                Card cardB = deckB.PopRandomCard();
+                CardLogic cardA = deckA.PopRandomCard();
+                CardLogic cardB = deckB.PopRandomCard();
                 var(log, winner) = Round(cardA, cardB);
                 finaLog += "\n" + log;
                 ++roundCounter;

@@ -1,26 +1,19 @@
-﻿using System;
+﻿using MTCG.Interfaces;
+using MTCG.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
 
-namespace MTCG.Classes
+namespace MTCG.BLL
 {
-    public enum MonsterType
-    {
-        Goblin,
-        Dragon,
-        Wizard,
-        Orc,
-        Knight,
-        Kraken,
-        Elf,
-        Troll,
-    }
-    class Monster : Card
+    class MonsterLogic : CardLogic, IMonster
     {
         public MonsterType Mtype { get; }
-        public Monster(string name, ElementType type, int damage, MonsterType mtype) : base(name, type, damage)
+        public MonsterLogic(string name, ElementType type, int damage, MonsterType mtype) : base(name, type, damage)
         {
             Mtype = mtype;
         }
@@ -30,11 +23,11 @@ namespace MTCG.Classes
             Console.WriteLine("Monster Card Name: {0}, Element Type:  {1}, Damage: {2}", Name, Type, Damage);
         }
 
-        public override (string, int) DamageModifier(Card other)
+        public override (string, int) DamageModifier(CardLogic other)
         {
-            if (other is Monster)
+            if (other is MonsterLogic)
             {
-                Monster otherMonster = (Monster)other;
+                MonsterLogic otherMonster = (MonsterLogic)other;
                 //Special cases
                 if (this.Mtype == MonsterType.Goblin && otherMonster.Mtype == MonsterType.Dragon)
                 {
@@ -42,19 +35,19 @@ namespace MTCG.Classes
                 }
                 else if (this.Mtype == MonsterType.Orc && otherMonster.Mtype == MonsterType.Wizard)
                 {
-                    return  ("The Orc is controled by the Wizzard, therefore cannot do any damage", 0);
+                    return ("The Orc is controled by the Wizzard, therefore cannot do any damage", 0);
                 }
                 else if (this.Mtype == MonsterType.Dragon && otherMonster.Type == ElementType.Fire && otherMonster.Mtype == MonsterType.Elf)
                 {
                     return ("The Fire Elf knows the Dragon since they were little and can evade their attacks. ", 0);
                 }
                 else
-                { 
+                {
                     // Normal Case
                     return ("", this.Damage);
                 }
             }
-            else if (other is Spell)
+            else if (other is SpellLogic)
             {
                 //Special Cases 
                 if (this.Mtype == MonsterType.Knight && other.Type == ElementType.Water)
@@ -64,7 +57,7 @@ namespace MTCG.Classes
                 else
                 {
                     // Normal case: ElementModifier handles all the elemental cases
-                    return ("", (int)(this.Damage * ElementModifier(this.Type, other.Type)));
+                    return ("", (int)(this.Damage * ElementLogic.ElementModifier(this.Type, other.Type)));
                 }
             }
             else

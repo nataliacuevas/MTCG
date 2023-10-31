@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MTCG.Models;
+using MTCG.BLL;
 
 namespace MTCG.Classes
 {
     public class Deck
     {
-        private List<Card> _cards = new List<Card>();
+        private List<CardLogic> _cards = new List<CardLogic>();
         public int Count { get; private set; }
 
         public Deck()
@@ -16,7 +18,7 @@ namespace MTCG.Classes
             this.Count = 0;
         }
 
-        public void AddCard(Card card)
+        public void AddCard(CardLogic card)
         {
             _cards.Add(card);
             ++Count;
@@ -32,7 +34,7 @@ namespace MTCG.Classes
             --Count;
         }
 
-        public void RemoveCard(Card card)
+        public void RemoveCard(CardLogic card)
         {
             _cards.Remove(card);
             --Count;
@@ -40,19 +42,19 @@ namespace MTCG.Classes
 
         public void Print()
         {
-            foreach (Card card in _cards)
+            foreach (CardLogic card in _cards)
             {
                 card.Print();    
             }
         }
 
-        public Card PopRandomCard()
+        public CardLogic PopRandomCard()
         {
             // get a random index within range of the available cards
             var random = new Random();
             int index = random.Next(0, _cards.Count);
             //get the card in the given index
-            Card randomCard = _cards[index];
+            CardLogic randomCard = _cards[index];
             //remove card from deck
             RemoveAt(index);
             return randomCard;
