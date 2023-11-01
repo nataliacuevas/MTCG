@@ -20,6 +20,7 @@ namespace MTCG.BLL
             Type = type;
             Damage = damage;
         }
+
         public abstract void Print();
         // get damage value modified when this.card interacts with another one
         public abstract (string, int) DamageModifier(CardLogic otherCard);

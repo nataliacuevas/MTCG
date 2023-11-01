@@ -12,7 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-	  <LangVersion>latest</LangVersion>
+    <LangVersion>latest</LangVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -25,7 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-	  <LangVersion>latest</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,7 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-	  <LangVersion>latest</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -96,11 +96,15 @@
   <ItemGroup>
     <Compile Include="BLL\CardLogic.cs" />
     <Compile Include="BLL\ElementLogic.cs" />
+    <Compile Include="BLL\FromICardToCardLogic.cs" />
     <Compile Include="BLL\MonsterLogic.cs" />
     <Compile Include="BLL\SpellLogic.cs" />
     <Compile Include="Classes\Battle.cs" />
     <Compile Include="DAL\ConnectionString.cs" />
+    <Compile Include="DAL\DatabaseCardDao.cs" />
     <Compile Include="DAL\DatabaseElementTypeDao.cs" />
+    <Compile Include="DAL\DatabaseInitializer.cs" />
+    <Compile Include="DAL\DBExtensions.cs" />
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\IMonster.cs" />
     <Compile Include="Interfaces\ISpell.cs" />
@@ -119,6 +123,7 @@
     <None Include="App.config" />
     <None Include="docker-compose.yml" />
     <None Include="packages.config" />
+    <None Include="pgadmin-servers.json" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
