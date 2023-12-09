@@ -105,6 +105,9 @@
     <Compile Include="DAL\DatabaseElementTypeDao.cs" />
     <Compile Include="DAL\DatabaseInitializer.cs" />
     <Compile Include="DAL\DBExtensions.cs" />
+    <Compile Include="HttpServer\ClientHandler.cs" />
+    <Compile Include="HttpServer\HttpParser.cs" />
+    <Compile Include="HttpServer\Server.cs" />
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\IMonster.cs" />
     <Compile Include="Interfaces\ISpell.cs" />

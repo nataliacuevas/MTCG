@@ -8,6 +8,7 @@ using MTCG.Classes;
 using MTCG.Models;
 using MTCG.BLL;
 using MTCG.DAL;
+using MTCG.HttpServer;
 
 //here we connect with the classes folder
 
@@ -18,6 +19,10 @@ namespace MTCG
     {
         static void Main(string[] args)
         {
+            Server servi = new Server();
+
+            System.Environment.Exit(0);
+
             DatabaseInitializer.InitializeCleanDatabase();
             DatabaseCardDao dbCard = new DatabaseCardDao();
             
@@ -26,11 +31,11 @@ namespace MTCG
             Deck deckA = new Deck();
             Deck deckB = new Deck();
 
-            User playerA = new User("Nat", "1234", 100, deckA);
-            User playerB = new User("Pancho", "12345", 100, deckB);
+            User playerA = new User("P1", "1234", 100, deckA);
+            User playerB = new User("P2", "12345", 100, deckB);
 
             //add MonsterLogic card
-            for (int i = 6; i <= 10; i++)
+            for (int i = 6; i <= 9; i++)
             {
                 CardLogic card = FromICardToCardLogic.Cast(dbCard.GetCardById(i));
                 playerA.AddCardToDeck(card);
