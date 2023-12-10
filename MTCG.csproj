@@ -38,6 +38,9 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Json.Net, Version=1.0.33.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Json.Net.1.0.33\lib\netstandard2.0\Json.Net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -104,9 +107,12 @@
     <Compile Include="DAL\DatabaseCardDao.cs" />
     <Compile Include="DAL\DatabaseElementTypeDao.cs" />
     <Compile Include="DAL\DatabaseInitializer.cs" />
+    <Compile Include="DAL\DatabaseUserDao.cs" />
     <Compile Include="DAL\DBExtensions.cs" />
     <Compile Include="HttpServer\ClientHandler.cs" />
     <Compile Include="HttpServer\HttpParser.cs" />
+    <Compile Include="HttpServer\HttpResponse.cs" />
+    <Compile Include="HttpServer\Schemas\UserCredentials.cs" />
     <Compile Include="HttpServer\Server.cs" />
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\IMonster.cs" />

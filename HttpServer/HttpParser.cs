@@ -5,13 +5,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.XPath;
 
 namespace MTCG.HttpServer
 {
     internal class HttpParser
     {
         public bool IsValid { get; private set; }
-        public string Path { get; private set; } = string.Empty;
+        public List<string> Path { get; private set; }
         public string Verb { get; private set; } = string.Empty;
         public string Protocol { get; private set; } = string.Empty;
         public Dictionary<string, string> Header { get; private set; }
@@ -20,7 +21,6 @@ namespace MTCG.HttpServer
 
         void SetInvalid(string reason)
         {
-            Path = string.Empty;
             Verb = string.Empty;
             Protocol = string.Empty;
             Body = string.Empty;
@@ -51,7 +51,8 @@ namespace MTCG.HttpServer
                 return; 
             }
             Verb = Words[0];
-            Path = Words[1];
+            string fullPath = Words[1].Substring(1);
+            Path = new List<string>(fullPath.Split('/'));
             Protocol = Words[2];
             string[] protocolParts = Protocol.Split('/');
             if(protocolParts.Length != 2) 
@@ -101,7 +102,11 @@ namespace MTCG.HttpServer
         public void Print()
         {
             Console.WriteLine("Is Valid: {0}", IsValid);
-            Console.WriteLine("Path: {0}", Path);
+            foreach(string pathi in Path)
+            {
+                Console.WriteLine("Path: {0}", pathi);
+            }
+
             Console.WriteLine("Verb: {0}", Verb);
             Console.WriteLine("Protocol: {0}", Protocol);
             foreach(var kvp in Header)
