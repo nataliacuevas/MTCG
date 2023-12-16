@@ -19,9 +19,16 @@ namespace MTCG
     {
         static void Main(string[] args)
         {
+            var connectionString = "Host=localhost;Username=postgres;Password=changeme;Database=simpledatastore";
+
+            var userDao = new DatabaseUserDao(connectionString);
+
+
+            // ************************************* old things ***************************************
+            System.Environment.Exit(0);
             Server servi = new Server();
 
-            System.Environment.Exit(0);
+            
 
             DatabaseInitializer.InitializeCleanDatabase();
             DatabaseCardDao dbCard = new DatabaseCardDao();

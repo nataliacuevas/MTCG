@@ -10,15 +10,16 @@ namespace MTCG.DAL
 {
     internal class DatabaseUserDao
     {
-        public DatabaseUserDao() 
+        private readonly string _connectionString;
+        public DatabaseUserDao(string connectionString) 
         {
+            _connectionString = connectionString;
             EnsureTables();
         }
 
-        private static void EnsureTables()
+        private void EnsureTables()
         {
-            string connectionString = ConnectionString.Get();
-            using (IDbConnection connection = new NpgsqlConnection(connectionString))
+            using (IDbConnection connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
                 using (IDbCommand cmd = connection.CreateCommand())
