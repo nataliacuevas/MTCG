@@ -9,6 +9,7 @@ using MTCG.Models;
 using MTCG.BLL;
 using MTCG.DAL;
 using MTCG.HttpServer;
+using MTCG.HttpServer.Schemas;
 
 //here we connect with the classes folder
 
@@ -20,8 +21,8 @@ namespace MTCG
         static void Main(string[] args)
         {
             Server servi = new Server();
-
             System.Environment.Exit(0);
+
 
             DatabaseInitializer.InitializeCleanDatabase();
             DatabaseCardDao dbCard = new DatabaseCardDao();

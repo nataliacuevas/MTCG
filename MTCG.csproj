@@ -97,12 +97,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\TokenHandler.cs" />
     <Compile Include="BLL\CardLogic.cs" />
     <Compile Include="BLL\ElementLogic.cs" />
     <Compile Include="BLL\FromICardToCardLogic.cs" />
     <Compile Include="BLL\MonsterLogic.cs" />
     <Compile Include="BLL\SpellLogic.cs" />
     <Compile Include="Classes\Battle.cs" />
+    <Compile Include="Classes\UserTable.cs" />
     <Compile Include="DAL\ConnectionString.cs" />
     <Compile Include="DAL\DatabaseCardDao.cs" />
     <Compile Include="DAL\DatabaseElementTypeDao.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="HttpServer\HttpParser.cs" />
     <Compile Include="HttpServer\HttpResponse.cs" />
     <Compile Include="HttpServer\Schemas\UserCredentials.cs" />
+    <Compile Include="HttpServer\Schemas\UserData.cs" />
     <Compile Include="HttpServer\Server.cs" />
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\IMonster.cs" />

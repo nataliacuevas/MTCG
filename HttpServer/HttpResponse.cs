@@ -26,7 +26,7 @@ namespace MTCG.HttpServer
                     header = "HTTP/1.1 200 OK\r\n";
                     break;
                 case 201:
-                    header = "HTTP/1.1 201 Created\r\n";
+                    header = "HTTP/1.1 201 User successfully created\r\n";
                     break;
                 case 204:
                     header = "HTTP/1.1 204 No Content\r\n";
@@ -44,7 +44,7 @@ namespace MTCG.HttpServer
                     header = "HTTP/1.1 404 Not Found\r\n";
                     break;
                 case 409:
-                    header = "HTTP/1.1 409 Conflict\r\n";
+                    header = "HTTP/1.1 409 User with same username already registered\r\n";
                     break;
                 default:
                     throw new ArgumentException("Code case " + code.ToString() + " not valid");
