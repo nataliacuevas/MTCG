@@ -10,7 +10,7 @@ namespace MTCG.Classes
 {
     public static class ELOHandler
     {
-        public static void Update(Players? winner, User player1, User player2) 
+        public static void Update(Players? winner, UserBattle player1, UserBattle player2) 
         {
             if (winner == Players.PlayerA)
             {

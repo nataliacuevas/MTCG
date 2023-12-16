@@ -123,8 +123,9 @@
     <Compile Include="Models\MonsterTypeEnum.cs" />
     <Compile Include="Models\Spell.cs" />
     <Compile Include="Classes\Deck.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserBattle.cs" />
     <Compile Include="Classes\ELOHandler.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

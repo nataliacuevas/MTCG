@@ -38,8 +38,8 @@ namespace MTCG
             Deck deckA = new Deck();
             Deck deckB = new Deck();
 
-            User playerA = new User("P1", "1234", 100, deckA);
-            User playerB = new User("P2", "12345", 100, deckB);
+            UserBattle playerA = new UserBattle("P1", "1234", 100, deckA);
+            UserBattle playerB = new UserBattle("P2", "12345", 100, deckB);
 
             //add MonsterLogic card
             for (int i = 6; i <= 9; i++)

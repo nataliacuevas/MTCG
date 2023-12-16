@@ -3,39 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MTCG.Classes;
-using MTCG.BLL;
 
 namespace MTCG.Models
 {
-    public class User
+    internal class User
     {
-        public string Name { get; }
-        private string _password;
-        public Deck UserDeck { get; set; }
-        public int Coins { get; }
-        public int ELO { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Name { get; set; }
+        public string Bio { get; set; }
+        public string Image { get; set; }
 
-        public User(string name, string password, int elo, Deck userDeck)
+        public User(string username, string password, string name, string bio, string image)
         {
+            Username = username;
+            Password = password;
             Name = name;
-            _password = password;
-            Coins = 20;
-            ELO = elo;
-            UserDeck = userDeck;
-
-
+            Bio = bio;
+            Image = image;
         }
-        public void AddCardToDeck(CardLogic card) 
-        {
-            UserDeck.AddCard(card);
-        }
-
-        public void Print ()
-        {
-            Console.WriteLine("user: {0}, pass: {1}, coins: {2} deck: ELOHandler: {3} ", Name, _password, Coins, ELO);
-            UserDeck.Print();
-        }
-
     }
 }
