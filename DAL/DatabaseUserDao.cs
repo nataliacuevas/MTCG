@@ -1,4 +1,6 @@
-﻿using MTCG.HttpServer.Schemas;
+﻿using MTCG.Interfaces;
+using MTCG.Models;
+using MTCG.HttpServer.Schemas;
 using Npgsql;
 using System;
 using System.Collections.Generic;

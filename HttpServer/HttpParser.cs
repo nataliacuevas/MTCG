@@ -1,5 +1,6 @@
 ﻿using Npgsql.Internal.TypeHandlers.GeometricHandlers;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -99,6 +100,25 @@ namespace MTCG.HttpServer
             }
             
         }
+        public string? GetAuthToken()
+        {
+            // Check if a specific key exists in the dictionary
+            string keyToFind = "Authorization";
+
+            if (Header.ContainsKey(keyToFind))
+            {
+                // Key exists, retrieve and print the value
+                string value = Header[keyToFind];
+                string prefix = "Bearer ";
+                return value.Substring(prefix.Length);
+            }
+            else
+            {
+                // Key does not exist
+                return null;
+            }
+        }
+
         public void Print()
         {
             Console.WriteLine("Is Valid: {0}", IsValid);

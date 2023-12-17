@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using MTCG.HttpServer.Schemas;
+using MTCG.DAL;
 
 namespace MTCG.HttpServer
 {
@@ -26,16 +27,29 @@ namespace MTCG.HttpServer
             if (http.Path.Count == 1 && http.Path[0] == "users" && http.Verb == "POST")
             {
                 var userCreds = JsonNet.Deserialize<UserCredentials>(http.Body);
-                if(userCreds.IsValid())
+                if (userCreds.IsValid())
                 {
-                    reply.Send(200, "ok");
-                    Console.WriteLine("Username: {0} Password: {1}", userCreds.Username, userCreds.Password);
-
+                    DatabaseUserDao userDB = new DatabaseUserDao();
+                    if (userDB.GetUserByUsername(userCreds.Username) == null)
+                    {
+                        userDB.CreateUser(userCreds);
+                        reply.Send(200, "ok");
+                        Console.WriteLine("Username: {0} Password: {1}", userCreds.Username, userCreds.Password);
+                    }
+                    else
+                    {
+                        reply.Send(409, "Username already exists");
+                    }
                 }
                 else
                 {
-                    reply.Send(400, "dsddf");
+                    reply.Send(400, "");
                 }
+            }
+            //TODO
+            else if (http.Path.Count == 2 && http.Path[0] == "users" && http.Verb == "GET")
+            {
+
             }
             else
             {

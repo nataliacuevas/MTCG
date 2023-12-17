@@ -9,6 +9,7 @@ using MTCG.Models;
 using MTCG.BLL;
 using MTCG.DAL;
 using MTCG.HttpServer;
+using MTCG.HttpServer.Schemas;
 
 //here we connect with the classes folder
 
@@ -27,6 +28,7 @@ namespace MTCG
             // ************************************* old things ***************************************
             System.Environment.Exit(0);
             Server servi = new Server();
+            System.Environment.Exit(0);
 
             
 
