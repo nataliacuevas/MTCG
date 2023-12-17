@@ -12,8 +12,10 @@ using MTCG.API.Routing;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.API.Routing.Users;
+using MTCG.API.Routing.Cors;
 using Json.Net;
 using MTCG.HttpServer;
+
 
 
 namespace MTCG.API.Routing

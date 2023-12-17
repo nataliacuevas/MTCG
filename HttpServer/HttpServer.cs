@@ -74,8 +74,18 @@ namespace MTCG.HttpServer
                     response = new HttpResponse(StatusCode.Unauthorized);
                 }
             }
-
-            handler.SendResponse(response);
+            try
+            {
+                handler.SendResponse(response);
+            }
+            catch (InvalidOperationException)
+            {
+                //TODO ERASE DEBUG
+                // to avoid swagger sending a strange empty message
+                // crashing the server
+                Console.WriteLine("OOPS");
+            }
+            
         }
     }
 }

@@ -47,8 +47,8 @@ namespace MTCG.HttpServer
                 string line;
 
                 while (!string.IsNullOrWhiteSpace(line = reader.ReadLine()))
-                {
-                    Console.WriteLine(line);
+                {   //TODO ERASE
+                    Console.WriteLine($"Request: {line}");
                     line = line.Trim();
                     switch (state)
                     {
@@ -134,6 +134,13 @@ namespace MTCG.HttpServer
             using var writer = new StreamWriter(_client.GetStream());
 
             writer.Write($"HTTP/1.1 {(int)response.StatusCode} {response.StatusCode}\r\n");
+            if(response.Header != null)
+            {
+                foreach(var header in response.Header)
+                {
+                    writer.Write($"{header.Key}: {header.Value}\r\n");
+                }
+            }
             if (!string.IsNullOrEmpty(response.Payload))
             {
                 var payload = Encoding.UTF8.GetBytes(response.Payload);
@@ -145,6 +152,7 @@ namespace MTCG.HttpServer
             {
                 writer.Write("\r\n");
             }
+            Console.WriteLine("Response sent");
         }
     }
 }
