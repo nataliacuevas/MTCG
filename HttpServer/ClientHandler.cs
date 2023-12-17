@@ -23,16 +23,16 @@ namespace MTCG.HttpServer
             string messageReceived = Encoding.ASCII.GetString(bufferAsByteArray, 0, length);
 
             HttpParser http = new HttpParser(messageReceived);
-            HttpResponse reply = new HttpResponse(_clientSocket);
+            OLDHttpResponse reply = new OLDHttpResponse(_clientSocket);
             if (http.Path.Count == 1 && http.Path[0] == "users" && http.Verb == "POST")
             {
                 var userCreds = JsonNet.Deserialize<UserCredentials>(http.Body);
                 if (userCreds.IsValid())
                 {
-                    DatabaseUserDao userDB = new DatabaseUserDao();
-                    if (userDB.GetUserByUsername(userCreds.Username) == null)
+                    DatabaseUserDao userDB = new DatabaseUserDao("todo");
+                    if (userDB.SelectUserByUsername(userCreds.Username) == null)
                     {
-                        userDB.CreateUser(userCreds);
+                        //userDB.CreateUser(userCreds);
                         reply.Send(200, "ok");
                         Console.WriteLine("Username: {0} Password: {1}", userCreds.Username, userCreds.Password);
                     }

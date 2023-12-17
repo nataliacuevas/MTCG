@@ -97,6 +97,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Routing\IdentityProvider.cs" />
+    <Compile Include="API\Routing\IdRouteParser.cs" />
+    <Compile Include="API\Routing\RequestRouter.cs" />
+    <Compile Include="API\Routing\Users\RegisterCommand.cs" />
     <Compile Include="API\TokenHandler.cs" />
     <Compile Include="BLL\CardLogic.cs" />
     <Compile Include="BLL\ElementLogic.cs" />
@@ -112,11 +116,20 @@
     <Compile Include="DAL\DatabaseUserDao.cs" />
     <Compile Include="DAL\DBExtensions.cs" />
     <Compile Include="HttpServer\ClientHandler.cs" />
+    <Compile Include="HttpServer\HttpClientHandler.cs" />
     <Compile Include="HttpServer\HttpParser.cs" />
-    <Compile Include="HttpServer\HttpResponse.cs" />
+    <Compile Include="HttpServer\HttpServer.cs" />
+    <Compile Include="HttpServer\OLDHttpResponse.cs" />
+    <Compile Include="HttpServer\Request\HttpMethod.cs" />
+    <Compile Include="HttpServer\Request\HttpRequest.cs" />
+    <Compile Include="HttpServer\Response\HttpResponse.cs" />
+    <Compile Include="HttpServer\Response\StatusCode.cs" />
+    <Compile Include="HttpServer\RouteNotAuthenticatedException.cs" />
+    <Compile Include="HttpServer\Routing\IRouteCommand.cs" />
+    <Compile Include="HttpServer\Routing\IRouter.cs" />
     <Compile Include="HttpServer\Schemas\UserCredentials.cs" />
     <Compile Include="HttpServer\Schemas\UserData.cs" />
-    <Compile Include="HttpServer\Server.cs" />
+    <Compile Include="HttpServer\OLDServer.cs" />
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\IMonster.cs" />
     <Compile Include="Interfaces\ISpell.cs" />

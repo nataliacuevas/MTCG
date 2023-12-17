@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace MTCG.HttpServer
 {
-    internal class HttpResponse
+    internal class OLDHttpResponse
     {
         Socket _sock;
 
-        public HttpResponse(Socket sock)
+        public OLDHttpResponse(Socket sock)
         {
             _sock = sock;
         }

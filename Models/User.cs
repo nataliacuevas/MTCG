@@ -13,6 +13,8 @@ namespace MTCG.Models
         public string Name { get; set; }
         public string Bio { get; set; }
         public string Image { get; set; }
+        public string Token => $"{Username}-mtcgToken";
+        public bool IsAdmin => Username == "admin";
 
         public User(string username, string password, string name, string bio, string image)
         {
@@ -22,5 +24,6 @@ namespace MTCG.Models
             Bio = bio;
             Image = image;
         }
+        
     }
 }

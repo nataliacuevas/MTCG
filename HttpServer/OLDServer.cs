@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace MTCG.HttpServer
 {
-    internal class Server
+    internal class OLDServer
     {
         Socket _serverSock;
-        public Server() 
+        public OLDServer() 
         {
 
             _serverSock = new Socket(AddressFamily.InterNetwork, //IPV4
@@ -31,7 +31,7 @@ namespace MTCG.HttpServer
             } 
             
         }
-        ~Server() 
+        ~OLDServer() 
         {
             _serverSock.Close();
         }

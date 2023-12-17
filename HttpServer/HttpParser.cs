@@ -100,7 +100,7 @@ namespace MTCG.HttpServer
             }
             
         }
-        public string? GetAuthToken()
+        public string GetAuthToken()
         {
             // Check if a specific key exists in the dictionary
             string keyToFind = "Authorization";
@@ -118,6 +118,7 @@ namespace MTCG.HttpServer
                 return null;
             }
         }
+
 
         public void Print()
         {

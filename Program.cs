@@ -10,7 +10,9 @@ using MTCG.BLL;
 using MTCG.DAL;
 using MTCG.HttpServer;
 using MTCG.HttpServer.Schemas;
-
+using MTCG.API.Routing;
+using MTCG.API.Routing.Users;
+using System.Net;
 //here we connect with the classes folder
 
 
@@ -23,11 +25,16 @@ namespace MTCG
             var connectionString = "Host=localhost;Username=postgres;Password=changeme;Database=simpledatastore";
 
             var userDao = new DatabaseUserDao(connectionString);
+            // var CardDao = ...
+            //var UserCardsDao = ....
 
-
-            // ************************************* old things ***************************************
-            System.Environment.Exit(0);
-            Server servi = new Server();
+            var router = new RequestRouter(userDao);
+            var server = new HttpServer.HttpServer(router, IPAddress.Any, 10001);
+            server.Start();
+        }
+        // ************************************* old things ***************************************
+      /* System.Environment.Exit(0);
+            OLDServer servi = new OLDServer();
             System.Environment.Exit(0);
 
             
@@ -65,5 +72,6 @@ namespace MTCG
             playerA.Print();
             playerB.Print();
         }
+      */
     }
 }
