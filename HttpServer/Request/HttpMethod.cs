@@ -9,6 +9,7 @@ namespace MTCG.HttpServer.Request
 {
     internal enum HttpMethod
     {
+        Options, // required for CORS(sent by swagger)
         Get,
         Post,
         Put,
@@ -22,6 +23,8 @@ namespace MTCG.HttpServer.Request
         {
             return method.ToLower() switch
             {
+                
+                "options" => HttpMethod.Options,
                 "get" => HttpMethod.Get,
                 "post" => HttpMethod.Post,
                 "put" => HttpMethod.Put,

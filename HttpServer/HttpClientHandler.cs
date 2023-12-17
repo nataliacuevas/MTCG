@@ -48,6 +48,7 @@ namespace MTCG.HttpServer
 
                 while (!string.IsNullOrWhiteSpace(line = reader.ReadLine()))
                 {
+                    Console.WriteLine(line);
                     line = line.Trim();
                     switch (state)
                     {

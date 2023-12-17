@@ -13,4 +13,5 @@ namespace MTCG.HttpServer.Schemas
         public string Image { get; set; }
 
     }
+
 }

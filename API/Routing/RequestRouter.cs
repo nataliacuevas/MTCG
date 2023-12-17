@@ -15,6 +15,7 @@ using MTCG.API.Routing.Users;
 using Json.Net;
 using MTCG.HttpServer;
 
+
 namespace MTCG.API.Routing
 {
     internal class RequestRouter
@@ -33,10 +34,13 @@ namespace MTCG.API.Routing
         public IRouteCommand Resolve(HttpRequest request)
         {
             var isMatch = (string path) => _routeParser.IsMatch(path, "/users/{username}");
-            var parseUsername = (string path) => int.Parse(_routeParser.ParseParameters(path, "/users/{username}")["username"]);
+            var matchUsername = (string path) => _routeParser.ParseParameters(path, "/users/{username}")["username"];
             //TODO if required
             //var checkBody = (string payload) => payload ?? throw new InvalidDataException();
-
+            if(request.Payload != null)
+            {
+                Console.WriteLine(request.Payload.ToString());
+            }
             try
             {
                 return request switch
@@ -47,10 +51,10 @@ namespace MTCG.API.Routing
                     // { Method: HttpMethod.Post, ResourcePath: "/messages" } => new AddMessageCommand(_messageManager, GetIdentity(request), checkBody(request.Payload)),
                     // { Method: HttpMethod.Get, ResourcePath: "/messages" } => new ListMessagesCommand(_messageManager, GetIdentity(request)),
 
-                    //{ Method: HttpMethod.Get, ResourcePath: var path } when isMatch(path) => new ShowMessageCommand(_messageManager, GetIdentity(request), parseUsername(path)),
-                    //{ Method: HttpMethod.Put, ResourcePath: var path } when isMatch(path) => new UpdateMessageCommand(_messageManager, GetIdentity(request), parseUsername(path), checkBody(request.Payload)),
-                    //{ Method: HttpMethod.Delete, ResourcePath: var path } when isMatch(path) => new RemoveMessageCommand(_messageManager, GetIdentity(request), parseUsername(path)),
-
+                    { Method: HttpMethod.Get, ResourcePath: var path } when isMatch(path) => new RetrieveUserDataCommand(_databaseUserDao, GetIdentity(request), matchUsername(path)),
+                    //{ Method: HttpMethod.Put, ResourcePath: var path } when isMatch(path) => new UpdateMessageCommand(_messageManager, GetIdentity(request), matchUsername(path), checkBody(request.Payload)),
+                    //{ Method: HttpMethod.Delete, ResourcePath: var path } when isMatch(path) => new RemoveMessageCommand(_messageManager, GetIdentity(request), matchUsername(path)),
+                    { Method: HttpMethod.Options } => new AllowCorsRequestCommand(),
                     _ => null
                 };
             }

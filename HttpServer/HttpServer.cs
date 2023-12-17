@@ -35,6 +35,7 @@ namespace MTCG.HttpServer
                 var client = _listener.AcceptTcpClient();
                 var clientHandler = new HttpClientHandler(client);
                 HandleClient(clientHandler);
+                Console.WriteLine("Listening incoming connection...");
             }
         }
 
@@ -52,6 +53,7 @@ namespace MTCG.HttpServer
             if (request is null)
             {
                 response = new HttpResponse(StatusCode.BadRequest);
+                handler.SendResponse(response);
             }
             else
             {

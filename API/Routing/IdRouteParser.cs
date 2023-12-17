@@ -11,7 +11,7 @@ namespace MTCG.API.Routing
     {
         public bool IsMatch(string resourcePath, string routePattern)
         {
-            var pattern = "^" + routePattern.Replace("{id}", ".*").Replace("/", "\\/") + "(\\?.*)?$";
+            var pattern = "^" + routePattern.Replace("{username}", ".*").Replace("/", "\\/") + "(\\?.*)?$";
             return Regex.IsMatch(resourcePath, pattern);
         }
 
@@ -20,21 +20,21 @@ namespace MTCG.API.Routing
             // query parameters
             var parameters = ParseQueryParameters(resourcePath);
 
-            // id parameter
-            var id = ParseIdParameter(resourcePath, routePattern);
-            if (id != null)
+            // username parameter
+            var username = ParseUsernameParameter(resourcePath, routePattern);
+            if (username != null)
             {
-                parameters["id"] = id;
+                parameters["username"] = username;
             }
 
             return parameters;
         }
 
-        private string ParseIdParameter(string resourcePath, string routePattern)
+        private string ParseUsernameParameter(string resourcePath, string routePattern)
         {
-            var pattern = "^" + routePattern.Replace("{id}", "(?<id>[^\\?\\/]*)").Replace("/", "\\/") + "$";
+            var pattern = "^" + routePattern.Replace("{username}", "(?<username>[^\\?\\/]*)").Replace("/", "\\/") + "$";
             var result = Regex.Match(resourcePath, pattern);
-            return result.Groups["id"].Success ? result.Groups["id"].Value : null;
+            return result.Groups["username"].Success ? result.Groups["username"].Value : null;
         }
 
         private Dictionary<string, string> ParseQueryParameters(string route)

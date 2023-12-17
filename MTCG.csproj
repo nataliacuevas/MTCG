@@ -97,10 +97,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Routing\Cors\AllowCorsRequestCommand.cs" />
     <Compile Include="API\Routing\IdentityProvider.cs" />
     <Compile Include="API\Routing\IdRouteParser.cs" />
     <Compile Include="API\Routing\RequestRouter.cs" />
     <Compile Include="API\Routing\Users\RegisterCommand.cs" />
+    <Compile Include="API\Routing\Users\RetrieveUserDataCommand.cs" />
     <Compile Include="API\TokenHandler.cs" />
     <Compile Include="BLL\CardLogic.cs" />
     <Compile Include="BLL\ElementLogic.cs" />
