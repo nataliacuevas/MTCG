@@ -10,7 +10,7 @@ namespace MTCG.DAL
     internal class DatabaseCardDao
     {
 
-        private const string CreateCardTableCommand = @"CREATE TABLE IF NOT EXISTS cards (id varchar PRIMARY KEY, name varchar, name varchar, damage float);";
+        private const string CreateCardTableCommand = @"CREATE TABLE IF NOT EXISTS cards (id varchar PRIMARY KEY, name varchar, damage float);";
        // private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image FROM users";
        // private const string SelectUserByUsernameCommand = "SELECT username, password, name, bio, image FROM users WHERE username=@username";
        // private const string InsertUserCommand = @"INSERT INTO users(username, password) VALUES (@username, @password)";

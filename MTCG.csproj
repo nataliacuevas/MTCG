@@ -118,7 +118,7 @@
     <Compile Include="Classes\UserTable.cs" />
     <Compile Include="DAL\ConnectionString.cs" />
     <Compile Include="DAL\DatabaseCardDao.cs" />
-    <Compile Include="DAL\DatabasePackageDao.cs" />
+    <Compile Include="DAL\DatabasePackagesDao.cs" />
     <Compile Include="DAL\OLDDatabaseCardDao.cs" />
     <Compile Include="DAL\DatabaseElementTypeDao.cs" />
     <Compile Include="DAL\DatabaseInitializer.cs" />
