@@ -68,7 +68,7 @@ namespace MTCG.DAL
             allCards.Add(new Monster("Dragon2", ElementType.Fire, 18, MonsterType.Dragon));
             allCards.Add(new Monster("Orc2", ElementType.Normal, 19, MonsterType.Orc));
 
-            DatabaseCardDao cardDao = new DatabaseCardDao();
+            OLDDatabaseCardDao cardDao = new OLDDatabaseCardDao();
 
             for (int i = 0; i < allCards.Count; i++)
             {

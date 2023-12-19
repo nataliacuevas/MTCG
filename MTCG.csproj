@@ -97,22 +97,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Routing\AuthenticatedRouteCommand.cs" />
     <Compile Include="API\Routing\Cors\AllowCorsRequestCommand.cs" />
     <Compile Include="API\Routing\IdentityProvider.cs" />
     <Compile Include="API\Routing\IdRouteParser.cs" />
+    <Compile Include="API\Routing\Packages\CreatePackagesCommand.cs" />
     <Compile Include="API\Routing\RequestRouter.cs" />
+    <Compile Include="API\Routing\Users\LoginCommand.cs" />
     <Compile Include="API\Routing\Users\RegisterCommand.cs" />
     <Compile Include="API\Routing\Users\RetrieveUserDataCommand.cs" />
+    <Compile Include="API\Routing\Users\UpdateUserDataCommand.cs" />
     <Compile Include="API\TokenHandler.cs" />
     <Compile Include="BLL\CardLogic.cs" />
     <Compile Include="BLL\ElementLogic.cs" />
     <Compile Include="BLL\FromICardToCardLogic.cs" />
     <Compile Include="BLL\MonsterLogic.cs" />
     <Compile Include="BLL\SpellLogic.cs" />
+    <Compile Include="BLL\UserNotFoundException.cs" />
     <Compile Include="Classes\Battle.cs" />
     <Compile Include="Classes\UserTable.cs" />
     <Compile Include="DAL\ConnectionString.cs" />
     <Compile Include="DAL\DatabaseCardDao.cs" />
+    <Compile Include="DAL\DatabasePackageDao.cs" />
+    <Compile Include="DAL\OLDDatabaseCardDao.cs" />
     <Compile Include="DAL\DatabaseElementTypeDao.cs" />
     <Compile Include="DAL\DatabaseInitializer.cs" />
     <Compile Include="DAL\DatabaseUserDao.cs" />
@@ -129,13 +136,14 @@
     <Compile Include="HttpServer\RouteNotAuthenticatedException.cs" />
     <Compile Include="HttpServer\Routing\IRouteCommand.cs" />
     <Compile Include="HttpServer\Routing\IRouter.cs" />
+    <Compile Include="HttpServer\Schemas\Card.cs" />
     <Compile Include="HttpServer\Schemas\UserCredentials.cs" />
     <Compile Include="HttpServer\Schemas\UserData.cs" />
     <Compile Include="HttpServer\OLDServer.cs" />
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\IMonster.cs" />
     <Compile Include="Interfaces\ISpell.cs" />
-    <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\OldCard.cs" />
     <Compile Include="Models\ElementTypeEnum.cs" />
     <Compile Include="Models\Monster.cs" />
     <Compile Include="Models\MonsterTypeEnum.cs" />

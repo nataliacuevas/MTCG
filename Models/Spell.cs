@@ -8,7 +8,7 @@ using MTCG.Interfaces;
 
 namespace MTCG.Models
 {
-    class Spell : Card, ISpell 
+    class Spell : OldCard, ISpell 
     {
     public Spell(string name, ElementType type, int damage) : base(name, type, damage)
     {

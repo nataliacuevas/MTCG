@@ -9,7 +9,7 @@ using MTCG.Interfaces;
 namespace MTCG.Models
 {
    
-    class Monster : Card, IMonster
+    class Monster : OldCard, IMonster
     {
         public MonsterType Mtype { get; }
         public Monster(string name, ElementType type, int damage, MonsterType mtype) : base(name, type, damage)

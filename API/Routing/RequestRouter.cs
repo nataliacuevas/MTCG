@@ -13,8 +13,10 @@ using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.API.Routing.Users;
 using MTCG.API.Routing.Cors;
+using MTCG.API.Routing.Packages;
 using Json.Net;
 using MTCG.HttpServer;
+using MTCG.DAL;
 
 
 
@@ -23,6 +25,7 @@ namespace MTCG.API.Routing
     internal class RequestRouter
     {
         private readonly DatabaseUserDao _databaseUserDao;
+        private readonly DatabaseCardDao _databaseCardDao;
         private readonly IdentityProvider _identityProvider;
         private readonly IdRouteParser _routeParser;
 
@@ -53,8 +56,10 @@ namespace MTCG.API.Routing
                     // { Method: HttpMethod.Post, ResourcePath: "/messages" } => new AddMessageCommand(_messageManager, GetIdentity(request), checkBody(request.Payload)),
                     // { Method: HttpMethod.Get, ResourcePath: "/messages" } => new ListMessagesCommand(_messageManager, GetIdentity(request)),
 
-                    { Method: HttpMethod.Get, ResourcePath: var path } when isMatch(path) => new RetrieveUserDataCommand(_databaseUserDao, GetIdentity(request), matchUsername(path)),
-                    //{ Method: HttpMethod.Put, ResourcePath: var path } when isMatch(path) => new UpdateMessageCommand(_messageManager, GetIdentity(request), matchUsername(path), checkBody(request.Payload)),
+                    { Method: HttpMethod.Get, ResourcePath: var path } when isMatch(path) => new RetrieveUserDataCommand(_databaseUserDao, GetIdentity(request), matchUsername(path)),                
+                    { Method: HttpMethod.Put, ResourcePath: var path } when isMatch(path) => new UpdateUserDataCommand(_databaseUserDao, GetIdentity(request), JsonNet.Deserialize<UserData>(request.Payload)),
+                    { Method: HttpMethod.Post, ResourcePath: "/sessions" } => new LoginCommand(_databaseUserDao, JsonNet.Deserialize<UserCredentials>(request.Payload)),
+                    { Method: HttpMethod.Post, ResourcePath: "/packages" } => new CreatePackagesCommand(_databaseUserDao, _databaseCardDao, GetIdentity(request), JsonNet.Deserialize<UserCredentials>(request.Payload)),
                     //{ Method: HttpMethod.Delete, ResourcePath: var path } when isMatch(path) => new RemoveMessageCommand(_messageManager, GetIdentity(request), matchUsername(path)),
                     { Method: HttpMethod.Options } => new AllowCorsRequestCommand(),
                     _ => null

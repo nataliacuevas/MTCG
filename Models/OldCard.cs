@@ -9,13 +9,13 @@ namespace MTCG.Models
 {
 
 
-    abstract public class Card : ICard
+    abstract public class OldCard : ICard
     {
         public string Name { get; }
         public ElementType Type { get; }
         public int Damage { get; }
 
-        public Card(string name, ElementType type, int damage)
+        public OldCard(string name, ElementType type, int damage)
         {
             Name = name;
             Type = type;

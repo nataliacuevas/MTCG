@@ -8,6 +8,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Json.Net;
+using MTCG.BLL;
+using System.Net;
 
 namespace MTCG.DAL
 {
@@ -17,6 +20,7 @@ namespace MTCG.DAL
         private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image FROM users";
         private const string SelectUserByUsernameCommand = "SELECT username, password, name, bio, image FROM users WHERE username=@username";
         private const string InsertUserCommand = @"INSERT INTO users(username, password) VALUES (@username, @password)";
+        private const string UpdateUserDataCommand = @"UPDATE users SET name = @name, bio = @bio, image = @image WHERE username = @username";
         private readonly string _connectionString;
         public DatabaseUserDao(string connectionString) 
         {
@@ -102,6 +106,43 @@ namespace MTCG.DAL
         {
             return GetAllUsers().SingleOrDefault(u => u.Token == authToken);
         }
+
+
+        public void UpdateUserData(UserData userdata, User user)
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            using var cmd = new NpgsqlCommand(UpdateUserDataCommand, connection);
+
+            cmd.Parameters.AddWithValue("username", user.Username);
+            cmd.Parameters.AddWithValue("name", userdata.Name);
+            cmd.Parameters.AddWithValue("bio", userdata.Bio);
+            cmd.Parameters.AddWithValue("image", userdata.Image);
+
+            var affectedRows = cmd.ExecuteNonQuery();
+            if (affectedRows > 0)
+            {
+                Console.WriteLine("User data updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("No rows were updated. User may not exist or data is the same.");
+            }
+        }
+
+        public User LoginUser(UserCredentials credentials)
+        {
+
+            if(SelectUserByUsername(credentials.Username).Password != credentials.Password)
+            {
+                throw new UserNotFoundException();
+
+            }
+            return SelectUserByUsername(credentials.Username);
+
+        }
+
         private static void EnsureTables()
         {
             string connectionString = ConnectionString.Get();
