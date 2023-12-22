@@ -27,16 +27,21 @@ namespace MTCG.DAL
         }
 
         // **********************TO EDIT+++++++++++++++++++++
-        public void CreateUser(UserCredentials userCredentials)
+        public void CreatePackages(DatabaseCardDao cardDb)//info from curl script)
         {
             using var connection = new NpgsqlConnection(_connectionString);
             connection.Open();
 
             using var cmd = new NpgsqlCommand(CreatePackagesTableCommand, connection);
 
-            cmd.Parameters.AddWithValue("username", userCredentials.Username);
-            cmd.Parameters.AddWithValue("password", userCredentials.Password);
-
+            //TODO CHANGE SOURCE FROM VALUES TO PUT ON TABLE
+            cmd.Parameters.AddWithValue("package_id", null);
+          /*  cmd.Parameters.AddWithValue("card1_id", cardDb.CreateCard());
+            cmd.Parameters.AddWithValue("card2_id", cardDb.CreateCard());
+            cmd.Parameters.AddWithValue("card3_id", cardDb.CreateCard());
+            cmd.Parameters.AddWithValue("card4_id", cardDb.CreateCard());
+            cmd.Parameters.AddWithValue("card5_id", cardDb.CreateCard());
+          */
             var affectedRows = cmd.ExecuteNonQuery();
             if (affectedRows == 0)
             {

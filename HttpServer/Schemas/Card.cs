@@ -12,8 +12,26 @@ namespace MTCG.HttpServer.Schemas
     }
     internal class Card
     {
-        string Id;
-        public CardName Name;
-        float Damage;
+        public string Id { get; private set; }
+        //TODO ASSIGN NAME TO CARD WHEN CREATED
+        public CardName Name { get; private set; }
+        public float Damage { get; private set; }
+
+        public static Card CreateCard(string id, string name, float damage)
+        {
+            if (!Enum.TryParse<CardName>(name, out CardName cardName))
+            {
+                // Handle invalid name here (throw exception, set default, etc.)
+                throw new ArgumentException("Invalid card name");
+            }
+
+            return new Card
+            {
+                Id = id,
+                Name = cardName,
+                Damage = damage,
+            };
+
+        }
     }
 }
