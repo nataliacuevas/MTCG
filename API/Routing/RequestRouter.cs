@@ -29,12 +29,12 @@ namespace MTCG.API.Routing
         private readonly IdentityProvider _identityProvider;
         private readonly IdRouteParser _routeParser;
 
-        public RequestRouter(DatabaseUserDao databaseUserDao, IdentityProvider identityProvider, DatabasePackagesDao databasePackagesDao)
+        public RequestRouter(DatabaseUserDao userDao, DatabaseCardDao cardDao, DatabasePackagesDao packagesDao)
         {
-            _databaseUserDao = databaseUserDao;
-           // _databaseCardDao = databaseCardDao;
-          //  _databasePackagesDao = databasePackagesDao;
-            _identityProvider = new IdentityProvider(databaseUserDao);
+            _databaseUserDao = userDao;
+            _databaseCardDao = cardDao;
+            _databasePackagesDao = packagesDao;
+            _identityProvider = new IdentityProvider(userDao);
             _routeParser = new IdRouteParser();
         }
 
@@ -61,7 +61,7 @@ namespace MTCG.API.Routing
                     { Method: HttpMethod.Get, ResourcePath: var path } when isMatch(path) => new RetrieveUserDataCommand(_databaseUserDao, GetIdentity(request), matchUsername(path)),                
                     { Method: HttpMethod.Put, ResourcePath: var path } when isMatch(path) => new UpdateUserDataCommand(_databaseUserDao, GetIdentity(request), JsonNet.Deserialize<UserData>(request.Payload)),
                     { Method: HttpMethod.Post, ResourcePath: "/sessions" } => new LoginCommand(_databaseUserDao, JsonNet.Deserialize<UserCredentials>(request.Payload)),
-               //     { Method: HttpMethod.Post, ResourcePath: "/packages" } => new CreatePackagesCommand(_databaseUserDao, _databaseCardDao, GetIdentity(request), JsonNet.Deserialize<UserCredentials>(request.Payload)),
+                    { Method: HttpMethod.Post, ResourcePath: "/packages" } => new CreatePackagesCommand(_databaseCardDao, _databasePackagesDao, GetIdentity(request), JsonNet.Deserialize<List<Card>>(request.Payload)),
                     //{ Method: HttpMethod.Delete, ResourcePath: var path } when isMatch(path) => new RemoveMessageCommand(_messageManager, GetIdentity(request), matchUsername(path)),
                     { Method: HttpMethod.Options } => new AllowCorsRequestCommand(),
                     _ => null

@@ -25,10 +25,10 @@ namespace MTCG
             var connectionString = "Host=localhost;Username=postgres;Password=changeme;Database=simpledatastore";
 
             var userDao = new DatabaseUserDao(connectionString);
-            // var CardDao = ...
-            //var UserCardsDao = ....
+            var cardDao = new DatabaseCardDao(connectionString);
+            var packagesDao = new DatabasePackagesDao(connectionString);
 
-            var router = new RequestRouter(userDao);
+            var router = new RequestRouter(userDao, cardDao, packagesDao);
             var server = new HttpServer.HttpServer(router, IPAddress.Any, 10001);
             server.Start();
         }
