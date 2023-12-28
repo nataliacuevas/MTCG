@@ -26,16 +26,18 @@ namespace MTCG.API.Routing
         private readonly DatabaseUserDao _databaseUserDao;
         private readonly DatabaseCardDao _databaseCardDao;
         private readonly DatabasePackagesDao _databasePackagesDao;
+        private readonly DatabaseStacksDao _databaseStacksDao;
         private readonly IdentityProvider _identityProvider;
         private readonly IdRouteParser _routeParser;
 
-        public RequestRouter(DatabaseUserDao userDao, DatabaseCardDao cardDao, DatabasePackagesDao packagesDao)
+        public RequestRouter(DatabaseUserDao userDao, DatabaseCardDao cardDao, DatabasePackagesDao packagesDao, DatabaseStacksDao databaseStacksDao)
         {
             _databaseUserDao = userDao;
             _databaseCardDao = cardDao;
             _databasePackagesDao = packagesDao;
             _identityProvider = new IdentityProvider(userDao);
             _routeParser = new IdRouteParser();
+            _databaseStacksDao = databaseStacksDao;
         }
 
         public IRouteCommand Resolve(HttpRequest request)
@@ -62,6 +64,8 @@ namespace MTCG.API.Routing
                     { Method: HttpMethod.Put, ResourcePath: var path } when isMatch(path) => new UpdateUserDataCommand(_databaseUserDao, GetIdentity(request), JsonNet.Deserialize<UserData>(request.Payload)),
                     { Method: HttpMethod.Post, ResourcePath: "/sessions" } => new LoginCommand(_databaseUserDao, JsonNet.Deserialize<UserCredentials>(request.Payload)),
                     { Method: HttpMethod.Post, ResourcePath: "/packages" } => new CreatePackagesCommand(_databaseCardDao, _databasePackagesDao, GetIdentity(request), JsonNet.Deserialize<List<Card>>(request.Payload)),
+                    { Method: HttpMethod.Post, ResourcePath: "/transactions/packages" } => new AcquireCardPackageCommand(_databaseCardDao, _databasePackagesDao, _databaseStacksDao, _databaseUserDao, GetIdentity(request)),
+
                     //{ Method: HttpMethod.Delete, ResourcePath: var path } when isMatch(path) => new RemoveMessageCommand(_messageManager, GetIdentity(request), matchUsername(path)),
                     { Method: HttpMethod.Options } => new AllowCorsRequestCommand(),
                     _ => null

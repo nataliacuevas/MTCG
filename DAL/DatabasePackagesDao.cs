@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MTCG.API.Routing.Packages;
 using MTCG.HttpServer.Schemas;
+using MTCG.Models;
 using Npgsql;
 
 namespace MTCG.DAL
@@ -15,17 +16,21 @@ namespace MTCG.DAL
     {
         private const string CreatePackagesTableCommand = @"CREATE TABLE IF NOT EXISTS packages (package_id serial PRIMARY KEY, card1_id varchar REFERENCES cards(id), card2_id varchar REFERENCES cards(id), card3_id varchar REFERENCES cards(id), card4_id varchar REFERENCES cards(id), card5_id varchar REFERENCES cards(id));";
         private const string InsertPackageCommand = @"INSERT INTO packages(card1_id, card2_id, card3_id, card4_id, card5_id) VALUES (@card1_id, @card2_id, @card3_id, @card4_id, @card5_id)";
-        /* private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image FROM users";
-         private const string SelectUserByUsernameCommand = "SELECT username, password, name, bio, image FROM users WHERE username=@username";
-         private const string UpdateUserDataCommand = @"UPDATE users SET name = @name, bio = @bio, image = @image WHERE username = @username";
-        */
+        private const string SelectAllPackagesCommand = @"SELECT package_id FROM packages";
+        private const string SelectPackageByIdCommand = "SELECT card1_id, card2_id, card3_id, card4_id, card5_id FROM packages WHERE package_id=@package_id";
+        private const string DeletePackageByIdCommand = "DELETE FROM packages WHERE package_id = @package_id"
+;
+
+        // private const string UpdateUserDataCommand = @"UPDATE users SET name = @name, bio = @bio, image = @image WHERE username = @username";
+
         private readonly string _connectionString;
+
         public DatabasePackagesDao(string connectionString)
         {
             _connectionString = connectionString;
             EnsureTables();
         }
-        //it is assumed that the list of cardsa has length 5 and are valid cards
+        //it is assumed that the list of cards has length 5 and are valid cards
         public void CreatePackage(List<Card> cards)
         {
             using var connection = new NpgsqlConnection(_connectionString);
@@ -33,7 +38,6 @@ namespace MTCG.DAL
 
             using var cmd = new NpgsqlCommand(InsertPackageCommand, connection);
 
-            //TODO CHANGE SOURCE FROM VALUES TO PUT ON TABLE
             for(int i = 0; i < cards.Count; i++)
             {
                 cmd.Parameters.AddWithValue($"card{i+1}_id", cards[i].Id);
@@ -45,7 +49,79 @@ namespace MTCG.DAL
                 throw new DuplicateNameException();
             }
         }
-        private static void EnsureTables()
+        private List<int> GetAllPackagesIds()
+        {
+            // TODO: handle exceptions
+            var packages_id = new List<int>();
+
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            using var cmd = new NpgsqlCommand(SelectAllPackagesCommand, connection);
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                //the ! is for the compiler to treat the result as non-nullable 
+                var id = Convert.ToInt32(reader["package_id"])!;
+                packages_id.Add(id);
+            }
+            return packages_id;
+        }
+        public Package SelectPackageById(int id)
+        {
+            var package = new Package();
+            package.Id = id;
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            using var cmd = new NpgsqlCommand(SelectPackageByIdCommand, connection);
+
+            cmd.Parameters.AddWithValue("package_id", id);
+
+            using (IDataReader reader = cmd.ExecuteReader())
+
+                if (reader.Read())
+                {
+                    package.Card1Id = reader.GetString(0);
+                    package.Card2Id = reader.GetString(1);
+                    package.Card3Id = reader.GetString(2);
+                    package.Card4Id = reader.GetString(3);
+                    package.Card5Id = reader.GetString(4);
+
+                    return package;
+                }
+                else
+                {
+                    //instead of using exception, function returns null, package is not in the DB
+                    return null;
+                }
+        }
+        public void DeletePackageById(int id)
+        {
+            var package = new Package();
+            package.Id = id;
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            using var cmd = new NpgsqlCommand(DeletePackageByIdCommand, connection);
+
+            cmd.Parameters.AddWithValue("package_id", id);
+
+            cmd.ExecuteNonQuery();
+        }
+        public Package PopRandomPackage()
+        {
+            List<int> packages_id = GetAllPackagesIds();
+            Random random = new Random();
+            int randomIndex = random.Next(packages_id.Count);
+            int randomPackageId = packages_id[randomIndex];
+
+            Package package =  SelectPackageById(randomPackageId);
+            DeletePackageById(randomPackageId);
+            return package;
+        }
+            
+            private static void EnsureTables()
         {
             string connectionString = ConnectionString.Get();
             using var connection = new NpgsqlConnection(connectionString);

@@ -101,6 +101,7 @@
     <Compile Include="API\Routing\Cors\AllowCorsRequestCommand.cs" />
     <Compile Include="API\Routing\IdentityProvider.cs" />
     <Compile Include="API\Routing\IdRouteParser.cs" />
+    <Compile Include="API\Routing\Packages\AcquireCardPackageCommand.cs" />
     <Compile Include="API\Routing\Packages\CreatePackagesCommand.cs" />
     <Compile Include="API\Routing\RequestRouter.cs" />
     <Compile Include="API\Routing\Users\LoginCommand.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="DAL\ConnectionString.cs" />
     <Compile Include="DAL\DatabaseCardDao.cs" />
     <Compile Include="DAL\DatabasePackagesDao.cs" />
+    <Compile Include="DAL\DatabaseStacksDao.cs" />
     <Compile Include="DAL\OLDDatabaseCardDao.cs" />
     <Compile Include="DAL\DatabaseElementTypeDao.cs" />
     <Compile Include="DAL\DatabaseInitializer.cs" />
@@ -147,6 +149,7 @@
     <Compile Include="Models\ElementTypeEnum.cs" />
     <Compile Include="Models\Monster.cs" />
     <Compile Include="Models\MonsterTypeEnum.cs" />
+    <Compile Include="Models\Package.cs" />
     <Compile Include="Models\Spell.cs" />
     <Compile Include="Classes\Deck.cs" />
     <Compile Include="Models\UserBattle.cs" />

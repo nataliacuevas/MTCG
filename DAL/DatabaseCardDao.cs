@@ -51,6 +51,7 @@ namespace MTCG.DAL
             {
                 using var cmd = new NpgsqlCommand(InsertCardCommand, connection);
 
+                cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("id", card.Id);
                 cmd.Parameters.AddWithValue("name", card.Name);
                 cmd.Parameters.AddWithValue("damage", card.Damage);
