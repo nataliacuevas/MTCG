@@ -14,9 +14,9 @@ namespace MTCG.DAL
     internal class DatabasePackagesDao
     {
         private const string CreatePackagesTableCommand = @"CREATE TABLE IF NOT EXISTS packages (package_id serial PRIMARY KEY, card1_id varchar REFERENCES cards(id), card2_id varchar REFERENCES cards(id), card3_id varchar REFERENCES cards(id), card4_id varchar REFERENCES cards(id), card5_id varchar REFERENCES cards(id));";
+        private const string InsertPackageCommand = @"INSERT INTO packages(card1_id, card2_id, card3_id, card4_id, card5_id) VALUES (@card1_id, @card2_id, @card3_id, @card4_id, @card5_id)";
         /* private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image FROM users";
          private const string SelectUserByUsernameCommand = "SELECT username, password, name, bio, image FROM users WHERE username=@username";
-         private const string InsertUserCommand = @"INSERT INTO users(username, password) VALUES (@username, @password)";
          private const string UpdateUserDataCommand = @"UPDATE users SET name = @name, bio = @bio, image = @image WHERE username = @username";
         */
         private readonly string _connectionString;
@@ -25,27 +25,23 @@ namespace MTCG.DAL
             _connectionString = connectionString;
             EnsureTables();
         }
-
-        // **********************TO EDIT+++++++++++++++++++++
-        public void CreatePackages(DatabaseCardDao cardDb)//info from curl script)
+        //it is assumed that the list of cardsa has length 5 and are valid cards
+        public void CreatePackage(List<Card> cards)
         {
             using var connection = new NpgsqlConnection(_connectionString);
             connection.Open();
 
-            using var cmd = new NpgsqlCommand(CreatePackagesTableCommand, connection);
+            using var cmd = new NpgsqlCommand(InsertPackageCommand, connection);
 
             //TODO CHANGE SOURCE FROM VALUES TO PUT ON TABLE
-            cmd.Parameters.AddWithValue("package_id", null);
-          /*  cmd.Parameters.AddWithValue("card1_id", cardDb.CreateCard());
-            cmd.Parameters.AddWithValue("card2_id", cardDb.CreateCard());
-            cmd.Parameters.AddWithValue("card3_id", cardDb.CreateCard());
-            cmd.Parameters.AddWithValue("card4_id", cardDb.CreateCard());
-            cmd.Parameters.AddWithValue("card5_id", cardDb.CreateCard());
-          */
+            for(int i = 0; i < cards.Count; i++)
+            {
+                cmd.Parameters.AddWithValue($"card{i+1}_id", cards[i].Id);
+            }
             var affectedRows = cmd.ExecuteNonQuery();
             if (affectedRows == 0)
             {
-                //Exception to be thrown when intended to create user that is already in the DB
+                //Exception to be thrown when intended to create package that is already in the DB
                 throw new DuplicateNameException();
             }
         }

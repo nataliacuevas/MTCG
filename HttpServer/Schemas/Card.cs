@@ -15,13 +15,24 @@ namespace MTCG.HttpServer.Schemas
     internal class Card
     {
         public string Id { get; private set; }
-        //TODO ASSIGN NAME TO CARD WHEN CREATED
         private CardName? _cName;
-
+        //implemented custom setter to convert from string to Enum using JSON.NET
         public String Name
         {
-            get { return this.Name; }
-            set {
+            get
+            {
+                if (_cName == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _cName.ToString();
+                }
+            }
+
+            set
+            {
                 CardName nameIntermediate;
                 bool result = Enum.TryParse<CardName>(value, out nameIntermediate);
                 if (!result)
@@ -35,31 +46,6 @@ namespace MTCG.HttpServer.Schemas
             }
         }
         public double? Damage { get; set; }
-
-        //required to indicate to the JSON deserializer to use THIS constructor
-        //this is necessary to handle parsing the Enums
-
-
-        /*
-        [JsonConstructor]
-        public Card(string Id, string Name, float Damage)
-        {
-            Console.WriteLine("INSIDE CONSTRUCTOR!");
-            this.Id = Id;
-            this.Damage = Damage;
-
-            CardName nameIntermediate;
-            bool result = Enum.TryParse<CardName>(Name, out nameIntermediate);
-            if(!result)
-            {
-                this.Name = null;
-            }
-            else
-            {
-                this.Name = nameIntermediate;
-            }
-        }
-        */
 
         public bool IsValid()
         {

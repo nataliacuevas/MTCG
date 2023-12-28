@@ -36,11 +36,35 @@ namespace MTCG.DAL
             var affectedRows = cmd.ExecuteNonQuery();
             if (affectedRows == 0)
             {
-                //IS THIS STILL WORTH IT
-                //Exception to be thrown when intended to create user that is already in the DB
-                //throw new DuplicateNameException();
+                //Is this still worth it? 
+                //Copy pasted from sample code 
                 throw new NpgsqlException();
             }
+        }
+
+        public void CreateCards(List<Card> cards)
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            foreach (var card in cards)
+            {
+                using var cmd = new NpgsqlCommand(InsertCardCommand, connection);
+
+                cmd.Parameters.AddWithValue("id", card.Id);
+                cmd.Parameters.AddWithValue("name", card.Name);
+                cmd.Parameters.AddWithValue("damage", card.Damage);
+
+                var affectedRows = cmd.ExecuteNonQuery();
+                if (affectedRows == 0)
+                {
+                    //Is this still worth it? 
+                    // copy pasted from Meesage_Server code
+                    throw new NpgsqlException();
+                }
+            }
+
+            
         }
         private static void EnsureTables()
         {
