@@ -31,7 +31,10 @@ namespace MTCG.API.Routing
                     {
                         currentUser = _databaseUserDao.GetUserByAuthToken(authToken.Substring(prefix.Length));
                     }
-                    catch { }
+                    catch 
+                    {
+                        Console.WriteLine("Failed to identify user by Auth Token");
+                    }
                 }
             }
 

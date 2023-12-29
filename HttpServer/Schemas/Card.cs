@@ -14,7 +14,7 @@ namespace MTCG.HttpServer.Schemas
     }
     internal class Card
     {
-        public string Id { get; private set; }
+        public string Id { get; set; }
         private CardName? _cName;
         //implemented custom setter to convert from string to Enum using JSON.NET
         public String Name

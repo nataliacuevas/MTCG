@@ -27,8 +27,9 @@ namespace MTCG
             var userDao = new DatabaseUserDao(connectionString);
             var cardDao = new DatabaseCardDao(connectionString);
             var packagesDao = new DatabasePackagesDao(connectionString);
+            var stacksDao = new DatabaseStacksDao(connectionString);
 
-            var router = new RequestRouter(userDao, cardDao, packagesDao);
+            var router = new RequestRouter(userDao, cardDao, packagesDao, stacksDao);
             var server = new HttpServer.HttpServer(router, IPAddress.Any, 10001);
             server.Start();
         }
