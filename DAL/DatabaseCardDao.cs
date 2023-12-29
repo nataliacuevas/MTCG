@@ -61,7 +61,7 @@ namespace MTCG.DAL
                 if (affectedRows == 0)
                 {
                     //Is this still worth it? 
-                    // copy pasted from Meesage_Server code
+                    // copy pasted from Message_Server code
                     throw new NpgsqlException();
                 }
             }

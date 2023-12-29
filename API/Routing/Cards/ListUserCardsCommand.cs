@@ -15,39 +15,35 @@ namespace MTCG.API.Routing.Cards
     internal class ListUserCardsCommand : IRouteCommand
     {
 
-        private readonly DatabaseUserDao _dbUserDao;
         private readonly User _user;
-        private readonly string _username;
         private readonly DatabaseCardDao _cardDao;
-        private DatabaseStacks
-        public ListUserCardsCommand(DatabaseUserDao dbUserDao, User user, String username)
+        private DatabaseStacksDao _stacksDao;
+        public ListUserCardsCommand(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, User user)
         {
-            _dbUserDao = dbUserDao;
+            _cardDao = cardDao;
+            _stacksDao = stacksDao;
             _user = user;
-            _username = username;
         }
         public HttpResponse Execute()
         {
             HttpResponse response;
-            if (_user.Username != _username && !_user.IsAdmin)
+  
+            List<string> requestedCardsIds = _stacksDao.SelectCardsByUsername(_user.Username);
+            if (requestedCardsIds == null)
             {
-                response = new HttpResponse(StatusCode.Unauthorized);
+                response = new HttpResponse(StatusCode.NoContent);
                 return response;
             }
-            User requestedUser = _dbUserDao.SelectUserByUsername(_username);
-            if (requestedUser == null)
+            List<Card> requestedCards = new List<Card>();
+
+
+            foreach (string cardId in requestedCardsIds) 
             {
-                response = new HttpResponse(StatusCode.NotFound);
-                return response;
+                requestedCards.Add(_cardDao.GetCardbyId(cardId));
             }
 
-            var userData = new UserData
-            {
-                Bio = requestedUser.Bio,
-                Image = requestedUser.Image,
-                Name = requestedUser.Name
-            };
-            var payload = JsonNet.Serialize(userData);
+           
+            var payload = JsonNet.Serialize(requestedCards);
             response = new HttpResponse(StatusCode.Ok, payload);
             return response;
         }

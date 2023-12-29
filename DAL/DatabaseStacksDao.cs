@@ -15,8 +15,9 @@ namespace MTCG.DAL
     {
         private const string CreateStacksTableCommand = @"CREATE TABLE IF NOT EXISTS stacks (username varchar REFERENCES users(username), card_id varchar REFERENCES cards(id), PRIMARY KEY (username, card_id));";
         private const string InsertCardsCommand = @"INSERT INTO stacks(username, card_id) VALUES (@username, @card_id)";
+        private const string SelectCardsByUsernameCommand = "SELECT card_id FROM stacks WHERE username=@username";
+
         /* private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image FROM users";
-         private const string SelectUserByUsernameCommand = "SELECT username, password, name, bio, image FROM users WHERE username=@username";
          private const string UpdateUserDataCommand = @"UPDATE users SET name = @name, bio = @bio, image = @image WHERE username = @username";
         */
         private readonly string _connectionString;
@@ -25,15 +26,7 @@ namespace MTCG.DAL
             _connectionString = connectionString;
             EnsureTables();
         }
-        private static void EnsureTables()
-        {
-            string connectionString = ConnectionString.Get();
-            using var connection = new NpgsqlConnection(connectionString);
-            connection.Open();
-            using var cmd = new NpgsqlCommand(CreateStacksTableCommand, connection);
-            cmd.ExecuteNonQuery();
 
-        }
         public void AddPackageToUser(User user, Package package)
         {
             using var connection = new NpgsqlConnection(_connectionString);
@@ -59,8 +52,36 @@ namespace MTCG.DAL
                     //Exception to be thrown when intended to add a card that is already in the DB
                     throw new DuplicateNameException();
                 }
-
             }
+        }
+        public List<string> SelectCardsByUsername(string username) 
+        {
+            List<string> cardsIds = new List<string>();
+
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            using var cmd = new NpgsqlCommand(SelectCardsByUsernameCommand, connection);
+
+            cmd.Parameters.AddWithValue("username", username);
+            
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                var cardId = reader.GetString(0);
+                cardsIds.Add(cardId);
+            }
+
+            return cardsIds;
+        }
+
+        private static void EnsureTables()
+        {
+            string connectionString = ConnectionString.Get();
+            using var connection = new NpgsqlConnection(connectionString);
+            connection.Open();
+            using var cmd = new NpgsqlCommand(CreateStacksTableCommand, connection);
+            cmd.ExecuteNonQuery();
 
         }
     }
