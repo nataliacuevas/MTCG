@@ -17,9 +17,10 @@ namespace MTCG.DAL
         private const string InsertCardsCommand = @"INSERT INTO stacks(username, card_id) VALUES (@username, @card_id)";
         private const string SelectCardsByUsernameCommand = "SELECT card_id FROM stacks WHERE username=@username";
         private const string SelectCardsInDeckByUsernameCommand = "SELECT card_id FROM stacks WHERE username=@username AND in_deck = true";
+        private const string ClearDeckCommand = @"UPDATE stacks SET in_deck = false WHERE username = @username";
+        private const string ConfigureDeckCommand = @"UPDATE stacks SET in_deck = true WHERE card_id = @card_id";
 
         /* private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image FROM users";
-         private const string UpdateUserDataCommand = @"UPDATE users SET name = @name, bio = @bio, image = @image WHERE username = @username";
         */
         private readonly string _connectionString;
         public DatabaseStacksDao(string connectionString)
@@ -75,6 +76,16 @@ namespace MTCG.DAL
 
             return cardsIds;
         }
+        public void ClearDeck(string username)
+        {
+
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            using var cmd = new NpgsqlCommand(ClearDeckCommand, connection);
+            cmd.Parameters.AddWithValue("username", username);
+            cmd.ExecuteNonQuery();
+        }
         public List<string> SelectCardsInDeckByUsername(string username)
         {
             List<string> cardsIds = new List<string>();
@@ -94,6 +105,20 @@ namespace MTCG.DAL
             }
 
             return cardsIds;
+        }
+        public void PutInDeck(List<string> cardsIds)
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            using var cmd = new NpgsqlCommand(ConfigureDeckCommand, connection);
+
+            foreach (var cardId in cardsIds)
+            {
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("card_id", cardId);
+                cmd.ExecuteNonQuery();
+            }
         }
 
         private static void EnsureTables()

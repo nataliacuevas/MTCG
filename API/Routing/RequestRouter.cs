@@ -44,11 +44,13 @@ namespace MTCG.API.Routing
 
         public IRouteCommand Resolve(HttpRequest request)
         {
-            var isMatch = (string path) => _routeParser.IsMatch(path, "/users/{username}");
+            var usersRoute = (string path) => _routeParser.IsMatch(path, "/users/{username}");
             var matchUsername = (string path) => _routeParser.ParseParameters(path, "/users/{username}")["username"];
+            var deckRoute = (string path) => _routeParser.IsMatch(path, "/deck");
+            var matchFormat = (string path) => _routeParser.ParseParameters(path, "/deck")["format"];
             //TODO if required
             //var checkBody = (string payload) => payload ?? throw new InvalidDataException();
-            if(request.Payload != null)
+            if (request.Payload != null)
             {
                 Console.WriteLine(request.Payload.ToString());
             }
@@ -61,14 +63,15 @@ namespace MTCG.API.Routing
 
                     // { Method: HttpMethod.Post, ResourcePath: "/messages" } => new AddMessageCommand(_messageManager, GetIdentity(request), checkBody(request.Payload)),
                     { Method: HttpMethod.Get, ResourcePath: "/cards" } => new ListUserCardsCommand(_databaseCardDao, _databaseStacksDao, GetIdentity(request)),
-                    { Method: HttpMethod.Get, ResourcePath: "/deck" } => new ListUserDeckCommand(_databaseCardDao, _databaseStacksDao, GetIdentity(request)),
-                    { Method: HttpMethod.Get, ResourcePath: var path } when isMatch(path) => new RetrieveUserDataCommand(_databaseUserDao, GetIdentity(request), matchUsername(path)),                
-                    { Method: HttpMethod.Put, ResourcePath: var path } when isMatch(path) => new UpdateUserDataCommand(_databaseUserDao, GetIdentity(request), JsonNet.Deserialize<UserData>(request.Payload)),
+                    { Method: HttpMethod.Get, ResourcePath: var path } when deckRoute(path) => new ListUserDeckCommand(_databaseCardDao, _databaseStacksDao, GetIdentity(request), matchFormat(path)),
+                    { Method: HttpMethod.Put, ResourcePath: var path } when deckRoute(path) => new ConfigureDeckCommand(_databaseStacksDao, GetIdentity(request), JsonNet.Deserialize<List<string>>(request.Payload)),
+                    { Method: HttpMethod.Get, ResourcePath: var path } when usersRoute(path) => new RetrieveUserDataCommand(_databaseUserDao, GetIdentity(request), matchUsername(path)),                
+                    { Method: HttpMethod.Put, ResourcePath: var path } when usersRoute(path) => new UpdateUserDataCommand(_databaseUserDao, GetIdentity(request), matchUsername(path), JsonNet.Deserialize<UserData>(request.Payload)),
                     { Method: HttpMethod.Post, ResourcePath: "/sessions" } => new LoginCommand(_databaseUserDao, JsonNet.Deserialize<UserCredentials>(request.Payload)),
                     { Method: HttpMethod.Post, ResourcePath: "/packages" } => new CreatePackagesCommand(_databaseCardDao, _databasePackagesDao, GetIdentity(request), JsonNet.Deserialize<List<Card>>(request.Payload)),
                     { Method: HttpMethod.Post, ResourcePath: "/transactions/packages" } => new AcquireCardPackageCommand(_databaseCardDao, _databasePackagesDao, _databaseStacksDao, _databaseUserDao, GetIdentity(request)),
 
-                    //{ Method: HttpMethod.Delete, ResourcePath: var path } when isMatch(path) => new RemoveMessageCommand(_messageManager, GetIdentity(request), matchUsername(path)),
+                    //{ Method: HttpMethod.Delete, ResourcePath: var path } when usersRoute(path) => new RemoveMessageCommand(_messageManager, GetIdentity(request), matchUsername(path)),
                     { Method: HttpMethod.Options } => new AllowCorsRequestCommand(),
                     _ => null
                 };

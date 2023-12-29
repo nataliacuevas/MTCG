@@ -55,7 +55,11 @@ namespace MTCG.HttpServer.Schemas
             }
             return true;
         }
-
+        public string PlainFormat()
+        {
+            return $"{Name} (DMG: {Damage}, ID: {Id})";
+        }
+        
         public void Print()
         {
             if (_cName == null)

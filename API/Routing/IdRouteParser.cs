@@ -19,6 +19,10 @@ namespace MTCG.API.Routing
         {
             // query parameters
             var parameters = ParseQueryParameters(resourcePath);
+            if (!parameters.ContainsKey("format"))
+            {
+                parameters["format"] = null;
+            }
 
             // username parameter
             var username = ParseUsernameParameter(resourcePath, routePattern);

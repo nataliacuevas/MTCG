@@ -18,26 +18,46 @@ namespace MTCG.API.Routing.Deck
         private readonly User _user;
         private readonly DatabaseCardDao _cardDao;
         private DatabaseStacksDao _stacksDao;
-        public ListUserDeckCommand(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, User user)
+        private string _format;
+        public ListUserDeckCommand(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, User user, string format)
         {
             _cardDao = cardDao;
             _stacksDao = stacksDao;
             _user = user;
+            _format = format;
         }
         public HttpResponse Execute()
         {
             HttpResponse response;
 
             List<string> requestedCardsIds = _stacksDao.SelectCardsInDeckByUsername(_user.Username);
-            if (requestedCardsIds == null)
+            if (requestedCardsIds.Count == 0)
             {
                 response = new HttpResponse(StatusCode.NoContent);
                 return response;
             }
 
-            List<Card> UserCards = _cardDao.GetCardsByIdList(requestedCardsIds);
+            List<Card> userCards = _cardDao.GetCardsByIdList(requestedCardsIds);
 
-            var payload = JsonNet.Serialize(UserCards);
+
+            string payload = "";
+            if(_format == "json" || _format == null)
+            {
+                payload = JsonNet.Serialize(userCards);
+            }
+            else if(_format == "plain")
+            {
+                foreach(var card in userCards)
+                {
+                    payload += card.PlainFormat() + "\n";
+                }
+            }
+            else
+            {
+                response = new HttpResponse(StatusCode.BadRequest);
+                return response;
+            }
+
             response = new HttpResponse(StatusCode.Ok, payload);
             return response;
         }

@@ -20,18 +20,25 @@ namespace MTCG.API.Routing.Users
         private readonly DatabaseUserDao _dbUserDao;
         private UserData _userData;
         private User _identity;
+        private string _username;
 
-        public UpdateUserDataCommand(DatabaseUserDao dbUserDao, User identity, UserData userData) 
+        public UpdateUserDataCommand(DatabaseUserDao dbUserDao, User identity, string username, UserData userData) 
 
         {
             _dbUserDao = dbUserDao;
             _identity = identity;
             _userData = userData;
+            _username = username;
         }
 
         public HttpResponse Execute()
         {
             HttpResponse response;
+            if(_identity.Username != _username)
+            {
+                response = new HttpResponse(StatusCode.Unauthorized);
+                return response;
+            }
 
             try
             {
