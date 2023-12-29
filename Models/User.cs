@@ -13,16 +13,19 @@ namespace MTCG.Models
         public string Name { get; set; }
         public string Bio { get; set; }
         public string Image { get; set; }
+        public int Coins { get; set; }
         public string Token => $"{Username}-mtcgToken";
         public bool IsAdmin => Username == "admin";
 
-        public User(string username, string password, string name, string bio, string image)
+        public User(string username, string password, string name, string bio, string image, int coins)
         {
             Username = username;
             Password = password;
             Name = name;
             Bio = bio;
             Image = image;
+            Coins = coins;
+
         }
         
     }

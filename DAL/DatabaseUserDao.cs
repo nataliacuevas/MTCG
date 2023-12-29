@@ -16,11 +16,13 @@ namespace MTCG.DAL
 {
     internal class DatabaseUserDao
     {
-        private const string CreateUserTableCommand = @"CREATE TABLE IF NOT EXISTS users (username varchar PRIMARY KEY, password varchar, name varchar DEFAULT '', bio varchar DEFAULT '', image varchar DEFAULT '');";
-        private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image FROM users";
-        private const string SelectUserByUsernameCommand = "SELECT username, password, name, bio, image FROM users WHERE username=@username";
+        private const string CreateUserTableCommand = @"CREATE TABLE IF NOT EXISTS users (username varchar PRIMARY KEY, password varchar, name varchar DEFAULT '', bio varchar DEFAULT '', image varchar DEFAULT '', coins int DEFAULT 20);";
+        private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image, coins FROM users";
+        private const string SelectUserByUsernameCommand = "SELECT username, password, name, bio, image, coins FROM users WHERE username=@username";
         private const string InsertUserCommand = @"INSERT INTO users(username, password) VALUES (@username, @password)";
         private const string UpdateUserDataCommand = @"UPDATE users SET name = @name, bio = @bio, image = @image WHERE username = @username";
+        private const string UpdateUserCoinsCommand = @"UPDATE users SET coins = @coins WHERE username = @username";
+
         private readonly string _connectionString;
         public DatabaseUserDao(string connectionString) 
         {
@@ -46,8 +48,9 @@ namespace MTCG.DAL
                 string name = reader.GetString(2);
                 string bio = reader.GetString(3);
                 string image = reader.GetString(4);
+                int coins = reader.GetInt32(5);
 
-                return new User(username, password, name, bio, image);
+                return new User(username, password, name, bio, image, coins);
             }
             else
             {
@@ -98,8 +101,9 @@ namespace MTCG.DAL
             var name = Convert.ToString(record["name"])!;
             var bio = Convert.ToString(record["bio"])!;
             var image = Convert.ToString(record["image"])!;
+            var coins = Convert.ToInt32(record["coins"])!;
 
-            return new User(username, password, name, bio, image);
+            return new User(username, password, name, bio, image, coins);
         }
         //This will return null if the token doesnt correspond to any user
         public User GetUserByAuthToken(string authToken)
@@ -129,6 +133,27 @@ namespace MTCG.DAL
             {
                 Console.WriteLine("No rows were updated. User may not exist or data is the same.");
             }
+        }
+        public void UpdateUserCoins(User user, int newValue)
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            using var cmd = new NpgsqlCommand(UpdateUserCoinsCommand, connection);
+
+            cmd.Parameters.AddWithValue("username", user.Username);
+            cmd.Parameters.AddWithValue("coins", newValue);
+
+            var affectedRows = cmd.ExecuteNonQuery();
+            if (affectedRows > 0)
+            {
+                Console.WriteLine("User´s coins updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("No rows were updated. User may not exist or data is the same.");
+            }
+
         }
 
         public User LoginUser(UserCredentials credentials)
