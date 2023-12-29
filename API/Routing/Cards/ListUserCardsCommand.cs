@@ -34,15 +34,8 @@ namespace MTCG.API.Routing.Cards
                 response = new HttpResponse(StatusCode.NoContent);
                 return response;
             }
-            List<Card> requestedCards = new List<Card>();
+            List<Card> requestedCards = _cardDao.GetCardsByIdList(requestedCardsIds);
 
-
-            foreach (string cardId in requestedCardsIds) 
-            {
-                requestedCards.Add(_cardDao.GetCardbyId(cardId));
-            }
-
-           
             var payload = JsonNet.Serialize(requestedCards);
             response = new HttpResponse(StatusCode.Ok, payload);
             return response;

@@ -15,6 +15,7 @@ using MTCG.API.Routing.Users;
 using MTCG.API.Routing.Cors;
 using MTCG.API.Routing.Packages;
 using MTCG.API.Routing.Cards;
+using MTCG.API.Routing.Deck;
 using Json.Net;
 using MTCG.HttpServer;
 

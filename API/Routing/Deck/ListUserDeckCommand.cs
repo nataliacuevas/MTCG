@@ -1,6 +1,7 @@
 ﻿using Json.Net;
 using MTCG.DAL;
 using MTCG.HttpServer.Response;
+using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
 using System;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.Deck
 {
-    internal class ListUserDeckCommand
+    internal class ListUserDeckCommand : IRouteCommand
     {
 
         private readonly User _user;
