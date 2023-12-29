@@ -112,6 +112,10 @@ namespace MTCG.DAL
         public Package PopRandomPackage()
         {
             List<int> packages_id = GetAllPackagesIds();
+            if(packages_id.Count == 0)
+            {
+                return null;
+            }
             Random random = new Random();
             int randomIndex = random.Next(packages_id.Count);
             int randomPackageId = packages_id[randomIndex];

@@ -18,7 +18,7 @@ namespace MTCG.DAL
     {
         private const string CreateUserTableCommand = @"CREATE TABLE IF NOT EXISTS users (username varchar PRIMARY KEY, password varchar, name varchar DEFAULT '', bio varchar DEFAULT '', image varchar DEFAULT '', coins int DEFAULT 20);";
         private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image, coins FROM users";
-        private const string SelectUserByUsernameCommand = "SELECT username, password, name, bio, image FROM users WHERE username=@username";
+        private const string SelectUserByUsernameCommand = "SELECT username, password, name, bio, image, coins FROM users WHERE username=@username";
         private const string InsertUserCommand = @"INSERT INTO users(username, password) VALUES (@username, @password)";
         private const string UpdateUserDataCommand = @"UPDATE users SET name = @name, bio = @bio, image = @image WHERE username = @username";
         private const string UpdateUserCoinsCommand = @"UPDATE users SET coins = @coins WHERE username = @username";
