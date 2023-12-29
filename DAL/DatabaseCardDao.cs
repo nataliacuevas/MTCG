@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Threading.Tasks;
+using MTCG.Models;
 
 namespace MTCG.DAL
 {
@@ -93,6 +94,44 @@ namespace MTCG.DAL
             }
             
             
+        }
+        private Card ReadCard(IDataRecord record)
+        {
+            //the ! is for the compiler to treat the result as non-nullable 
+            var card_id = Convert.ToString(record["id"])!;
+            var name = Convert.ToString(record["name"])!;
+            var damage = Convert.ToDouble(record["damage"])!;
+
+            var card = new Card();
+            card.Id = card_id;
+            card.Name = name;
+            card.Damage = damage;
+
+            return card;
+        }
+
+        public List<Card> GetCardsByIdList(List<string> ids)
+        {
+            List<Card> cards = new List<Card>();
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            using var cmd = new NpgsqlCommand(SelectCardByIdCommand, connection);
+
+          
+            foreach (var card_id in ids)
+            {
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("id", card_id);
+
+
+                using var reader = cmd.ExecuteReader();
+                if(reader.Read())
+                {
+                    cards.Add(ReadCard(reader));
+                }
+            }
+            return cards;
         }
         private static void EnsureTables()
         {
