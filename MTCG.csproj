@@ -101,6 +101,7 @@
     <Compile Include="API\Routing\Cors\AllowCorsRequestCommand.cs" />
     <Compile Include="API\Routing\IdentityProvider.cs" />
     <Compile Include="API\Routing\IdRouteParser.cs" />
+    <Compile Include="API\Routing\Packages\AcquireCardPackageCommand.cs" />
     <Compile Include="API\Routing\Packages\CreatePackagesCommand.cs" />
     <Compile Include="API\Routing\RequestRouter.cs" />
     <Compile Include="API\Routing\Users\LoginCommand.cs" />
