@@ -16,9 +16,9 @@ namespace MTCG.DAL
 {
     internal class DatabaseUserDao
     {
-        private const string CreateUserTableCommand = @"CREATE TABLE IF NOT EXISTS users (username varchar PRIMARY KEY, password varchar, name varchar DEFAULT '', bio varchar DEFAULT '', image varchar DEFAULT '', coins int DEFAULT 20);";
-        private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image, coins FROM users";
-        private const string SelectUserByUsernameCommand = "SELECT username, password, name, bio, image, coins FROM users WHERE username=@username";
+        private const string CreateUserTableCommand = @"CREATE TABLE IF NOT EXISTS users (username varchar PRIMARY KEY, password varchar, name varchar DEFAULT '', bio varchar DEFAULT '', image varchar DEFAULT '', coins int DEFAULT 20, elo int DEFAULT 100, wins int DEFAULT 0, losses int DEFAULT 0);";
+        private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image, coins, elo, wins, losses FROM users";
+        private const string SelectUserByUsernameCommand = "SELECT username, password, name, bio, image, coins, elo, wins, losses FROM users WHERE username=@username";
         private const string InsertUserCommand = @"INSERT INTO users(username, password) VALUES (@username, @password)";
         private const string UpdateUserDataCommand = @"UPDATE users SET name = @name, bio = @bio, image = @image WHERE username = @username";
         private const string UpdateUserCoinsCommand = @"UPDATE users SET coins = @coins WHERE username = @username";
@@ -43,14 +43,7 @@ namespace MTCG.DAL
             
             if (reader.Read())
             {
-                string username = reader.GetString(0);
-                string password = reader.GetString(1);
-                string name = reader.GetString(2);
-                string bio = reader.GetString(3);
-                string image = reader.GetString(4);
-                int coins = reader.GetInt32(5);
-
-                return new User(username, password, name, bio, image, coins);
+                return ReadUser(reader);
             }
             else
             {
@@ -102,8 +95,11 @@ namespace MTCG.DAL
             var bio = Convert.ToString(record["bio"])!;
             var image = Convert.ToString(record["image"])!;
             var coins = Convert.ToInt32(record["coins"])!;
+            var elo = Convert.ToInt32(record["elo"])!;
+            var wins = Convert.ToInt32(record["wins"])!;
+            var losses = Convert.ToInt32(record["losses"])!;
 
-            return new User(username, password, name, bio, image, coins);
+            return new User(username, password, name, bio, image, coins, elo, wins, losses);
         }
         //This will return null if the token doesnt correspond to any user
         public User GetUserByAuthToken(string authToken)

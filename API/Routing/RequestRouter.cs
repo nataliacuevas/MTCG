@@ -16,6 +16,7 @@ using MTCG.API.Routing.Cors;
 using MTCG.API.Routing.Packages;
 using MTCG.API.Routing.Cards;
 using MTCG.API.Routing.Deck;
+using MTCG.API.Routing.Stats;
 using Json.Net;
 using MTCG.HttpServer;
 
@@ -70,6 +71,8 @@ namespace MTCG.API.Routing
                     { Method: HttpMethod.Post, ResourcePath: "/sessions" } => new LoginCommand(_databaseUserDao, JsonNet.Deserialize<UserCredentials>(request.Payload)),
                     { Method: HttpMethod.Post, ResourcePath: "/packages" } => new CreatePackagesCommand(_databaseCardDao, _databasePackagesDao, GetIdentity(request), JsonNet.Deserialize<List<Card>>(request.Payload)),
                     { Method: HttpMethod.Post, ResourcePath: "/transactions/packages" } => new AcquireCardPackageCommand(_databaseCardDao, _databasePackagesDao, _databaseStacksDao, _databaseUserDao, GetIdentity(request)),
+                    { Method: HttpMethod.Get, ResourcePath: "/stats" } => new RetrieveUserStatsCommand( GetIdentity(request)),
+
 
                     //{ Method: HttpMethod.Delete, ResourcePath: var path } when usersRoute(path) => new RemoveMessageCommand(_messageManager, GetIdentity(request), matchUsername(path)),
                     { Method: HttpMethod.Options } => new AllowCorsRequestCommand(),
