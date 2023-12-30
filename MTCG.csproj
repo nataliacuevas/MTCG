@@ -107,6 +107,7 @@
     <Compile Include="API\Routing\Packages\AcquireCardPackageCommand.cs" />
     <Compile Include="API\Routing\Packages\CreatePackagesCommand.cs" />
     <Compile Include="API\Routing\RequestRouter.cs" />
+    <Compile Include="API\Routing\Stats\RetrieveScoreboardCommand.cs" />
     <Compile Include="API\Routing\Stats\RetrieveUserStatsCommand.cs" />
     <Compile Include="API\Routing\Users\LoginCommand.cs" />
     <Compile Include="API\Routing\Users\RegisterCommand.cs" />

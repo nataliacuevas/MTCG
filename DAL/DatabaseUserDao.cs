@@ -17,7 +17,7 @@ namespace MTCG.DAL
     internal class DatabaseUserDao
     {
         private const string CreateUserTableCommand = @"CREATE TABLE IF NOT EXISTS users (username varchar PRIMARY KEY, password varchar, name varchar DEFAULT '', bio varchar DEFAULT '', image varchar DEFAULT '', coins int DEFAULT 20, elo int DEFAULT 100, wins int DEFAULT 0, losses int DEFAULT 0);";
-        private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image, coins, elo, wins, losses FROM users";
+        private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image, coins, elo, wins, losses FROM users ORDER BY elo DESC";
         private const string SelectUserByUsernameCommand = "SELECT username, password, name, bio, image, coins, elo, wins, losses FROM users WHERE username=@username";
         private const string InsertUserCommand = @"INSERT INTO users(username, password) VALUES (@username, @password)";
         private const string UpdateUserDataCommand = @"UPDATE users SET name = @name, bio = @bio, image = @image WHERE username = @username";
@@ -68,7 +68,7 @@ namespace MTCG.DAL
                 throw new DuplicateNameException();
             }
         }
-        private IEnumerable<User> GetAllUsers()
+        public IEnumerable<User> GetAllUsers()
         {
             // TODO: handle exceptions
             var users = new List<User>();
