@@ -145,6 +145,7 @@
     <Compile Include="HttpServer\Schemas\UserCredentials.cs" />
     <Compile Include="HttpServer\Schemas\UserData.cs" />
     <Compile Include="HttpServer\OLDServer.cs" />
+    <Compile Include="HttpServer\Schemas\UserStats.cs" />
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\IMonster.cs" />
     <Compile Include="Interfaces\ISpell.cs" />
