@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using MTCG.API.Routing;
 
 namespace MTCG.HttpServer
@@ -32,9 +32,13 @@ namespace MTCG.HttpServer
             Console.WriteLine("Listening incoming connection...");
             while (_listening)
             {
-                var client = _listener.AcceptTcpClient();
-                var clientHandler = new HttpClientHandler(client);
-                HandleClient(clientHandler);
+                 var thready = new Thread(() => {
+                    var client = _listener.AcceptTcpClient();
+                    var clientHandler = new HttpClientHandler(client);
+                    HandleClient(clientHandler);
+                });
+                thready.Start();
+                
                 Console.WriteLine("Listening incoming connection...");
             }
         }
