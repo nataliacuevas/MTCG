@@ -17,7 +17,7 @@ using MTCG.API.Routing.Packages;
 using MTCG.API.Routing.Cards;
 using MTCG.API.Routing.Deck;
 using MTCG.API.Routing.Stats;
-using MTCG.API.Routing.
+using MTCG.API.Routing.Battles;
 using Json.Net;
 using MTCG.HttpServer;
 
@@ -74,7 +74,7 @@ namespace MTCG.API.Routing
                     { Method: HttpMethod.Post, ResourcePath: "/transactions/packages" } => new AcquireCardPackageCommand(_databaseCardDao, _databasePackagesDao, _databaseStacksDao, _databaseUserDao, GetIdentity(request)),
                     { Method: HttpMethod.Get, ResourcePath: "/stats" } => new RetrieveUserStatsCommand(GetIdentity(request)),
                     { Method: HttpMethod.Get, ResourcePath: "/scoreboard" } => new RetrieveScoreboardCommand(_databaseUserDao, GetIdentity(request)),
-                    { Method: HttpMethod.Post, ResourcePath: "/battles" } => new  EnterToLobbyForBattleCommand(_databaseUserDao, _databaseCardDao, _databaseStacksDao, GetIdentity(request)),
+                    { Method: HttpMethod.Post, ResourcePath: "/battles" } => new  EnterToLobbyForBattleCommand(_databaseCardDao, _databaseStacksDao, _databaseUserDao, GetIdentity(request)),
 
 
                     //{ Method: HttpMethod.Delete, ResourcePath: var path } when usersRoute(path) => new RemoveMessageCommand(_messageManager, GetIdentity(request), matchUsername(path)),

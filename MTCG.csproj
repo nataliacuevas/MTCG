@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Routing\AuthenticatedRouteCommand.cs" />
+    <Compile Include="API\Routing\Battles\EnterToLobbyForBattleCommand.cs" />
     <Compile Include="API\Routing\Cards\ListUserCardsCommand.cs" />
     <Compile Include="API\Routing\Cors\AllowCorsRequestCommand.cs" />
     <Compile Include="API\Routing\Deck\ConfigureDeckCommand.cs" />

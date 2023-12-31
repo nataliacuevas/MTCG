@@ -31,10 +31,13 @@ namespace MTCG.HttpServer
             _listening = true;
             Console.WriteLine("Listening incoming connection...");
             while (_listening)
-            {
-                 var thready = new Thread(() => {
-                    var client = _listener.AcceptTcpClient();
+            {   var client = _listener.AcceptTcpClient();
+             
+                var thready = new Thread(() => {
                     var clientHandler = new HttpClientHandler(client);
+                    // Uncomment to verify multithreading
+                    // Console.WriteLine("Thread Id: {0}", Thread.CurrentThread.ManagedThreadId.ToString());
+                    // Thread.Sleep(5000);
                     HandleClient(clientHandler);
                 });
                 thready.Start();
