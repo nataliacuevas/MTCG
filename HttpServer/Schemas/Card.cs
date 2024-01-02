@@ -46,7 +46,17 @@ namespace MTCG.HttpServer.Schemas
             }
         }
         public double? Damage { get; set; }
-
+        public string GetCardType()
+        {
+            if (Name.Contains("Spell"))
+            {
+                return "spell";
+            }
+            else
+            {
+                return "monster";
+            }
+        }
         public bool IsValid()
         {
             if (_cName == null || Id == null || Damage == null)

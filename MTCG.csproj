@@ -110,6 +110,10 @@
     <Compile Include="API\Routing\RequestRouter.cs" />
     <Compile Include="API\Routing\Stats\RetrieveScoreboardCommand.cs" />
     <Compile Include="API\Routing\Stats\RetrieveUserStatsCommand.cs" />
+    <Compile Include="API\Routing\TradingDeals\CreateDealCommand.cs" />
+    <Compile Include="API\Routing\TradingDeals\DeleteDealCommand.cs" />
+    <Compile Include="API\Routing\TradingDeals\SealDealCommand.cs" />
+    <Compile Include="API\Routing\TradingDeals\SelectAllDealsCommand.cs" />
     <Compile Include="API\Routing\Users\LoginCommand.cs" />
     <Compile Include="API\Routing\Users\RegisterCommand.cs" />
     <Compile Include="API\Routing\Users\RetrieveUserDataCommand.cs" />
@@ -127,6 +131,7 @@
     <Compile Include="DAL\DatabaseCardDao.cs" />
     <Compile Include="DAL\DatabasePackagesDao.cs" />
     <Compile Include="DAL\DatabaseStacksDao.cs" />
+    <Compile Include="DAL\DatabaseTradingDealsDao.cs" />
     <Compile Include="DAL\OLDDatabaseCardDao.cs" />
     <Compile Include="DAL\DatabaseElementTypeDao.cs" />
     <Compile Include="DAL\DatabaseInitializer.cs" />
@@ -145,6 +150,8 @@
     <Compile Include="HttpServer\Routing\IRouteCommand.cs" />
     <Compile Include="HttpServer\Routing\IRouter.cs" />
     <Compile Include="HttpServer\Schemas\Card.cs" />
+    <Compile Include="HttpServer\Schemas\CardType.cs" />
+    <Compile Include="HttpServer\Schemas\TradingDeal.cs" />
     <Compile Include="HttpServer\Schemas\UserCredentials.cs" />
     <Compile Include="HttpServer\Schemas\UserData.cs" />
     <Compile Include="HttpServer\OLDServer.cs" />

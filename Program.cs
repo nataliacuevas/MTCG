@@ -12,6 +12,7 @@ using MTCG.HttpServer;
 using MTCG.HttpServer.Schemas;
 using MTCG.API.Routing;
 using MTCG.API.Routing.Users;
+using MTCG.API.Routing.TradingDeals;
 using System.Net;
 //here we connect with the classes folder
 
@@ -28,8 +29,9 @@ namespace MTCG
             var cardDao = new DatabaseCardDao(connectionString);
             var packagesDao = new DatabasePackagesDao(connectionString);
             var stacksDao = new DatabaseStacksDao(connectionString);
+            var tradingDao = new DatabaseTradingDealsDao(connectionString);
 
-            var router = new RequestRouter(userDao, cardDao, packagesDao, stacksDao);
+            var router = new RequestRouter(userDao, cardDao, packagesDao, stacksDao, tradingDao);
             var server = new HttpServer.HttpServer(router, IPAddress.Any, 10001);
             server.Start();
         }

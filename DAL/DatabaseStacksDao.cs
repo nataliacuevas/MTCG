@@ -19,7 +19,8 @@ namespace MTCG.DAL
         private const string SelectCardsInDeckByUsernameCommand = "SELECT card_id FROM stacks WHERE username=@username AND in_deck = true";
         private const string ClearDeckCommand = @"UPDATE stacks SET in_deck = false WHERE username = @username";
         private const string ConfigureDeckCommand = @"UPDATE stacks SET in_deck = true WHERE card_id = @card_id";
-
+        private const string UpdateCardOwnershipCommand = @"UPDATE stacks SET username = @username WHERE card_id = @card_id";
+        private const string SelectUsernameByCardIdCommand = "SELECT username FROM stacks WHERE card_id=@card_id";
         /* private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image FROM users";
         */
         private readonly string _connectionString;
@@ -120,6 +121,39 @@ namespace MTCG.DAL
                 cmd.ExecuteNonQuery();
             }
         }
+        public void UpdateCardOwnership(string cardId, string newOwner)
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            using var cmd = new NpgsqlCommand(UpdateCardOwnershipCommand, connection);
+
+
+            cmd.Parameters.AddWithValue("card_id", cardId);
+            cmd.Parameters.AddWithValue("username", newOwner);
+            cmd.ExecuteNonQuery();
+        }
+        public string GetCardOwnerbyCardId(string cardId)
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            using var cmd = new NpgsqlCommand(SelectUsernameByCardIdCommand, connection);
+
+            cmd.Parameters.AddWithValue("card_id", cardId);
+            using (IDataReader reader = cmd.ExecuteReader())
+
+                if (reader.Read())
+                {
+                    return Convert.ToString(reader["username"])!;
+                }
+                else
+                {
+                    //instead of using exception, function returns null, meaning that the username is not in the DB
+                    return null;
+                }
+        }
+        
 
         private static void EnsureTables()
         {

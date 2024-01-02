@@ -18,6 +18,7 @@ using MTCG.API.Routing.Cards;
 using MTCG.API.Routing.Deck;
 using MTCG.API.Routing.Stats;
 using MTCG.API.Routing.Battles;
+using MTCG.API.Routing.TradingDeals;
 using Json.Net;
 using MTCG.HttpServer;
 
@@ -31,10 +32,11 @@ namespace MTCG.API.Routing
         private readonly DatabaseCardDao _databaseCardDao;
         private readonly DatabasePackagesDao _databasePackagesDao;
         private readonly DatabaseStacksDao _databaseStacksDao;
+        private readonly DatabaseTradingDealsDao _databaseTradingDealsDao;
         private readonly IdentityProvider _identityProvider;
         private readonly IdRouteParser _routeParser;
 
-        public RequestRouter(DatabaseUserDao userDao, DatabaseCardDao cardDao, DatabasePackagesDao packagesDao, DatabaseStacksDao databaseStacksDao)
+        public RequestRouter(DatabaseUserDao userDao, DatabaseCardDao cardDao, DatabasePackagesDao packagesDao, DatabaseStacksDao databaseStacksDao, DatabaseTradingDealsDao databaseTradingDealsDao)
         {
             _databaseUserDao = userDao;
             _databaseCardDao = cardDao;
@@ -42,6 +44,7 @@ namespace MTCG.API.Routing
             _identityProvider = new IdentityProvider(userDao);
             _routeParser = new IdRouteParser();
             _databaseStacksDao = databaseStacksDao;
+            _databaseTradingDealsDao = databaseTradingDealsDao;
         }
 
         public IRouteCommand Resolve(HttpRequest request)
@@ -50,6 +53,8 @@ namespace MTCG.API.Routing
             var matchUsername = (string path) => _routeParser.ParseParameters(path, "/users/{username}")["username"];
             var deckRoute = (string path) => _routeParser.IsMatch(path, "/deck");
             var matchFormat = (string path) => _routeParser.ParseParameters(path, "/deck")["format"];
+            var tradingRoute = (string path) => _routeParser.IsMatch(path, "/tradings/.*");
+            var matchTradingId = (string path) => _routeParser.ParseParameters(path, "/tradings/{tradingId}")["tradingId"];
             //TODO if required
             //var checkBody = (string payload) => payload ?? throw new InvalidDataException();
             if (request.Payload != null)
@@ -75,6 +80,10 @@ namespace MTCG.API.Routing
                     { Method: HttpMethod.Get, ResourcePath: "/stats" } => new RetrieveUserStatsCommand(GetIdentity(request)),
                     { Method: HttpMethod.Get, ResourcePath: "/scoreboard" } => new RetrieveScoreboardCommand(_databaseUserDao, GetIdentity(request)),
                     { Method: HttpMethod.Post, ResourcePath: "/battles" } => new  EnterToLobbyForBattleCommand(_databaseCardDao, _databaseStacksDao, _databaseUserDao, GetIdentity(request)),
+                    { Method: HttpMethod.Get, ResourcePath: "/tradings" } => new SelectAllDealsCommand(_databaseTradingDealsDao, GetIdentity(request)),
+                    { Method: HttpMethod.Post, ResourcePath: "/tradings" } => new CreateDealCommand(_databaseStacksDao, _databaseTradingDealsDao, GetIdentity(request), JsonNet.Deserialize<TradingDeal>(request.Payload)),
+                    { Method: HttpMethod.Delete, ResourcePath: var path } when tradingRoute(path) => new DeleteDealCommand(_databaseStacksDao, _databaseTradingDealsDao, GetIdentity(request), matchTradingId(path)),
+                    { Method: HttpMethod.Post, ResourcePath: var path } when tradingRoute(path) => new SealDealCommand(_databaseCardDao , _databaseStacksDao, _databaseTradingDealsDao, GetIdentity(request), matchTradingId(path), JsonNet.Deserialize<string>(request.Payload)),
 
 
                     //{ Method: HttpMethod.Delete, ResourcePath: var path } when usersRoute(path) => new RemoveMessageCommand(_messageManager, GetIdentity(request), matchUsername(path)),
