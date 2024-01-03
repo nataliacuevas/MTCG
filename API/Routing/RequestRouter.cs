@@ -38,7 +38,7 @@ namespace MTCG.API.Routing
         private readonly IdentityProvider _identityProvider;
         private readonly IdRouteParser _routeParser;
 
-        public RequestRouter(DatabaseUserDao userDao, DatabaseCardDao cardDao, DatabasePackagesDao packagesDao, DatabaseStacksDao databaseStacksDao, DatabaseTradingDealsDao databaseTradingDealsDao)
+        public RequestRouter(DatabaseUserDao userDao, DatabaseCardDao cardDao, DatabasePackagesDao packagesDao, DatabaseStacksDao databaseStacksDao, DatabaseTradingDealsDao databaseTradingDealsDao, DatabaseMarketDealsDao databaseMarketDealsDao)
         {
             _databaseUserDao = userDao;
             _databaseCardDao = cardDao;
@@ -47,6 +47,7 @@ namespace MTCG.API.Routing
             _routeParser = new IdRouteParser();
             _databaseStacksDao = databaseStacksDao;
             _databaseTradingDealsDao = databaseTradingDealsDao;
+            _databaseMarketDealsDao = databaseMarketDealsDao;
         }
 
         public IRouteCommand Resolve(HttpRequest request)
@@ -57,6 +58,8 @@ namespace MTCG.API.Routing
             var matchFormat = (string path) => _routeParser.ParseParameters(path, "/deck")["format"];
             var tradingRoute = (string path) => _routeParser.IsMatch(path, "/tradings/.*");
             var matchTradingId = (string path) => _routeParser.ParseParameters(path, "/tradings/{tradingId}")["tradingId"];
+            var marketRoute = (string path) => _routeParser.IsMatch(path, "/market/.*");
+            var matchMarketDealId = (string path) => _routeParser.ParseParameters(path, "/market/{marketDealId}")["marketDealId"];
             //TODO if required
             //var checkBody = (string payload) => payload ?? throw new InvalidDataException();
             if (request.Payload != null)
@@ -87,8 +90,9 @@ namespace MTCG.API.Routing
                     { Method: HttpMethod.Delete, ResourcePath: var path } when tradingRoute(path) => new DeleteDealCommand(_databaseStacksDao, _databaseTradingDealsDao, GetIdentity(request), matchTradingId(path)),
                     { Method: HttpMethod.Post, ResourcePath: var path } when tradingRoute(path) => new SealDealCommand(_databaseCardDao , _databaseStacksDao, _databaseTradingDealsDao, GetIdentity(request), matchTradingId(path), JsonNet.Deserialize<string>(request.Payload)),
                     { Method: HttpMethod.Get, ResourcePath: "/market" } => new SelectAllMarketDealsCommand(_databaseMarketDealsDao, GetIdentity(request)),
-                    { Method: HttpMethod.Post, ResourcePath: "/market" } => new CreateMarketDealCommand(_databaseStacksDao, _databaseTradingDealsDao, _databaseMarketDealsDao, GetIdentity(request), JsonNet.Deserialize<MarketDeal>(request.Payload)),
-
+                    { Method: HttpMethod.Post, ResourcePath: "/market" } => new CreateMarketDealCommand(_databaseStacksDao, _databaseMarketDealsDao, GetIdentity(request), JsonNet.Deserialize<MarketDeal>(request.Payload)),
+                    { Method: HttpMethod.Delete, ResourcePath: var path } when marketRoute(path) => new DeleteMarketDealCommand(_databaseStacksDao, _databaseMarketDealsDao, GetIdentity(request), matchMarketDealId(path)),
+                    { Method: HttpMethod.Post, ResourcePath: var path } when marketRoute(path) => new SealMarketDealCommand(_databaseCardDao, _databaseStacksDao, _databaseTradingDealsDao, _databaseMarketDealsDao, _databaseUserDao, GetIdentity(request), matchMarketDealId(path)),
 
                     //{ Method: HttpMethod.Delete, ResourcePath: var path } when usersRoute(path) => new RemoveMessageCommand(_messageManager, GetIdentity(request), matchUsername(path)),
                     { Method: HttpMethod.Options } => new AllowCorsRequestCommand(),

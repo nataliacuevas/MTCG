@@ -10,11 +10,11 @@ namespace MTCG.HttpServer.Schemas
     {
         public string Id { get; set; }
         public string CardToSell { get; set; }
-        public double Price { get; set; }
+        public int? Price { get; set; }
 
         public bool IsValid()
         {
-            if (Id == null || CardToSell == null || Price == 0)
+            if (Id == null || CardToSell == null || Price == null || Price <= 0)
             {
                 return false;
             }

@@ -15,15 +15,13 @@ namespace MTCG.API.Routing.MarketDeals
     {
         private readonly User _user;
         private readonly DatabaseStacksDao _stacksDao;
-        private readonly DatabaseTradingDealsDao _tradingDealsDao;
         private readonly DatabaseMarketDealsDao _marketDealsDao;
         private readonly MarketDeal _deal;
 
-        public CreateMarketDealCommand(DatabaseStacksDao stacksDao, DatabaseTradingDealsDao tradingDealsDao, DatabaseMarketDealsDao databaseMarketDealsDao, User user, MarketDeal deal)
+        public CreateMarketDealCommand(DatabaseStacksDao stacksDao, DatabaseMarketDealsDao databaseMarketDealsDao, User user, MarketDeal deal)
         {
             _user = user;
             _stacksDao = stacksDao;
-            _tradingDealsDao = tradingDealsDao;
             _marketDealsDao = databaseMarketDealsDao;
             _deal = deal;
 
@@ -31,6 +29,7 @@ namespace MTCG.API.Routing.MarketDeals
         public HttpResponse Execute()
         {
             HttpResponse response;
+            //Here we check if the price is non-positive
             if (!_deal.IsValid())
             {
                 response = new HttpResponse(StatusCode.BadRequest);

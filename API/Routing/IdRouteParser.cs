@@ -36,7 +36,12 @@ namespace MTCG.API.Routing
             {
                 parameters["tradingId"] = tradingId;
             }
-
+            // marketDeal parameter
+            var marketDealId = ParseMarketDealIdParameter(resourcePath, routePattern);
+            if (marketDealId != null)
+            {
+                parameters["marketDealId"] = marketDealId;
+            }
 
             return parameters;
         }
@@ -53,8 +58,12 @@ namespace MTCG.API.Routing
             var result = Regex.Match(resourcePath, pattern);
             return result.Groups["tradingId"].Success ? result.Groups["tradingId"].Value : null;
         }
-
-
+        private string ParseMarketDealIdParameter(string resourcePath, string routePattern)
+        {
+            var pattern = "^" + routePattern.Replace("{marketDealId}", "(?<marketDealId>[^\\?\\/]*)").Replace("/", "\\/") + "$";
+            var result = Regex.Match(resourcePath, pattern);
+            return result.Groups["marketDealId"].Success ? result.Groups["marketDealId"].Value : null;
+        }
 
         private Dictionary<string, string> ParseQueryParameters(string route)
         {

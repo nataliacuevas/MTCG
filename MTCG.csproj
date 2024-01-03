@@ -106,6 +106,8 @@
     <Compile Include="API\Routing\IdentityProvider.cs" />
     <Compile Include="API\Routing\IdRouteParser.cs" />
     <Compile Include="API\Routing\MarketDeals\CreateMarketDealCommand.cs" />
+    <Compile Include="API\Routing\MarketDeals\DeleteMarketDealCommand.cs" />
+    <Compile Include="API\Routing\MarketDeals\SealMarketDealCommand.cs" />
     <Compile Include="API\Routing\MarketDeals\SelectAllMarketDealsCommand.cs" />
     <Compile Include="API\Routing\Packages\AcquireCardPackageCommand.cs" />
     <Compile Include="API\Routing\Packages\CreatePackagesCommand.cs" />
