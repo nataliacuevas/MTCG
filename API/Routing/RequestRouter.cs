@@ -19,6 +19,7 @@ using MTCG.API.Routing.Deck;
 using MTCG.API.Routing.Stats;
 using MTCG.API.Routing.Battles;
 using MTCG.API.Routing.TradingDeals;
+using MTCG.API.Routing.MarketDeals;
 using Json.Net;
 using MTCG.HttpServer;
 
@@ -33,6 +34,7 @@ namespace MTCG.API.Routing
         private readonly DatabasePackagesDao _databasePackagesDao;
         private readonly DatabaseStacksDao _databaseStacksDao;
         private readonly DatabaseTradingDealsDao _databaseTradingDealsDao;
+        private readonly DatabaseMarketDealsDao _databaseMarketDealsDao;
         private readonly IdentityProvider _identityProvider;
         private readonly IdRouteParser _routeParser;
 
@@ -84,6 +86,8 @@ namespace MTCG.API.Routing
                     { Method: HttpMethod.Post, ResourcePath: "/tradings" } => new CreateDealCommand(_databaseStacksDao, _databaseTradingDealsDao, GetIdentity(request), JsonNet.Deserialize<TradingDeal>(request.Payload)),
                     { Method: HttpMethod.Delete, ResourcePath: var path } when tradingRoute(path) => new DeleteDealCommand(_databaseStacksDao, _databaseTradingDealsDao, GetIdentity(request), matchTradingId(path)),
                     { Method: HttpMethod.Post, ResourcePath: var path } when tradingRoute(path) => new SealDealCommand(_databaseCardDao , _databaseStacksDao, _databaseTradingDealsDao, GetIdentity(request), matchTradingId(path), JsonNet.Deserialize<string>(request.Payload)),
+                    { Method: HttpMethod.Get, ResourcePath: "/market" } => new SelectAllMarketDealsCommand(_databaseMarketDealsDao, GetIdentity(request)),
+                    { Method: HttpMethod.Post, ResourcePath: "/market" } => new CreateMarketDealCommand(_databaseStacksDao, _databaseTradingDealsDao, _databaseMarketDealsDao, GetIdentity(request), JsonNet.Deserialize<MarketDeal>(request.Payload)),
 
 
                     //{ Method: HttpMethod.Delete, ResourcePath: var path } when usersRoute(path) => new RemoveMessageCommand(_messageManager, GetIdentity(request), matchUsername(path)),

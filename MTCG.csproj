@@ -105,6 +105,8 @@
     <Compile Include="API\Routing\Deck\ListUserDeckCommand.cs" />
     <Compile Include="API\Routing\IdentityProvider.cs" />
     <Compile Include="API\Routing\IdRouteParser.cs" />
+    <Compile Include="API\Routing\MarketDeals\CreateMarketDealCommand.cs" />
+    <Compile Include="API\Routing\MarketDeals\SelectAllMarketDealsCommand.cs" />
     <Compile Include="API\Routing\Packages\AcquireCardPackageCommand.cs" />
     <Compile Include="API\Routing\Packages\CreatePackagesCommand.cs" />
     <Compile Include="API\Routing\RequestRouter.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Classes\UserTable.cs" />
     <Compile Include="DAL\ConnectionString.cs" />
     <Compile Include="DAL\DatabaseCardDao.cs" />
+    <Compile Include="DAL\DatabaseMarketDealsDao.cs" />
     <Compile Include="DAL\DatabasePackagesDao.cs" />
     <Compile Include="DAL\DatabaseStacksDao.cs" />
     <Compile Include="DAL\DatabaseTradingDealsDao.cs" />
@@ -151,6 +154,7 @@
     <Compile Include="HttpServer\Routing\IRouter.cs" />
     <Compile Include="HttpServer\Schemas\Card.cs" />
     <Compile Include="HttpServer\Schemas\CardType.cs" />
+    <Compile Include="HttpServer\Schemas\MarketDeal.cs" />
     <Compile Include="HttpServer\Schemas\TradingDeal.cs" />
     <Compile Include="HttpServer\Schemas\UserCredentials.cs" />
     <Compile Include="HttpServer\Schemas\UserData.cs" />
