@@ -14,6 +14,7 @@ using MTCG.API.Routing;
 using MTCG.API.Routing.Users;
 using MTCG.API.Routing.TradingDeals;
 using System.Net;
+using System.Threading;
 //here we connect with the classes folder
 
 
@@ -31,8 +32,11 @@ namespace MTCG
             var stacksDao = new DatabaseStacksDao(connectionString);
             var tradingDao = new DatabaseTradingDealsDao(connectionString);
             var marketDao = new DatabaseMarketDealsDao(connectionString);
+            //there are 2 routes of the code where users can exchange cards through deals
+            //this mutex is to ensure no mix-upx during these exchanges
+            var dealsMutex = new Mutex();
 
-            var router = new RequestRouter(userDao, cardDao, packagesDao, stacksDao, tradingDao, marketDao);
+            var router = new RequestRouter(userDao, cardDao, packagesDao, stacksDao, tradingDao, marketDao, dealsMutex);
             var server = new HttpServer.HttpServer(router, IPAddress.Any, 10001);
             server.Start();
         }

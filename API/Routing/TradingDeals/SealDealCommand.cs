@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.TradingDeals
@@ -18,9 +19,10 @@ namespace MTCG.API.Routing.TradingDeals
         private readonly DatabaseTradingDealsDao _tradingDealsDao;
         private readonly DatabaseCardDao _cardDao;
         private readonly string _dealId;
-        private readonly string _offeredCardId;  
+        private readonly string _offeredCardId;
+        private readonly Mutex _dealsMutex;
 
-        public SealDealCommand(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, DatabaseTradingDealsDao tradingDealsDao, User user, string dealId, string offeredCardId)
+        public SealDealCommand(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, DatabaseTradingDealsDao tradingDealsDao, User user, string dealId, string offeredCardId, Mutex dealsmutex)
         {
             _cardDao = cardDao;
             _user = user;
@@ -28,9 +30,11 @@ namespace MTCG.API.Routing.TradingDeals
             _tradingDealsDao = tradingDealsDao;
             _dealId = dealId;
             _offeredCardId = offeredCardId;
+            _dealsMutex = dealsmutex;
         }
         public HttpResponse Execute()
         {
+            _dealsMutex.WaitOne();
             HttpResponse response;
             string payload;
             List<string> userCards = _stacksDao.SelectCardsByUsername(_user.Username);
@@ -39,18 +43,21 @@ namespace MTCG.API.Routing.TradingDeals
             {
                 payload = "The provided deal ID was not found\n";
                 response = new HttpResponse(StatusCode.NotFound, payload);
+                _dealsMutex.ReleaseMutex();
                 return response;
             }
             if (userCards.Contains(deal.CardToTrade))
             {
                 payload = "the user tried to trade with self\n";
                 response = new HttpResponse(StatusCode.Forbidden, payload);
+                _dealsMutex.ReleaseMutex();
                 return response;
             }
             if (!userCards.Contains(_offeredCardId))
             {
                 payload = "The offered card is not owned by the user\n";
                 response = new HttpResponse(StatusCode.Forbidden, payload);
+                _dealsMutex.ReleaseMutex();
                 return response;
             }
             Card offeredCard = _cardDao.GetCardbyId(_offeredCardId);
@@ -58,6 +65,7 @@ namespace MTCG.API.Routing.TradingDeals
             {
                 payload = "The offered card does not exist\n";
                 response = new HttpResponse(StatusCode.Forbidden, payload);
+                _dealsMutex.ReleaseMutex();
                 return response;
             }
             List<string> cardsInDeck = _stacksDao.SelectCardsInDeckByUsername(_user.Username);
@@ -65,12 +73,15 @@ namespace MTCG.API.Routing.TradingDeals
             {
                 payload = "the offered card is locked in the deck\n";
                 response = new HttpResponse(StatusCode.Forbidden, payload);
+                _dealsMutex.ReleaseMutex();
                 return response;
+
             }
             if(offeredCard.Damage < deal.MinimumDamage || offeredCard.GetCardType() != deal.Type)
             {
                 payload = "the deal requirements are not met (Type, MinimumDamage)\n";
                 response = new HttpResponse(StatusCode.Forbidden, payload);
+                _dealsMutex.ReleaseMutex();
                 return response;
             }
 
@@ -83,6 +94,7 @@ namespace MTCG.API.Routing.TradingDeals
             _tradingDealsDao.DeleteMultipleDealsByCardId(offeredCard.Id);
             _tradingDealsDao.DeleteMultipleDealsByCardId(deal.CardToTrade);
             response = new HttpResponse(StatusCode.Ok);
+            _dealsMutex.ReleaseMutex();
             return response;
 
         }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.MarketDeals
@@ -20,8 +21,9 @@ namespace MTCG.API.Routing.MarketDeals
         private readonly DatabaseCardDao _cardDao;
         private readonly DatabaseMarketDealsDao _marketDealsDao;
         private readonly string _dealId;
+        private readonly Mutex _dealsMutex;
 
-        public SealMarketDealCommand(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, DatabaseTradingDealsDao tradingDealsDao, DatabaseMarketDealsDao databaseMarketDealsDao, DatabaseUserDao databaseUserDao, User user, string dealId)
+        public SealMarketDealCommand(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, DatabaseTradingDealsDao tradingDealsDao, DatabaseMarketDealsDao databaseMarketDealsDao, DatabaseUserDao databaseUserDao, User user, string dealId, Mutex dealsmutex)
         {
             _cardDao = cardDao;
             _userDao = databaseUserDao;
@@ -30,9 +32,11 @@ namespace MTCG.API.Routing.MarketDeals
             _tradingDealsDao = tradingDealsDao;
             _dealId = dealId;
             _marketDealsDao = databaseMarketDealsDao;
+            _dealsMutex = dealsmutex;
         }
         public HttpResponse Execute()
         {
+            _dealsMutex.WaitOne();
             HttpResponse response;
             string payload;
             List<string> userCards = _stacksDao.SelectCardsByUsername(_user.Username);
@@ -41,18 +45,21 @@ namespace MTCG.API.Routing.MarketDeals
             {
                 payload = "The provided market deal ID was not found\n";
                 response = new HttpResponse(StatusCode.NotFound, payload);
+                _dealsMutex.ReleaseMutex();
                 return response;
             }
             if (userCards.Contains(deal.CardToSell))
             {
                 payload = "the user tried to sell a card to themselves \n";
                 response = new HttpResponse(StatusCode.Forbidden, payload);
+                _dealsMutex.ReleaseMutex();
                 return response;
             }
             if (_user.Coins < deal.Price)
             {
                 payload = "the deal requirements are not met (Price)\n";
                 response = new HttpResponse(StatusCode.Forbidden, payload);
+                _dealsMutex.ReleaseMutex();
                 return response;
             }
 
@@ -71,6 +78,7 @@ namespace MTCG.API.Routing.MarketDeals
             _tradingDealsDao.DeleteMultipleDealsByCardId(deal.CardToSell);
             _marketDealsDao.DeleteMarketDeal(deal.Id);
             response = new HttpResponse(StatusCode.Ok);
+            _dealsMutex.ReleaseMutex();
             return response;
 
         }
