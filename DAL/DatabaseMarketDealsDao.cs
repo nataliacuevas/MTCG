@@ -11,7 +11,7 @@ using System.Data;
 
 namespace MTCG.DAL
 {
-    internal class DatabaseMarketDealsDao
+    public class DatabaseMarketDealsDao
     {
 
         private const string CreateMarketDealsTableCommand = @"CREATE TABLE IF NOT EXISTS marketDeals (marketdeal_id varchar PRIMARY KEY, card_id varchar REFERENCES cards(id), price float);";
@@ -110,10 +110,9 @@ namespace MTCG.DAL
             cmd.Parameters.AddWithValue("marketdeal_id", dealId);
             cmd.ExecuteNonQuery();
         }
-        private static void EnsureTables()
+        private void EnsureTables()
         {
-            string connectionString = ConnectionString.Get();
-            using var connection = new NpgsqlConnection(connectionString);
+            using var connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             using var cmd = new NpgsqlCommand(CreateMarketDealsTableCommand, connection);
             cmd.ExecuteNonQuery();

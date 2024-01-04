@@ -12,7 +12,7 @@ using MTCG.API.Routing;
 
 namespace MTCG.HttpServer
 {
-    internal class HttpServer
+    public class HttpServer
     {
         private readonly RequestRouter _router;
         private readonly TcpListener _listener;

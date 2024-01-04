@@ -14,7 +14,7 @@ using System.Net;
 
 namespace MTCG.DAL
 {
-    internal class DatabaseUserDao
+    public class DatabaseUserDao
     {
         private const string CreateUserTableCommand = @"CREATE TABLE IF NOT EXISTS users (username varchar PRIMARY KEY, password varchar, name varchar DEFAULT '', bio varchar DEFAULT '', image varchar DEFAULT '', coins int DEFAULT 20, elo int DEFAULT 100, wins int DEFAULT 0, losses int DEFAULT 0);";
         private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image, coins, elo, wins, losses FROM users ORDER BY elo DESC";
@@ -164,10 +164,9 @@ namespace MTCG.DAL
 
         }
 
-        private static void EnsureTables()
+        public void EnsureTables()
         {
-            string connectionString = ConnectionString.Get();
-            using var connection = new NpgsqlConnection(connectionString);
+            using var connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             using var cmd = new NpgsqlCommand(CreateUserTableCommand, connection);
             cmd.ExecuteNonQuery();

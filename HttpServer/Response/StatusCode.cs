@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MTCG.HttpServer.Response
 {
-    internal enum StatusCode
+    public enum StatusCode
     {
         Ok = 200,
         Created = 201,

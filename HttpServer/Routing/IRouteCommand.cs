@@ -7,7 +7,7 @@ using MTCG.HttpServer.Response;
 
 namespace MTCG.HttpServer.Routing
 {
-    internal interface IRouteCommand
+    public interface IRouteCommand
     {
         HttpResponse Execute();
     }

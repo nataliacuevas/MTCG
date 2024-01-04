@@ -12,7 +12,7 @@ namespace MTCG.HttpServer.Schemas
     {
         WaterGoblin, FireGoblin, RegularGoblin, WaterTroll, FireTroll, RegularTroll, WaterElf, FireElf, RegularElf, WaterSpell, FireSpell, RegularSpell, Knight, Dragon, Ork, Kraken, Wizzard
     }
-    internal class Card
+    public class Card
     {
         public string Id { get; set; }
         private CardName? _cName;

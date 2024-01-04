@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MTCG.HttpServer.Request
 {
-    internal class HttpRequest
+    public class HttpRequest
     {
 
         public HttpMethod Method { get; set; }

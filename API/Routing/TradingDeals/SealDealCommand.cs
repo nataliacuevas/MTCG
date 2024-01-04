@@ -35,7 +35,7 @@ namespace MTCG.API.Routing.TradingDeals
             string payload;
             List<string> userCards = _stacksDao.SelectCardsByUsername(_user.Username);
             TradingDeal deal = _tradingDealsDao.SelectDealById(_dealId);
-            if (deal.Id == null)
+            if (deal == null)
             {
                 payload = "The provided deal ID was not found\n";
                 response = new HttpResponse(StatusCode.NotFound, payload);

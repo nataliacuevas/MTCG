@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MTCG.DAL
 {
-    internal class DatabaseStacksDao
+    public class DatabaseStacksDao
     {
         private const string CreateStacksTableCommand = @"CREATE TABLE IF NOT EXISTS stacks (username varchar REFERENCES users(username), card_id varchar REFERENCES cards(id), in_deck boolean DEFAULT FALSE,  PRIMARY KEY (username, card_id));";
         private const string InsertCardsCommand = @"INSERT INTO stacks(username, card_id) VALUES (@username, @card_id)";
@@ -155,10 +155,9 @@ namespace MTCG.DAL
         }
         
 
-        private static void EnsureTables()
+        private void EnsureTables()
         {
-            string connectionString = ConnectionString.Get();
-            using var connection = new NpgsqlConnection(connectionString);
+            using var connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             using var cmd = new NpgsqlCommand(CreateStacksTableCommand, connection);
             cmd.ExecuteNonQuery();

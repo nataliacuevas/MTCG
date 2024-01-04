@@ -12,7 +12,7 @@ using Npgsql;
 namespace MTCG.DAL
 {
 
-    internal class DatabasePackagesDao
+    public class DatabasePackagesDao
     {
         private const string CreatePackagesTableCommand = @"CREATE TABLE IF NOT EXISTS packages (package_id serial PRIMARY KEY, card1_id varchar REFERENCES cards(id), card2_id varchar REFERENCES cards(id), card3_id varchar REFERENCES cards(id), card4_id varchar REFERENCES cards(id), card5_id varchar REFERENCES cards(id));";
         private const string InsertPackageCommand = @"INSERT INTO packages(card1_id, card2_id, card3_id, card4_id, card5_id) VALUES (@card1_id, @card2_id, @card3_id, @card4_id, @card5_id)";
@@ -125,10 +125,9 @@ namespace MTCG.DAL
             return package;
         }
             
-            private static void EnsureTables()
+            private void EnsureTables()
         {
-            string connectionString = ConnectionString.Get();
-            using var connection = new NpgsqlConnection(connectionString);
+            using var connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             using var cmd = new NpgsqlCommand(CreatePackagesTableCommand, connection);
             cmd.ExecuteNonQuery();

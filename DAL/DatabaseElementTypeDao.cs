@@ -14,7 +14,7 @@ namespace MTCG.DAL
         private void EnsureTables()
         {
             // TODO: handle exceptions
-            string connectionString = ConnectionString.Get();
+            string connectionString = "TODO"; // ConnectionString.Get();
             using var connection = new NpgsqlConnection(connectionString);
             connection.Open();
 

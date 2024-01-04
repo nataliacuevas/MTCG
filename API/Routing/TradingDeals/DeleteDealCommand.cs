@@ -32,18 +32,21 @@ namespace MTCG.API.Routing.TradingDeals
             string payload;
             List<string> userCards = _stacksDao.SelectCardsByUsername(_user.Username);
             TradingDeal existing_deal = _tradingDealsDao.SelectDealById(_dealId);
+
+            if (existing_deal == null)
+            {
+                string payload1 = "The provided deal ID was not found";
+                response = new HttpResponse(StatusCode.NotFound, payload1);
+                return response;
+            }
+
             if (!userCards.Contains(existing_deal.CardToTrade))
             {
                 payload = "The deal contains a card that is not owned by the user";
                 response = new HttpResponse(StatusCode.Forbidden, payload);
                 return response;
             }
-            if (existing_deal.Id == null)
-            {
-                string payload1 = "The provided deal ID was not found";
-                response = new HttpResponse(StatusCode.NotFound, payload1);
-                return response;
-            }
+
             //GOOD REQUEST
             //The deal is deleted and removed from the DB
             _tradingDealsDao.DeleteDeal(_dealId);

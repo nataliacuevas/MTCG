@@ -22,7 +22,7 @@ namespace MTCG.DAL
         {
             // This is not ideal, connection should stay open to allow a faster batch save mode
             // but for now it is ok
-            string connectionString = ConnectionString.Get();
+            string connectionString = "TODO"; // ConnectionString.Get();
             using (IDbConnection connection = new NpgsqlConnection(connectionString))
             {
                 using (IDbCommand command = connection.CreateCommand())
@@ -60,7 +60,7 @@ namespace MTCG.DAL
         public ICard GetCardById(int id)
         {
 
-            string connectionString = ConnectionString.Get();
+            string connectionString = "TODO"; // ConnectionString.Get();
 
             using (IDbConnection connection = new NpgsqlConnection(connectionString))
             {
@@ -103,7 +103,7 @@ namespace MTCG.DAL
         }
         private static void EnsureTables()
         {
-            string connectionString = ConnectionString.Get();
+            string connectionString = "TODO";
             using (IDbConnection connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MTCG.HttpServer.Schemas
 {
-    internal class MarketDeal
+    public class MarketDeal
     {
         public string Id { get; set; }
         public string CardToSell { get; set; }

@@ -13,7 +13,7 @@ using System.Data;
 
 namespace MTCG.API.Routing.Users
 {
-    internal class RegisterCommand : IRouteCommand
+    public class RegisterCommand : IRouteCommand
     {
 
     

@@ -10,7 +10,7 @@ using MTCG.Models;
 
 namespace MTCG.DAL
 {
-    internal class DatabaseCardDao
+    public class DatabaseCardDao
     {
         private const string CreateCardTableCommand = @"CREATE TABLE IF NOT EXISTS cards (id varchar PRIMARY KEY, name varchar, damage float);";
        // private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image FROM users";
@@ -133,10 +133,9 @@ namespace MTCG.DAL
             }
             return cards;
         }
-        private static void EnsureTables()
+        private void EnsureTables()
         {
-            string connectionString = ConnectionString.Get();
-            using var connection = new NpgsqlConnection(connectionString);
+            using var connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             using var cmd = new NpgsqlCommand(CreateCardTableCommand, connection);
             cmd.ExecuteNonQuery();

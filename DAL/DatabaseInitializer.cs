@@ -17,7 +17,7 @@ namespace MTCG.DAL
         public static void InitializeCleanDatabase()
 
         {
-            string connectionString = ConnectionString.Get();
+            string connectionString = "TODO"; // ConnectionString.Get();
 
             var builder = new NpgsqlConnectionStringBuilder(connectionString);
 

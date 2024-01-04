@@ -9,7 +9,7 @@ using MTCG.HttpServer.Request;
 
 namespace MTCG.API.Routing
 {
-    internal class IdentityProvider
+    public class IdentityProvider
     {
         private readonly DatabaseUserDao _databaseUserDao;
 

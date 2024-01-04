@@ -10,7 +10,7 @@ using MTCG.DAL;
 
 namespace MTCG.HttpServer
 {
-    internal class ClientHandler
+    public class ClientHandler
     {
        Socket _clientSocket;
        public ClientHandler(Socket clientSock)

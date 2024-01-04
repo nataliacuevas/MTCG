@@ -10,7 +10,7 @@ using System.Xml.XPath;
 
 namespace MTCG.HttpServer
 {
-    internal class HttpParser
+    public class HttpParser
     {
         public bool IsValid { get; private set; }
         public List<string> Path { get; private set; }

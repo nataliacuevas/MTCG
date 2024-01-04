@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MTCG.HttpServer.Request
 {
-    internal enum HttpMethod
+    public enum HttpMethod
     {
         Options, // required for CORS(sent by swagger)
         Get,

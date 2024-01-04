@@ -27,7 +27,7 @@ using MTCG.HttpServer;
 
 namespace MTCG.API.Routing
 {
-    internal class RequestRouter
+    public class RequestRouter
     {
         private readonly DatabaseUserDao _databaseUserDao;
         private readonly DatabaseCardDao _databaseCardDao;

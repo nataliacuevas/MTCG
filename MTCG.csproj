@@ -131,7 +131,6 @@
     <Compile Include="BLL\UserNotFoundException.cs" />
     <Compile Include="Classes\Battle.cs" />
     <Compile Include="Classes\UserTable.cs" />
-    <Compile Include="DAL\ConnectionString.cs" />
     <Compile Include="DAL\DatabaseCardDao.cs" />
     <Compile Include="DAL\DatabaseMarketDealsDao.cs" />
     <Compile Include="DAL\DatabasePackagesDao.cs" />

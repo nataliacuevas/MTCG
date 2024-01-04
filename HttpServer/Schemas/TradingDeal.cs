@@ -10,7 +10,7 @@ using static System.Net.Mime.MediaTypeNames;
 namespace MTCG.HttpServer.Schemas
 {
 
-    internal class TradingDeal
+    public class TradingDeal
     {
         public string Id {  get; set; }
         public string CardToTrade {  get; set; }
