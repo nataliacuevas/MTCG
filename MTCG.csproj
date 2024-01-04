@@ -136,6 +136,7 @@
     <Compile Include="DAL\DatabasePackagesDao.cs" />
     <Compile Include="DAL\DatabaseStacksDao.cs" />
     <Compile Include="DAL\DatabaseTradingDealsDao.cs" />
+    <Compile Include="DAL\InMemoryBattleLobbyDao.cs" />
     <Compile Include="DAL\OLDDatabaseCardDao.cs" />
     <Compile Include="DAL\DatabaseElementTypeDao.cs" />
     <Compile Include="DAL\DatabaseInitializer.cs" />

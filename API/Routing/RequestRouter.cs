@@ -35,10 +35,11 @@ namespace MTCG.API.Routing
         private readonly DatabaseStacksDao _databaseStacksDao;
         private readonly DatabaseTradingDealsDao _databaseTradingDealsDao;
         private readonly DatabaseMarketDealsDao _databaseMarketDealsDao;
+        private readonly InMemoryBattleLobbyDao _inMemoryBattleLobbyDao;
         private readonly IdentityProvider _identityProvider;
         private readonly IdRouteParser _routeParser;
 
-        public RequestRouter(DatabaseUserDao userDao, DatabaseCardDao cardDao, DatabasePackagesDao packagesDao, DatabaseStacksDao databaseStacksDao, DatabaseTradingDealsDao databaseTradingDealsDao, DatabaseMarketDealsDao databaseMarketDealsDao)
+        public RequestRouter(DatabaseUserDao userDao, DatabaseCardDao cardDao, DatabasePackagesDao packagesDao, DatabaseStacksDao databaseStacksDao, DatabaseTradingDealsDao databaseTradingDealsDao, DatabaseMarketDealsDao databaseMarketDealsDao, InMemoryBattleLobbyDao inMemoryBattleLobbyDao)
         {
             _databaseUserDao = userDao;
             _databaseCardDao = cardDao;
@@ -48,6 +49,7 @@ namespace MTCG.API.Routing
             _databaseStacksDao = databaseStacksDao;
             _databaseTradingDealsDao = databaseTradingDealsDao;
             _databaseMarketDealsDao = databaseMarketDealsDao;
+            _inMemoryBattleLobbyDao = inMemoryBattleLobbyDao;
         }
 
         public IRouteCommand Resolve(HttpRequest request)
@@ -84,7 +86,7 @@ namespace MTCG.API.Routing
                     { Method: HttpMethod.Post, ResourcePath: "/transactions/packages" } => new AcquireCardPackageCommand(_databaseCardDao, _databasePackagesDao, _databaseStacksDao, _databaseUserDao, GetIdentity(request)),
                     { Method: HttpMethod.Get, ResourcePath: "/stats" } => new RetrieveUserStatsCommand(GetIdentity(request)),
                     { Method: HttpMethod.Get, ResourcePath: "/scoreboard" } => new RetrieveScoreboardCommand(_databaseUserDao, GetIdentity(request)),
-                    { Method: HttpMethod.Post, ResourcePath: "/battles" } => new  EnterToLobbyForBattleCommand(_databaseCardDao, _databaseStacksDao, _databaseUserDao, GetIdentity(request)),
+                    { Method: HttpMethod.Post, ResourcePath: "/battles" } => new  EnterToLobbyForBattleCommand(_databaseCardDao, _databaseStacksDao, _databaseUserDao, GetIdentity(request), _inMemoryBattleLobbyDao),
                     { Method: HttpMethod.Get, ResourcePath: "/tradings" } => new SelectAllDealsCommand(_databaseTradingDealsDao, GetIdentity(request)),
                     { Method: HttpMethod.Post, ResourcePath: "/tradings" } => new CreateDealCommand(_databaseStacksDao, _databaseTradingDealsDao, GetIdentity(request), JsonNet.Deserialize<TradingDeal>(request.Payload)),
                     { Method: HttpMethod.Delete, ResourcePath: var path } when tradingRoute(path) => new DeleteDealCommand(_databaseStacksDao, _databaseTradingDealsDao, GetIdentity(request), matchTradingId(path)),

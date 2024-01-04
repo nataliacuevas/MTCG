@@ -19,19 +19,21 @@ namespace MTCG.API.Routing.Battles
         private DatabaseStacksDao _stacksDao;
         private DatabaseUserDao _userDao;
         private User _user;
+        private InMemoryBattleLobbyDao _inMemoryBattleLobbyDao;
 
-        public EnterToLobbyForBattleCommand(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, DatabaseUserDao userDao, User user)
+        public EnterToLobbyForBattleCommand(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, DatabaseUserDao userDao, User user, InMemoryBattleLobbyDao inMemoryBattleLobbyDao)
         {
             _cardDao = cardDao;
             _stacksDao = stacksDao;
             _userDao = userDao;
             _user = user;
+            _inMemoryBattleLobbyDao = inMemoryBattleLobbyDao;
         }
 
         public HttpResponse Execute()
         {
             HttpResponse response;
-
+            _inMemoryBattleLobbyDao.AddToLobby(_user.Username);
             response = new HttpResponse(StatusCode.Accepted);
 
             return response;

@@ -31,9 +31,12 @@ namespace MTCG
             var stacksDao = new DatabaseStacksDao(connectionString);
             var tradingDao = new DatabaseTradingDealsDao(connectionString);
             var marketDao = new DatabaseMarketDealsDao(connectionString);
+            var inMemoryBattleLobbyDao = new InMemoryBattleLobbyDao();
 
-            var router = new RequestRouter(userDao, cardDao, packagesDao, stacksDao, tradingDao, marketDao);
+            var router = new RequestRouter(userDao, cardDao, packagesDao, stacksDao, tradingDao, marketDao, inMemoryBattleLobbyDao);
             var server = new HttpServer.HttpServer(router, IPAddress.Any, 10001);
+
+
             server.Start();
         }
         // ************************************* old things ***************************************
