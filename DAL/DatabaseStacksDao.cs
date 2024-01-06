@@ -1,4 +1,5 @@
-﻿using MTCG.HttpServer.Schemas;
+﻿using MTCG.DAL.Interfaces;
+using MTCG.HttpServer.Schemas;
 using MTCG.Models;
 using Npgsql;
 using System;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MTCG.DAL
 {
-    public class DatabaseStacksDao
+    public class DatabaseStacksDao : IStacksDao
     {
         private const string CreateStacksTableCommand = @"CREATE TABLE IF NOT EXISTS stacks (username varchar REFERENCES users(username), card_id varchar REFERENCES cards(id), in_deck boolean DEFAULT FALSE,  PRIMARY KEY (username, card_id));";
         private const string InsertCardsCommand = @"INSERT INTO stacks(username, card_id) VALUES (@username, @card_id)";

@@ -1,5 +1,5 @@
 ﻿using MTCG.BLL;
-using MTCG.DAL;
+using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.Users
 {
-    internal class LoginCommand : IRouteCommand
+    public class LoginCommand : IRouteCommand
     {
-        private readonly DatabaseUserDao _dbUserDao;
+        private readonly IUserDao _dbUserDao;
         private readonly UserCredentials _credentials;
 
-        public LoginCommand(DatabaseUserDao dbUserDao, UserCredentials credentials)
+        public LoginCommand(IUserDao dbUserDao, UserCredentials credentials)
         {
             _credentials = credentials;
             _dbUserDao = dbUserDao;

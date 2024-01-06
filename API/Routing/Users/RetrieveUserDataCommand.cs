@@ -11,17 +11,18 @@ using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
+using MTCG.DAL.Interfaces;
 
 namespace MTCG.API.Routing.Users
 
 
 {
-    internal class RetrieveUserDataCommand : IRouteCommand
+    public class RetrieveUserDataCommand : IRouteCommand
     {
-        private readonly DatabaseUserDao _dbUserDao;
+        private readonly IUserDao _dbUserDao;
         private readonly User _user;
         private readonly string _username;
-        public RetrieveUserDataCommand(DatabaseUserDao dbUserDao, User user, String username) 
+        public RetrieveUserDataCommand(IUserDao dbUserDao, User user, String username) 
         {
             _dbUserDao = dbUserDao;
             _user = user;

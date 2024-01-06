@@ -11,7 +11,7 @@ using MTCG.HttpServer.Schemas;
 
 namespace MTCG.BLL
 {
-    class MonsterLogic : CardLogic, IMonster
+    public class MonsterLogic : CardLogic, IMonster
     {
         public MonsterType Mtype { get; }
         public MonsterLogic(string name, ElementType type, double damage, MonsterType mtype) : base(name, type, damage)

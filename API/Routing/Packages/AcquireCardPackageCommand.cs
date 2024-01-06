@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MTCG.API.Routing;
 using MTCG.DAL;
+using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
@@ -13,15 +14,15 @@ using MTCG.Models;
 
 namespace MTCG.API.Routing.Packages
 {
-    internal class AcquireCardPackageCommand : IRouteCommand
+    public class AcquireCardPackageCommand : IRouteCommand
     {
-        private readonly DatabasePackagesDao _dbPackagesDao;
-        private DatabaseCardDao _cardDao;
-        private DatabaseStacksDao _stacksDao;
-        private DatabaseUserDao _userDao;
+        private readonly IPackagesDao _dbPackagesDao;
+        private readonly ICardDao _cardDao;
+        private readonly IStacksDao _stacksDao;
+        private readonly IUserDao _userDao;
         private readonly User _user;
 
-        public AcquireCardPackageCommand(DatabaseCardDao cardDao, DatabasePackagesDao databasePackagesDao, DatabaseStacksDao stacksDao, DatabaseUserDao userDao, User user)
+        public AcquireCardPackageCommand(ICardDao cardDao, IPackagesDao databasePackagesDao, IStacksDao stacksDao, IUserDao userDao, User user)
         {
             _cardDao = cardDao;
             _user = user;

@@ -9,17 +9,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MTCG.DAL.Interfaces;
 
 namespace MTCG.API.Routing.Deck
 {
-    internal class ListUserDeckCommand : IRouteCommand
+    public class ListUserDeckCommand : IRouteCommand
     {
 
         private readonly User _user;
-        private readonly DatabaseCardDao _cardDao;
-        private DatabaseStacksDao _stacksDao;
-        private string _format;
-        public ListUserDeckCommand(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, User user, string format)
+        private readonly ICardDao _cardDao;
+        private readonly IStacksDao _stacksDao;
+        private readonly string _format;
+        public ListUserDeckCommand(ICardDao cardDao, IStacksDao stacksDao, User user, string format)
         {
             _cardDao = cardDao;
             _stacksDao = stacksDao;

@@ -105,6 +105,7 @@
     <Compile Include="API\Routing\Deck\ListUserDeckCommand.cs" />
     <Compile Include="API\Routing\IdentityProvider.cs" />
     <Compile Include="API\Routing\IdRouteParser.cs" />
+    <Compile Include="API\Routing\IIdentityProvider.cs" />
     <Compile Include="API\Routing\MarketDeals\CreateMarketDealCommand.cs" />
     <Compile Include="API\Routing\MarketDeals\DeleteMarketDealCommand.cs" />
     <Compile Include="API\Routing\MarketDeals\SealMarketDealCommand.cs" />
@@ -137,6 +138,13 @@
     <Compile Include="DAL\DatabaseStacksDao.cs" />
     <Compile Include="DAL\DatabaseTradingDealsDao.cs" />
     <Compile Include="DAL\InMemoryBattleLobbyDao.cs" />
+    <Compile Include="DAL\Interfaces\ICardDao.cs" />
+    <Compile Include="DAL\Interfaces\IInMemoryBattleLobbyDao.cs" />
+    <Compile Include="DAL\Interfaces\IMarketDao.cs" />
+    <Compile Include="DAL\Interfaces\IPackagesDao.cs" />
+    <Compile Include="DAL\Interfaces\IStacksDao.cs" />
+    <Compile Include="DAL\Interfaces\ITradingsDao.cs" />
+    <Compile Include="DAL\Interfaces\IUserDao.cs" />
     <Compile Include="DAL\OLDDatabaseCardDao.cs" />
     <Compile Include="DAL\DatabaseElementTypeDao.cs" />
     <Compile Include="DAL\DatabaseInitializer.cs" />

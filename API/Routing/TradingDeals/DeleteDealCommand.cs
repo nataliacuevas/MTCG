@@ -1,4 +1,5 @@
 ﻿using MTCG.DAL;
+using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
@@ -11,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.TradingDeals
 {
-    internal class DeleteDealCommand : IRouteCommand
+    public class DeleteDealCommand : IRouteCommand
     {
         private readonly User _user;
-        private readonly DatabaseStacksDao _stacksDao;
-        private readonly DatabaseTradingDealsDao _tradingDealsDao;
+        private readonly IStacksDao _stacksDao;
+        private readonly ITradingsDao _tradingDealsDao;
         private readonly string _dealId;
 
-        public DeleteDealCommand(DatabaseStacksDao stacksDao, DatabaseTradingDealsDao tradingDealsDao, User user, string dealId)
+        public DeleteDealCommand(IStacksDao stacksDao, ITradingsDao tradingDealsDao, User user, string dealId)
         {
             _user = user;
             _stacksDao = stacksDao;

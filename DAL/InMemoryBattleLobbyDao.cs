@@ -9,18 +9,19 @@ using MTCG.DAL;
 using MTCG.HttpServer.Schemas;
 using MTCG.BLL;
 using MTCG.Models;
+using MTCG.DAL.Interfaces;
 using System.Runtime.CompilerServices;
 
 namespace MTCG.DAL
 {
 
-    public class InMemoryBattleLobbyDao
+    public class InMemoryBattleLobbyDao : IInMemoryBattleLobbyDao
     {
         private string _otherUsername;
         private string _fightLog;
         // When false, the lock is reset and the threads wait and sleep
         // When true, the lock is set, and the threads can go through
-        private ManualResetEvent _IPClocker = new ManualResetEvent(false);
+        private readonly ManualResetEvent _IPClocker = new ManualResetEvent(false);
         private readonly object _firstLock = new object();
         private readonly object _secondLock = new object();
         //we hold a reference to the DB objects to abtain the deck from the username

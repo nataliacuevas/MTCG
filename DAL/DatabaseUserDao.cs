@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 using Json.Net;
 using MTCG.BLL;
 using System.Net;
+using MTCG.DAL.Interfaces;
 
 namespace MTCG.DAL
 {
-    public class DatabaseUserDao
+    public class DatabaseUserDao : IUserDao
     {
         private const string CreateUserTableCommand = @"CREATE TABLE IF NOT EXISTS users (username varchar PRIMARY KEY, password varchar, name varchar DEFAULT '', bio varchar DEFAULT '', image varchar DEFAULT '', coins int DEFAULT 20, elo int DEFAULT 100, wins int DEFAULT 0, losses int DEFAULT 0);";
         private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image, coins, elo, wins, losses FROM users ORDER BY elo DESC";
@@ -186,7 +187,7 @@ namespace MTCG.DAL
                 Console.WriteLine("No rows were updated. User may not exist or data is the same.");
             }
         }
-        public void EnsureTables()
+        private void EnsureTables()
         {
             using var connection = new NpgsqlConnection(_connectionString);
             connection.Open();

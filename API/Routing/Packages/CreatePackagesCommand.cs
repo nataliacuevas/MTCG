@@ -1,4 +1,5 @@
 ﻿using MTCG.DAL;
+using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.API.Routing.Packages;
@@ -17,13 +18,13 @@ namespace MTCG.API.Routing.Packages
     internal class CreatePackagesCommand :IRouteCommand
     {
 
-        private readonly DatabasePackagesDao _dbPackagesDao;
-        private DatabaseCardDao _cardDao;
+        private readonly IPackagesDao _dbPackagesDao;
+        private readonly ICardDao _cardDao;
         private readonly User _user;
         private readonly List<Card> _cards;
 
 
-        public CreatePackagesCommand(DatabaseCardDao cardDao, DatabasePackagesDao databasePackagesDao, User user, List<Card> packagesContent)
+        public CreatePackagesCommand(ICardDao cardDao, IPackagesDao databasePackagesDao, User user, List<Card> packagesContent)
         {
             _cardDao = cardDao;
             _user = user;

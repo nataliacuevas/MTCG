@@ -10,18 +10,19 @@ using MTCG.DAL;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Response;
 using MTCG.Models;
+using MTCG.DAL.Interfaces;
 
 namespace MTCG.API.Routing.Battles
 {
-    internal class EnterToLobbyForBattleCommand : IRouteCommand
+    public class EnterToLobbyForBattleCommand : IRouteCommand
     {
-        private DatabaseCardDao _cardDao;
-        private DatabaseStacksDao _stacksDao;
-        private DatabaseUserDao _userDao;
-        private User _user;
-        private InMemoryBattleLobbyDao _inMemoryBattleLobbyDao;
+        private readonly ICardDao _cardDao;
+        private readonly IStacksDao _stacksDao;
+        private readonly IUserDao _userDao;
+        private readonly User _user;
+        private readonly IInMemoryBattleLobbyDao _inMemoryBattleLobbyDao;
 
-        public EnterToLobbyForBattleCommand(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, DatabaseUserDao userDao, User user, InMemoryBattleLobbyDao inMemoryBattleLobbyDao)
+        public EnterToLobbyForBattleCommand(ICardDao cardDao, IStacksDao stacksDao, IUserDao userDao, User user, IInMemoryBattleLobbyDao inMemoryBattleLobbyDao)
         {
             _cardDao = cardDao;
             _stacksDao = stacksDao;

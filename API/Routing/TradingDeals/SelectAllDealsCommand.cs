@@ -1,5 +1,6 @@
 ﻿using Json.Net;
 using MTCG.DAL;
+using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Schemas;
 using MTCG.HttpServer.Routing;
@@ -12,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.TradingDeals
 {
-    internal class SelectAllDealsCommand : IRouteCommand
+    public class SelectAllDealsCommand : IRouteCommand
     {
         private readonly User _user;
-        private readonly DatabaseTradingDealsDao _tradingDealsDao;
+        private readonly ITradingsDao _tradingDealsDao;
 
-        public SelectAllDealsCommand(DatabaseTradingDealsDao databaseTradingDealsDao, User user)
+        public SelectAllDealsCommand(ITradingsDao databaseTradingDealsDao, User user)
         {
             //user only used for the GetIdentity function
             _user = user;

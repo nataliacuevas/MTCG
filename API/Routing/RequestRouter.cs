@@ -22,24 +22,23 @@ using MTCG.API.Routing.TradingDeals;
 using MTCG.API.Routing.MarketDeals;
 using Json.Net;
 using MTCG.HttpServer;
-
-
+using MTCG.DAL.Interfaces;
 
 namespace MTCG.API.Routing
 {
     public class RequestRouter
     {
-        private readonly DatabaseUserDao _databaseUserDao;
-        private readonly DatabaseCardDao _databaseCardDao;
-        private readonly DatabasePackagesDao _databasePackagesDao;
-        private readonly DatabaseStacksDao _databaseStacksDao;
-        private readonly DatabaseTradingDealsDao _databaseTradingDealsDao;
-        private readonly DatabaseMarketDealsDao _databaseMarketDealsDao;
-        private readonly InMemoryBattleLobbyDao _inMemoryBattleLobbyDao;
+        private readonly IUserDao _databaseUserDao;
+        private readonly ICardDao _databaseCardDao;
+        private readonly IPackagesDao _databasePackagesDao;
+        private readonly IStacksDao _databaseStacksDao;
+        private readonly ITradingsDao _databaseTradingDealsDao;
+        private readonly IMarketDao _databaseMarketDealsDao;
+        private readonly IInMemoryBattleLobbyDao _inMemoryBattleLobbyDao;
         private readonly IdentityProvider _identityProvider;
         private readonly IdRouteParser _routeParser;
 
-        public RequestRouter(DatabaseUserDao userDao, DatabaseCardDao cardDao, DatabasePackagesDao packagesDao, DatabaseStacksDao databaseStacksDao, DatabaseTradingDealsDao databaseTradingDealsDao, DatabaseMarketDealsDao databaseMarketDealsDao, InMemoryBattleLobbyDao inMemoryBattleLobbyDao)
+        public RequestRouter(IUserDao userDao, ICardDao cardDao, IPackagesDao packagesDao, IStacksDao databaseStacksDao, ITradingsDao databaseTradingDealsDao, IMarketDao databaseMarketDealsDao, IInMemoryBattleLobbyDao inMemoryBattleLobbyDao)
         {
             _databaseUserDao = userDao;
             _databaseCardDao = cardDao;

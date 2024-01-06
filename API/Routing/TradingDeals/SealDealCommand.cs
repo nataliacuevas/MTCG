@@ -1,4 +1,5 @@
 ﻿using MTCG.DAL;
+using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
@@ -11,16 +12,16 @@ using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.TradingDeals
 {
-    internal class SealDealCommand : IRouteCommand
+    public class SealDealCommand : IRouteCommand
     {
         private readonly User _user;
-        private readonly DatabaseStacksDao _stacksDao;
-        private readonly DatabaseTradingDealsDao _tradingDealsDao;
-        private readonly DatabaseCardDao _cardDao;
+        private readonly IStacksDao _stacksDao;
+        private readonly ITradingsDao _tradingDealsDao;
+        private readonly ICardDao _cardDao;
         private readonly string _dealId;
         private readonly string _offeredCardId;  
 
-        public SealDealCommand(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, DatabaseTradingDealsDao tradingDealsDao, User user, string dealId, string offeredCardId)
+        public SealDealCommand(ICardDao cardDao, IStacksDao stacksDao, ITradingsDao tradingDealsDao, User user, string dealId, string offeredCardId)
         {
             _cardDao = cardDao;
             _user = user;

@@ -9,16 +9,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MTCG.DAL.Interfaces;
 
 namespace MTCG.API.Routing.Cards
 {
-    internal class ListUserCardsCommand : IRouteCommand
+    public class ListUserCardsCommand : IRouteCommand
     {
 
         private readonly User _user;
-        private readonly DatabaseCardDao _cardDao;
-        private DatabaseStacksDao _stacksDao;
-        public ListUserCardsCommand(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, User user)
+        private readonly ICardDao _cardDao;
+        private readonly IStacksDao _stacksDao;
+        public ListUserCardsCommand(ICardDao cardDao, IStacksDao stacksDao, User user)
         {
             _cardDao = cardDao;
             _stacksDao = stacksDao;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MTCG.BLL
 {
-    internal class UserNotFoundException : Exception
+    public class UserNotFoundException : Exception
     {
         public UserNotFoundException() { }
 

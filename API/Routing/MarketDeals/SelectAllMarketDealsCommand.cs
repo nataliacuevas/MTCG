@@ -1,5 +1,6 @@
 ﻿using Json.Net;
 using MTCG.DAL;
+using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
@@ -12,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.MarketDeals
 {
-    internal class SelectAllMarketDealsCommand : IRouteCommand
+    public class SelectAllMarketDealsCommand : IRouteCommand
     {
         private readonly User _user;
-        private readonly DatabaseMarketDealsDao _marketDealsDao;
+        private readonly IMarketDao _marketDealsDao;
 
-        public SelectAllMarketDealsCommand(DatabaseMarketDealsDao databaseMarketDealsDao, User user)
+        public SelectAllMarketDealsCommand(IMarketDao databaseMarketDealsDao, User user)
         {
             //user only used for the GetIdentity function
             _user = user;

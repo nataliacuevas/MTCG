@@ -1,4 +1,5 @@
 ﻿using MTCG.DAL;
+using MTCG.DAL.Interfaces;
 using MTCG.Models;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,11 @@ using MTCG.HttpServer.Request;
 
 namespace MTCG.API.Routing
 {
-    public class IdentityProvider
+    public class IdentityProvider : IIdentityProvider
     {
-        private readonly DatabaseUserDao _databaseUserDao;
+        private readonly IUserDao _databaseUserDao;
 
-        public IdentityProvider(DatabaseUserDao databaseUserDao)
+        public IdentityProvider(IUserDao databaseUserDao)
         {
             _databaseUserDao = databaseUserDao;
         }

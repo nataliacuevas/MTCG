@@ -8,10 +8,11 @@ using MTCG.API.Routing.TradingDeals;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
 using System.Data;
+using MTCG.DAL.Interfaces;
 
 namespace MTCG.DAL
 {
-    public class DatabaseTradingDealsDao
+    public class DatabaseTradingDealsDao : ITradingsDao
     {
         private const string CreateDealsTableCommand = @"CREATE TABLE IF NOT EXISTS tradingDeals (deal_id varchar PRIMARY KEY, card_id varchar REFERENCES cards(id), card_type varchar, minimum_damage float);";
         private const string SelectAllDealsCommand = @"SELECT deal_id, card_id, card_type, minimum_damage FROM tradingDeals";

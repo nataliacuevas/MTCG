@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MTCG.HttpServer
 {
     [Serializable]
-    internal class RouteNotAuthenticatedException : Exception
+    public class RouteNotAuthenticatedException : Exception
     {
         public RouteNotAuthenticatedException()
         {

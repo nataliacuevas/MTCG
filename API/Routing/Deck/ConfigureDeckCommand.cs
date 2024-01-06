@@ -10,15 +10,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MTCG.DAL.Interfaces;
 
 namespace MTCG.API.Routing.Deck
 {
     internal class ConfigureDeckCommand : IRouteCommand
     {
         private readonly User _user;
-        private DatabaseStacksDao _stacksDao;
-        private List<string> _cardsIds;
-        public ConfigureDeckCommand(DatabaseStacksDao stacksDao, User user, List<string> cardsIds)
+        private readonly IStacksDao _stacksDao;
+        private readonly List<string> _cardsIds;
+        public ConfigureDeckCommand(IStacksDao stacksDao, User user, List<string> cardsIds)
         {
             _stacksDao = stacksDao;
             _user = user;

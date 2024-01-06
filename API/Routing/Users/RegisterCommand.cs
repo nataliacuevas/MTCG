@@ -1,4 +1,5 @@
 ﻿using MTCG.DAL;
+using MTCG.DAL.Interfaces;
 //using MTCG.HttpServer;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
@@ -17,10 +18,10 @@ namespace MTCG.API.Routing.Users
     {
 
     
-        private readonly DatabaseUserDao _dbUserDao;
+        private readonly IUserDao _dbUserDao;
         private readonly UserCredentials _credentials;
 
-        public RegisterCommand(DatabaseUserDao dbUserDao, UserCredentials credentials)
+        public RegisterCommand(IUserDao dbUserDao, UserCredentials credentials)
         {
             _dbUserDao = dbUserDao;
             _credentials = credentials;

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.Stats
 {
-    internal class RetrieveUserStatsCommand : IRouteCommand
+    public class RetrieveUserStatsCommand : IRouteCommand
     {
         private readonly User _user;
         public RetrieveUserStatsCommand(User user) 

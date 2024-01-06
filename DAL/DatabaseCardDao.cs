@@ -7,10 +7,11 @@ using System.Text;
 using System.Data;
 using System.Threading.Tasks;
 using MTCG.Models;
+using MTCG.DAL.Interfaces;
 
 namespace MTCG.DAL
 {
-    public class DatabaseCardDao
+    public class DatabaseCardDao : ICardDao
     {
         private const string CreateCardTableCommand = @"CREATE TABLE IF NOT EXISTS cards (id varchar PRIMARY KEY, name varchar, damage float);";
        // private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image FROM users";
@@ -23,7 +24,7 @@ namespace MTCG.DAL
             _connectionString = connectionString;
             EnsureTables();
         }
-
+        //ERASE IF NOT USED
         public void CreateCard(Card card)
         {
             using var connection = new NpgsqlConnection(_connectionString);

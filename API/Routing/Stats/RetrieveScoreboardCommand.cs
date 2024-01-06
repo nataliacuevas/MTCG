@@ -1,5 +1,6 @@
 ﻿using Json.Net;
 using MTCG.DAL;
+using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
@@ -12,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.Stats
 {
-    internal class RetrieveScoreboardCommand : IRouteCommand
+    public class RetrieveScoreboardCommand : IRouteCommand
     {
         private readonly User _user;
-        private DatabaseUserDao _userDao;
+        private readonly IUserDao _userDao;
 
-        public RetrieveScoreboardCommand(DatabaseUserDao userdao, User user)
+        public RetrieveScoreboardCommand(IUserDao userdao, User user)
         {
             _user = user;
             _userDao = userdao;
@@ -29,7 +30,7 @@ namespace MTCG.API.Routing.Stats
             //The SQL query sorts by ELO
             IEnumerable<User> allUsers = _userDao.GetAllUsers();
 
-            List<UserStats> allUsersStats = new List<UserStats>();
+            var allUsersStats = new List<UserStats>();
 
             foreach (User user in allUsers)
             {

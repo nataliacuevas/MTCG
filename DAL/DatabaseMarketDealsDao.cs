@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MTCG.HttpServer.Schemas;
+using MTCG.DAL.Interfaces;
 using MTCG.API.Routing.MarketDeals;
 using MTCG.API.Routing.TradingDeals;
 using System.Data;
 
 namespace MTCG.DAL
 {
-    public class DatabaseMarketDealsDao
+    public class DatabaseMarketDealsDao : IMarketDao
     {
 
         private const string CreateMarketDealsTableCommand = @"CREATE TABLE IF NOT EXISTS marketDeals (marketdeal_id varchar PRIMARY KEY, card_id varchar REFERENCES cards(id), price float);";
