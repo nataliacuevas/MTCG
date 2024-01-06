@@ -11,6 +11,6 @@ namespace MTCG.Interfaces
     {
         string Name { get; }
         ElementType Type { get; }
-        int Damage { get; }
+        double Damage { get; }
     }
 }

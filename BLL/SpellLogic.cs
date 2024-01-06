@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
 using MTCG.Interfaces;
+using MTCG.HttpServer.Schemas;
 
 namespace MTCG.BLL
 {
     class SpellLogic : CardLogic, ISpell
     {
-        public SpellLogic(string name, ElementType type, int damage) : base(name, type, damage) { }
+        public SpellLogic(string name, ElementType type, double damage) : base(name, type, damage) { }
+        public SpellLogic(Card cardSchema) : base(cardSchema) { }
         public override void Print()
         {
             Console.WriteLine("Spell Card Name: {0}, Element Type:  {1}, Damage: {2}", Name, Type, Damage);
         }
 
-        public override (string, int) DamageModifier(CardLogic other)
+        public override (string, double) DamageModifier(CardLogic other)
         {
             if (other is MonsterLogic)
             {

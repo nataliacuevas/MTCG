@@ -13,9 +13,9 @@ namespace MTCG.Models
     {
         public string Name { get; }
         public ElementType Type { get; }
-        public int Damage { get; }
+        public double Damage { get; }
 
-        public OldCard(string name, ElementType type, int damage)
+        public OldCard(string name, ElementType type, double damage)
         {
             Name = name;
             Type = type;

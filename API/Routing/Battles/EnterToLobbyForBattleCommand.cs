@@ -32,9 +32,17 @@ namespace MTCG.API.Routing.Battles
 
         public HttpResponse Execute()
         {
+            string payload;
             HttpResponse response;
-            _inMemoryBattleLobbyDao.AddToLobby(_user.Username);
-            response = new HttpResponse(StatusCode.Accepted);
+            List<string> deck = _stacksDao.SelectCardsInDeckByUsername(_user.Username);
+            if (deck.Count == 0)
+            {
+                payload = "not possible to battle without a configured deck";
+                response = new HttpResponse(StatusCode.Forbidden, payload);
+                return response;
+            }
+            payload = _inMemoryBattleLobbyDao.AddToLobby(_user.Username);
+            response = new HttpResponse(StatusCode.Accepted, payload);
 
             return response;
         }

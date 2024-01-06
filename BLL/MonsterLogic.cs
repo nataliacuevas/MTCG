@@ -7,15 +7,32 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
+using MTCG.HttpServer.Schemas;
 
 namespace MTCG.BLL
 {
     class MonsterLogic : CardLogic, IMonster
     {
         public MonsterType Mtype { get; }
-        public MonsterLogic(string name, ElementType type, int damage, MonsterType mtype) : base(name, type, damage)
+        public MonsterLogic(string name, ElementType type, double damage, MonsterType mtype) : base(name, type, damage)
         {
             Mtype = mtype;
+        }
+        public MonsterLogic(Card cardSchema) : base(cardSchema) 
+        {
+            Mtype = DeduceMonsterType(cardSchema.Name);
+        }
+        private MonsterType DeduceMonsterType(string name)
+        {
+            if (name.Contains("Goblin")) { return MonsterType.Goblin; }
+            else if (name.Contains("Dragon")) { return MonsterType.Dragon; }
+            else if (name.Contains("Wizard")) { return MonsterType.Wizard; }
+            else if (name.Contains("Ork")) { return MonsterType.Orc; }
+            else if (name.Contains("Knight")) { return MonsterType.Knight; }
+            else if (name.Contains("Kraken")) { return MonsterType.Kraken; }
+            else if (name.Contains("Elf")) { return MonsterType.Elf; }
+            else if (name.Contains("Troll")) { return MonsterType.Troll; }
+            else { throw new Exception("Cannot deduce Monster Type\n"); }
         }
 
         public override void Print()
@@ -23,7 +40,7 @@ namespace MTCG.BLL
             Console.WriteLine("Monster Card Name: {0}, Element Type:  {1}, Damage: {2}", Name, Type, Damage);
         }
 
-        public override (string, int) DamageModifier(CardLogic other)
+        public override (string, double) DamageModifier(CardLogic other)
         {
             if (other is MonsterLogic)
             {
@@ -57,7 +74,7 @@ namespace MTCG.BLL
                 else
                 {
                     // Normal case: ElementModifier handles all the elemental cases
-                    return ("", (int)(this.Damage * ElementLogic.ElementModifier(this.Type, other.Type)));
+                    return ("", (this.Damage * ElementLogic.ElementModifier(this.Type, other.Type)));
                 }
             }
             else

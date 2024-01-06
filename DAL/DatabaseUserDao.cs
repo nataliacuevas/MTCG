@@ -22,6 +22,7 @@ namespace MTCG.DAL
         private const string InsertUserCommand = @"INSERT INTO users(username, password) VALUES (@username, @password)";
         private const string UpdateUserDataCommand = @"UPDATE users SET name = @name, bio = @bio, image = @image WHERE username = @username";
         private const string UpdateUserCoinsCommand = @"UPDATE users SET coins = @coins WHERE username = @username";
+        private const string UpdateUserEloWinsLossesCommand = @"UPDATE users SET elo = @elo, wins = @wins, losses = @losses WHERE username = @username";
 
         private readonly string _connectionString;
         public DatabaseUserDao(string connectionString) 
@@ -161,9 +162,30 @@ namespace MTCG.DAL
 
             }
             return SelectUserByUsername(credentials.Username);
-
         }
 
+        public void UpdateEloWinsLosses(User user)
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            using var cmd = new NpgsqlCommand(UpdateUserEloWinsLossesCommand, connection);
+
+            cmd.Parameters.AddWithValue("username", user.Username);
+            cmd.Parameters.AddWithValue("elo", user.Elo);
+            cmd.Parameters.AddWithValue("wins", user.Wins);
+            cmd.Parameters.AddWithValue("losses", user.Losses);
+
+            var affectedRows = cmd.ExecuteNonQuery();
+            if (affectedRows > 0)
+            {
+                Console.WriteLine("User´s ELO/Wins/Losses updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("No rows were updated. User may not exist or data is the same.");
+            }
+        }
         public void EnsureTables()
         {
             using var connection = new NpgsqlConnection(_connectionString);

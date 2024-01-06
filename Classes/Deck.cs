@@ -5,17 +5,36 @@ using System.Text;
 using System.Threading.Tasks;
 using MTCG.Models;
 using MTCG.BLL;
+using MTCG.HttpServer.Schemas;
 
 namespace MTCG.Classes
 {
     public class Deck
     {
         private List<CardLogic> _cards = new List<CardLogic>();
+        private Random _random;
         public int Count { get; private set; }
 
         public Deck()
         {
             this.Count = 0;
+            _random = new Random();
+        }
+        public Deck(List<Card> cards)
+        {
+            foreach (var card in cards)
+            {
+                if (card.GetCardType() == "spell")
+                {
+                    _cards.Add(new SpellLogic(card));
+                }
+                else
+                {
+                    _cards.Add(new MonsterLogic(card));
+                }
+                this.Count = _cards.Count;
+            }
+            _random = new Random();
         }
 
         public void AddCard(CardLogic card)
@@ -51,9 +70,10 @@ namespace MTCG.Classes
         public CardLogic PopRandomCard()
         {
             // get a random index within range of the available cards
-            var random = new Random();
-            int index = random.Next(0, _cards.Count);
+
+            int index = _random.Next(0, _cards.Count);
             //get the card in the given index
+            
             CardLogic randomCard = _cards[index];
             //remove card from deck
             RemoveAt(index);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MTCG.BLL;
 using MTCG.Models;
@@ -22,7 +23,7 @@ namespace MTCG.Classes
         {
         }
 
-        public (string, Players?) Round(CardLogic cardOne, CardLogic cardTwo)
+        public (string, Players?) Round(CardLogic cardOne, CardLogic cardTwo, string userA, string userB)
         {
 
             //using deconstruction to get the output results
@@ -30,17 +31,17 @@ namespace MTCG.Classes
 
             var (description2, dmg2) = cardTwo.DamageModifier(cardOne);
 
-            string log = "PlayerA: " + cardOne.Type + cardOne.Name + "(" + cardOne.Damage + ") vs ";
-            log += "PlayerB: " + cardTwo.Type + cardTwo.Name + "(" + cardTwo.Damage + ") -> ";
-            log += description1 + description2 + " -> " +  dmg1.ToString() + " vs " + dmg2.ToString() + " -> ";
+            string log = userA + ": " + cardOne.Type + cardOne.Name + "(" + cardOne.Damage + ") vs ";
+            log += userB + ": " + cardTwo.Type + cardTwo.Name + "(" + cardTwo.Damage + ") \n    -> ";
+            log += description1 + description2 + " -> " +  dmg1.ToString() + " vs " + dmg2.ToString() + "\n    -> ";
 
             if (dmg1 > dmg2)
             {
-                return (log + cardOne.Name + " wins. ", Players.PlayerA);
+                return (log + cardOne.Name + " wins. (" + userA+ ")", Players.PlayerA);
             }
             else if (dmg1 < dmg2)
             {
-                return (log + cardTwo.Name + " wins. ", Players.PlayerB);
+                return (log + cardTwo.Name + " wins. (" + userB + ")", Players.PlayerB);
             }
             else
             {
@@ -48,7 +49,7 @@ namespace MTCG.Classes
             }
         }
 
-        public (string, Players?) Match(Deck deckA, Deck deckB)
+        public (string, Players?) Match(Deck deckA, Deck deckB, string userA, string userB)
         {
             //TODOO RANDOMIZE CARD
             string finaLog = "";
@@ -61,7 +62,8 @@ namespace MTCG.Classes
                 //method to get card out of list deck B
                 CardLogic cardA = deckA.PopRandomCard();
                 CardLogic cardB = deckB.PopRandomCard();
-                var(log, winner) = Round(cardA, cardB);
+                Console.WriteLine(cardA.Name + " vs " + cardB.Name + ": " + deckA.Count.ToString() + " vs " + deckB.Count.ToString());
+                var(log, winner) = Round(cardA, cardB, userA, userB);
                 finaLog += "\n" + log;
                 ++roundCounter;
                 if (winner == Players.PlayerA)
@@ -93,11 +95,11 @@ namespace MTCG.Classes
                 }
             }
             while(roundCounter < _maxRounds);
-            
+            // return null to indicate a draw
             return (finaLog, null);
         }
 
-        public string FinalMatchText(Players? winner)
+        public string FinalMatchText(Players? winner, string userA, string userB)
         {
             if (winner == null)
             {
@@ -105,7 +107,16 @@ namespace MTCG.Classes
             }
             else
             {
-                return "The winner of the Battle is " + winner.ToString();
+                string winnerUser;
+                if(winner == Players.PlayerA)
+                {
+                    winnerUser = userA;
+                }
+                else
+                {
+                    winnerUser = userB;
+                }
+                return "The winner of the Battle is " + winnerUser;
             }
         }
     }
