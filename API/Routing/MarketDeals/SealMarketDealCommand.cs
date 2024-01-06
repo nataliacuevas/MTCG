@@ -37,7 +37,7 @@ namespace MTCG.API.Routing.MarketDeals
             string payload;
             List<string> userCards = _stacksDao.SelectCardsByUsername(_user.Username);
             MarketDeal deal = _marketDealsDao.SelectMarketDealById(_dealId);
-            if (deal.Id == null)
+            if (deal == null)
             {
                 payload = "The provided market deal ID was not found\n";
                 response = new HttpResponse(StatusCode.NotFound, payload);

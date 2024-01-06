@@ -28,6 +28,7 @@ namespace MTCG.API.Routing.MarketDeals
         }
         public HttpResponse Execute()
         {
+            string payload;
             HttpResponse response;
             //Here we check if the price is non-positive
             if (!_deal.IsValid())
@@ -39,20 +40,22 @@ namespace MTCG.API.Routing.MarketDeals
             List<string> cardsInDeck = _stacksDao.SelectCardsInDeckByUsername(_user.Username);
             if (!userCards.Contains(_deal.CardToSell) || cardsInDeck.Contains(_deal.CardToSell))
             {
-                response = new HttpResponse(StatusCode.Forbidden);
+                if (!userCards.Contains(_deal.CardToSell)) { payload = "card not in stack"; }
+                else { payload = "card in configured deck"; }
+                response = new HttpResponse(StatusCode.Forbidden, payload);
                 return response;
             }
             MarketDeal exist_already = _marketDealsDao.SelectMarketDealById(_deal.Id);
             if (exist_already != null)
             {
-                string payload1 = $"Marker Deal with ID: {_deal.Id} already stored in DB\n";
-                response = new HttpResponse(StatusCode.Conflict, payload1);
+                payload = $"Marker Deal with ID: {_deal.Id} already stored in DB\n";
+                response = new HttpResponse(StatusCode.Conflict, payload);
                 return response;
             }
             //GOOD REQUEST
             //The deal is created and stored in the DB
             _marketDealsDao.CreateDeal(_deal);
-            string payload = $"Market deal successfully created\n";
+            payload = $"Market deal successfully created\n";
             response = new HttpResponse(StatusCode.Created, payload);
             return response;
 
