@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace MTCG.BLL
 {
+    //This class implements the method used to apply damage modifiers based on elements. 
+    //The variable name "dis" is used as a replacement of the protected keyword "This" 
     public static class ElementLogic
     {
         public static double ElementModifier(ElementType dis, ElementType other)

@@ -26,7 +26,7 @@ using MTCG.DAL.Interfaces;
 
 namespace MTCG.API.Routing
 {
-    public class RequestRouter
+    public class RequestRouter : IRouter
     {
         private readonly IUserDao _databaseUserDao;
         private readonly ICardDao _databaseCardDao;

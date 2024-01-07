@@ -9,6 +9,10 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace MTCG.HttpServer.Schemas
 {
+    internal enum Type
+    {
+        monster, spell
+    }
 
     public class TradingDeal
     {

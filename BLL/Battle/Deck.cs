@@ -20,6 +20,7 @@ namespace MTCG.Classes
             this.Count = 0;
             _random = new Random();
         }
+        //This constructor transforms from the Card class (which is a DB model) to a CardLogic (which is BLL class) 
         public Deck(List<Card> cards)
         {
             foreach (var card in cards)
