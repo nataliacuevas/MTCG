@@ -7,8 +7,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       PGDATA: /data/postgres
-    # volumes:
-    #  - ./docker-data/postgres/:/data/postgres
+    volumes:
+      - ./Docker-init/:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
     networks:
