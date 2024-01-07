@@ -11,7 +11,7 @@ using MTCG.HttpServer.Schemas;
 
 namespace MTCG.BLL
 {
-    public class SpellLogic : CardLogic, ISpell
+    public class SpellLogic : CardLogic
     {
         public SpellLogic(Card cardSchema) : base(cardSchema) { }
         public override void Print()

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MTCG.Models;
 using MTCG.BLL;
 using MTCG.HttpServer.Schemas;
+using MTCG.BLL.Cards;
 
 namespace MTCG.Classes
 {
@@ -25,9 +26,14 @@ namespace MTCG.Classes
         {
             foreach (var card in cards)
             {
-                if (card.GetCardType() == "spell")
+                string cardType = card.GetCardType();
+                if (cardType == "spell")
                 {
                     _cards.Add(new SpellLogic(card));
+                }
+                else if (cardType == "potion")
+                {
+                    _cards.Add(new PotionLogic(card));
                 }
                 else
                 {

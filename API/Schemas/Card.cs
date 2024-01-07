@@ -52,6 +52,10 @@ namespace MTCG.HttpServer.Schemas
             {
                 return "spell";
             }
+            else if (Name.Contains("Potion"))
+            {
+                return "potion";
+            }
             else
             {
                 return "monster";

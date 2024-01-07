@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MTCG.BLL;
 using MTCG.Models;
+using MTCG.BLL.Cards;
 
 namespace MTCG.Classes
 {
@@ -31,6 +32,7 @@ namespace MTCG.Classes
 
             var (description2, dmg2) = cardTwo.DamageModifier(cardOne);
 
+            // TODO indicate in the logs if a card was powered up by a potion.
             string log = userA + ": " + cardOne.Type + cardOne.Name + "(" + cardOne.Damage + ") vs ";
             log += userB + ": " + cardTwo.Type + cardTwo.Name + "(" + cardTwo.Damage + ") \n    -> ";
             log += description1 + description2 + " -> " +  dmg1.ToString() + " vs " + dmg2.ToString() + "\n    -> ";
@@ -60,10 +62,29 @@ namespace MTCG.Classes
             {
                 //method to get card out of list deck A
                 //method to get card out of list deck B
+
                 CardLogic cardA = deckA.PopRandomCard();
+                CardLogic modCardA = cardA;
+                while(cardA is PotionLogic && deckA.Count > 0)
+                {
+                    PotionLogic PotionCardA = (PotionLogic) cardA;
+                    cardA = deckA.PopRandomCard();
+                    modCardA = PotionCardA.ApplyPotion(cardA);
+                }
+                // Here either modCardA is a potion (no more cards left), or a modified non-potion card.
                 CardLogic cardB = deckB.PopRandomCard();
-                Console.WriteLine(cardA.Name + " vs " + cardB.Name + ": " + deckA.Count.ToString() + " vs " + deckB.Count.ToString());
-                var(log, winner) = Round(cardA, cardB, userA, userB);
+                CardLogic modCardB = cardB;
+                while (cardB is PotionLogic && deckB.Count > 0)
+                {
+                    PotionLogic PotionCardB = (PotionLogic)cardB;
+                    cardB = deckB.PopRandomCard();
+                    modCardB = PotionCardB.ApplyPotion(cardB);
+                }
+                // Here either modCardB is a potion (no more cards left), or a modified non-potion card.
+                // If the final card is a potion, the round sets their damage to zero
+
+                // TODO: indicate in the logs the use of a potion
+                var(log, winner) = Round(modCardA, modCardB, userA, userB);
                 finaLog += "\n" + log;
                 ++roundCounter;
                 if (winner == Players.PlayerA)

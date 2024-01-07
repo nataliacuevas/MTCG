@@ -124,6 +124,7 @@
     <Compile Include="BLL\Cards\CardLogic.cs" />
     <Compile Include="BLL\Cards\ElementLogic.cs" />
     <Compile Include="BLL\Cards\MonsterLogic.cs" />
+    <Compile Include="BLL\Cards\PotionLogic.cs" />
     <Compile Include="BLL\Cards\SpellLogic.cs" />
     <Compile Include="API\Routing\UserNotFoundException.cs" />
     <Compile Include="BLL\Battle\Battle.cs" />
@@ -158,7 +159,6 @@
     <Compile Include="API\Schemas\UserStats.cs" />
     <Compile Include="BLL\Cards\Interfaces\ICard.cs" />
     <Compile Include="BLL\Cards\Interfaces\IMonster.cs" />
-    <Compile Include="BLL\Cards\Interfaces\ISpell.cs" />
     <Compile Include="BLL\Enums\ElementTypeEnum.cs" />
     <Compile Include="BLL\Enums\MonsterTypeEnum.cs" />
     <Compile Include="DAL\Models\Package.cs" />
