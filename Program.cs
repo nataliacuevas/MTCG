@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using MTCG.Classes;
-using MTCG.Models;
-using MTCG.BLL;
+﻿using MTCG.API.Routing;
 using MTCG.DAL;
-using MTCG.HttpServer;
-using MTCG.HttpServer.Schemas;
-using MTCG.API.Routing;
-using MTCG.API.Routing.Users;
-using MTCG.API.Routing.TradingDeals;
 using System.Net;
-//here we connect with the classes folder
+
 
 
 namespace MTCG

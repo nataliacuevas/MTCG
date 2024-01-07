@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MTCG.HttpServer.Schemas;
 using MTCG.Interfaces;
 using MTCG.Models;
-using MTCG.HttpServer.Schemas;
+using System;
 
 namespace MTCG.BLL
 {
@@ -29,13 +25,12 @@ namespace MTCG.BLL
             Damage = cardSchema.Damage ?? 0;
         }
 
-        public abstract void Print();
         // get damage value modified when this.card interacts with another one
         public abstract (string, double) DamageModifier(CardLogic otherCard);
 
         public ElementType NameToType(string cardName)
         {
-            switch (cardName) 
+            switch (cardName)
             {
                 case "WaterGoblin":
                     return ElementType.Water;
@@ -71,9 +66,11 @@ namespace MTCG.BLL
                     return ElementType.Normal;
                 case "Wizzard":
                     return ElementType.Normal;
+                case "Potion":
+                    return ElementType.Normal;
 
-                 default:
-                   throw new NotImplementedException();
+                default:
+                    throw new NotImplementedException();
             }
         }
     }

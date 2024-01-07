@@ -1,13 +1,7 @@
-﻿using MTCG.Interfaces;
+﻿using MTCG.HttpServer.Schemas;
+using MTCG.Interfaces;
 using MTCG.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-using System.Xml.Linq;
-using MTCG.HttpServer.Schemas;
 
 namespace MTCG.BLL
 {
@@ -20,7 +14,7 @@ namespace MTCG.BLL
             Mtype = mtype;
         }
 
-        public MonsterLogic(Card cardSchema) : base(cardSchema) 
+        public MonsterLogic(Card cardSchema) : base(cardSchema)
         {
             Mtype = DeduceMonsterType(cardSchema.Name);
         }
@@ -37,11 +31,7 @@ namespace MTCG.BLL
             else { throw new Exception("Cannot deduce Monster Type\n"); }
         }
 
-        public override void Print()
-        {
-            Console.WriteLine("Monster Card Name: {0}, Element Type:  {1}, Damage: {2}", Name, Type, Damage);
-        }
-
+        // The damage modifier outputs logs, to indicate to the round if there was an special case.
         public override (string, double) DamageModifier(CardLogic other)
         {
             if (other is MonsterLogic)

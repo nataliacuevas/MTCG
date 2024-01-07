@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Json.Net;
-
-
-namespace MTCG.HttpServer.Schemas
+﻿namespace MTCG.HttpServer.Schemas
 {
     public class UserCredentials
     {
@@ -15,7 +7,7 @@ namespace MTCG.HttpServer.Schemas
 
         public bool IsValid()
         {
-            if(Username == null || Password == null) 
+            if (Username == null || Password == null)
             {
                 return false;
             }

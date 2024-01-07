@@ -1,30 +1,23 @@
-﻿using MTCG.HttpServer.Schemas;
+﻿using MTCG.DAL.Interfaces;
+using MTCG.HttpServer.Schemas;
 using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using System.Threading.Tasks;
-using MTCG.Models;
-using MTCG.DAL.Interfaces;
 
 namespace MTCG.DAL
 {
     public class DatabaseCardDao : ICardDao
     {
         private const string CreateCardTableCommand = @"CREATE TABLE IF NOT EXISTS cards (id varchar PRIMARY KEY, name varchar, damage float);";
-       // private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image FROM users";
         private const string SelectCardByIdCommand = "SELECT id, name, damage FROM cards WHERE id=@id";
         private const string InsertCardCommand = @"INSERT INTO cards(id, name, damage) VALUES (@id, @name, @damage)";
-       // private const string UpdateUserDataCommand = @"UPDATE users SET name = @name, bio = @bio, image = @image WHERE username = @username";
         private readonly string _connectionString;
         public DatabaseCardDao(string connectionString)
         {
             _connectionString = connectionString;
             EnsureTables();
         }
-        //ERASE IF NOT USED
         public void CreateCard(Card card)
         {
             using var connection = new NpgsqlConnection(_connectionString);
@@ -39,8 +32,6 @@ namespace MTCG.DAL
             var affectedRows = cmd.ExecuteNonQuery();
             if (affectedRows == 0)
             {
-                //Is this still worth it? 
-                //Copy pasted from sample code 
                 throw new NpgsqlException();
             }
         }
@@ -89,12 +80,11 @@ namespace MTCG.DAL
                 }
                 else
                 {
-                    //instead of using exception, function returns null, meaning that the card is not in the DB
                     return null;
                 }
             }
-            
-            
+
+
         }
         private Card ReadCard(IDataRecord record)
         {
@@ -119,7 +109,7 @@ namespace MTCG.DAL
 
             using var cmd = new NpgsqlCommand(SelectCardByIdCommand, connection);
 
-          
+
             foreach (var card_id in ids)
             {
                 cmd.Parameters.Clear();
@@ -127,7 +117,7 @@ namespace MTCG.DAL
 
 
                 using var reader = cmd.ExecuteReader();
-                if(reader.Read())
+                if (reader.Read())
                 {
                     cards.Add(ReadCard(reader));
                 }

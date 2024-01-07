@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace MTCG.HttpServer.Request
 {
@@ -23,7 +18,7 @@ namespace MTCG.HttpServer.Request
         {
             return method.ToLower() switch
             {
-                
+
                 "options" => HttpMethod.Options,
                 "get" => HttpMethod.Get,
                 "post" => HttpMethod.Post,

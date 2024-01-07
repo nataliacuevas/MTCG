@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MTCG.Models
+﻿namespace MTCG.Models
 {
     public class User
     {
@@ -14,7 +8,7 @@ namespace MTCG.Models
         public string Bio { get; set; }
         public string Image { get; set; }
         public int Coins { get; set; }
-        public int Elo { get; set; } 
+        public int Elo { get; set; }
         public int Wins { get; set; }
         public int Losses { get; set; }
         public string Token => $"{Username}-mtcgToken";
@@ -33,6 +27,6 @@ namespace MTCG.Models
             Losses = losses;
 
         }
-        
+
     }
 }

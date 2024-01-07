@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MTCG.Models;
+﻿using MTCG.Models;
 
 
 namespace MTCG.Classes
 {
     public static class ELOHandler
     {
-        public static void Update(Players? winner, User user1, User user2) 
+        public static void Update(Players? winner, User user1, User user2)
         {
             if (winner == Players.PlayerA)
             {

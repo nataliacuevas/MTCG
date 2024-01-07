@@ -1,10 +1,5 @@
 ﻿using MTCG.HttpServer.Schemas;
-using MTCG.DAL;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MTCG.DAL.Interfaces
 {

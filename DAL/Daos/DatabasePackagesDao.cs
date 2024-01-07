@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MTCG.API.Routing.Packages;
-using MTCG.DAL.Interfaces;
+﻿using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
 using Npgsql;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace MTCG.DAL
 {
@@ -19,11 +15,7 @@ namespace MTCG.DAL
         private const string InsertPackageCommand = @"INSERT INTO packages(card1_id, card2_id, card3_id, card4_id, card5_id) VALUES (@card1_id, @card2_id, @card3_id, @card4_id, @card5_id)";
         private const string SelectAllPackagesCommand = @"SELECT package_id FROM packages";
         private const string SelectPackageByIdCommand = "SELECT card1_id, card2_id, card3_id, card4_id, card5_id FROM packages WHERE package_id=@package_id";
-        private const string DeletePackageByIdCommand = "DELETE FROM packages WHERE package_id = @package_id"
-;
-
-        // private const string UpdateUserDataCommand = @"UPDATE users SET name = @name, bio = @bio, image = @image WHERE username = @username";
-
+        private const string DeletePackageByIdCommand = "DELETE FROM packages WHERE package_id = @package_id";
         private readonly string _connectionString;
 
         public DatabasePackagesDao(string connectionString)
@@ -39,9 +31,9 @@ namespace MTCG.DAL
 
             using var cmd = new NpgsqlCommand(InsertPackageCommand, connection);
 
-            for(int i = 0; i < cards.Count; i++)
+            for (int i = 0; i < cards.Count; i++)
             {
-                cmd.Parameters.AddWithValue($"card{i+1}_id", cards[i].Id);
+                cmd.Parameters.AddWithValue($"card{i + 1}_id", cards[i].Id);
             }
             var affectedRows = cmd.ExecuteNonQuery();
             if (affectedRows == 0)
@@ -52,7 +44,6 @@ namespace MTCG.DAL
         }
         private List<int> GetAllPackagesIds()
         {
-            // TODO: handle exceptions
             var packages_id = new List<int>();
 
             using var connection = new NpgsqlConnection(_connectionString);
@@ -93,7 +84,6 @@ namespace MTCG.DAL
                 }
                 else
                 {
-                    //instead of using exception, function returns null, package is not in the DB
                     return null;
                 }
         }
@@ -113,7 +103,7 @@ namespace MTCG.DAL
         public Package PopRandomPackage()
         {
             List<int> packages_id = GetAllPackagesIds();
-            if(packages_id.Count == 0)
+            if (packages_id.Count == 0)
             {
                 return null;
             }
@@ -121,12 +111,12 @@ namespace MTCG.DAL
             int randomIndex = random.Next(packages_id.Count);
             int randomPackageId = packages_id[randomIndex];
 
-            Package package =  SelectPackageById(randomPackageId);
+            Package package = SelectPackageById(randomPackageId);
             DeletePackageById(randomPackageId);
             return package;
         }
-            
-            private void EnsureTables()
+
+        private void EnsureTables()
         {
             using var connection = new NpgsqlConnection(_connectionString);
             connection.Open();

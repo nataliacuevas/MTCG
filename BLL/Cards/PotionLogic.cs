@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MTCG.Interfaces;
-using MTCG.HttpServer.Schemas;
-
-using static System.Net.Mime.MediaTypeNames;
-using System.Xml.Linq;
+﻿using MTCG.HttpServer.Schemas;
 using MTCG.Models;
 
 namespace MTCG.BLL.Cards
@@ -25,6 +16,8 @@ namespace MTCG.BLL.Cards
             return ("Potions cannot do damage. ", 0);
         }
 
+        // General method that can be implemented for different potion cards for different effects 
+        // Ex. Change elemental type or monster type
         public CardLogic ApplyPotion(CardLogic otherCard)
         {
             if (otherCard is MonsterLogic)
@@ -40,10 +33,6 @@ namespace MTCG.BLL.Cards
             {
                 return otherCard;
             }
-        }
-        public override void Print()
-        {
-            Console.WriteLine("Potion Card Name: {0}, Amplifyier: {2}", Name, Damage);
         }
     }
 

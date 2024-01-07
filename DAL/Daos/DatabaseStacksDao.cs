@@ -1,13 +1,9 @@
 ﻿using MTCG.DAL.Interfaces;
-using MTCG.HttpServer.Schemas;
 using MTCG.Models;
 using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace MTCG.DAL
@@ -22,8 +18,6 @@ namespace MTCG.DAL
         private const string ConfigureDeckCommand = @"UPDATE stacks SET in_deck = true WHERE card_id = @card_id";
         private const string UpdateCardOwnershipCommand = @"UPDATE stacks SET username = @username WHERE card_id = @card_id";
         private const string SelectUsernameByCardIdCommand = "SELECT username FROM stacks WHERE card_id=@card_id";
-        /* private const string SelectAllUsersCommand = @"SELECT username, password, name, bio, image FROM users";
-        */
         private readonly string _connectionString;
         public DatabaseStacksDao(string connectionString)
         {
@@ -49,7 +43,6 @@ namespace MTCG.DAL
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("username", user.Username);
                 cmd.Parameters.AddWithValue("card_id", cardId);
-                Console.WriteLine("card id: {0}", cardId.ToString());
                 var affectedRows = cmd.ExecuteNonQuery();
                 if (affectedRows == 0)
                 {
@@ -58,7 +51,7 @@ namespace MTCG.DAL
                 }
             }
         }
-        public List<string> SelectCardsByUsername(string username) 
+        public List<string> SelectCardsByUsername(string username)
         {
             List<string> cardsIds = new List<string>();
 
@@ -68,7 +61,7 @@ namespace MTCG.DAL
             using var cmd = new NpgsqlCommand(SelectCardsByUsernameCommand, connection);
 
             cmd.Parameters.AddWithValue("username", username);
-            
+
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -150,11 +143,10 @@ namespace MTCG.DAL
                 }
                 else
                 {
-                    //instead of using exception, function returns null, meaning that the username is not in the DB
                     return null;
                 }
         }
-        
+
 
         private void EnsureTables()
         {

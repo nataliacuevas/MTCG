@@ -47,8 +47,7 @@ namespace MTCG.HttpServer
                 string line;
 
                 while (!string.IsNullOrWhiteSpace(line = reader.ReadLine()))
-                {   //TODO ERASE
-                    Console.WriteLine($"Request: {line}");
+                {   
                     line = line.Trim();
                     switch (state)
                     {
@@ -91,7 +90,7 @@ namespace MTCG.HttpServer
                     }
                 }
 
-                // we need this to tell the compiler that the nullables are not null in the following code
+                // needed this to tell the compiler that the nullables are not null in the following code
                 if (path is null || version is null)
                 {
                     return null;

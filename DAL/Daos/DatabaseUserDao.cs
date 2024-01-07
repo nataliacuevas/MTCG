@@ -27,8 +27,6 @@ namespace MTCG.DAL
         }
         public User SelectUserByUsername(string Username)
         {
-            //TODO: HANDLE EXCEPTIONS!!
-
             using var connection = new NpgsqlConnection(_connectionString);
             connection.Open();
 
@@ -115,16 +113,8 @@ namespace MTCG.DAL
             cmd.Parameters.AddWithValue("name", userdata.Name);
             cmd.Parameters.AddWithValue("bio", userdata.Bio);
             cmd.Parameters.AddWithValue("image", userdata.Image);
+            cmd.ExecuteNonQuery();
 
-            var affectedRows = cmd.ExecuteNonQuery();
-            if (affectedRows > 0)
-            {
-                Console.WriteLine("User data updated successfully.");
-            }
-            else
-            {
-                Console.WriteLine("No rows were updated. User may not exist or data is the same.");
-            }
         }
         public void UpdateUserCoins(User user, int newValue)
         {
@@ -135,16 +125,7 @@ namespace MTCG.DAL
 
             cmd.Parameters.AddWithValue("username", user.Username);
             cmd.Parameters.AddWithValue("coins", newValue);
-
-            var affectedRows = cmd.ExecuteNonQuery();
-            if (affectedRows > 0)
-            {
-                Console.WriteLine("User´s coins updated successfully.");
-            }
-            else
-            {
-                Console.WriteLine("No rows were updated. User may not exist or data is the same.");
-            }
+            cmd.ExecuteNonQuery();
 
         }
 
@@ -170,16 +151,8 @@ namespace MTCG.DAL
             cmd.Parameters.AddWithValue("elo", user.Elo);
             cmd.Parameters.AddWithValue("wins", user.Wins);
             cmd.Parameters.AddWithValue("losses", user.Losses);
+            cmd.ExecuteNonQuery();
 
-            var affectedRows = cmd.ExecuteNonQuery();
-            if (affectedRows > 0)
-            {
-                Console.WriteLine("User´s ELO/Wins/Losses updated successfully.");
-            }
-            else
-            {
-                Console.WriteLine("No rows were updated. User may not exist or data is the same.");
-            }
         }
         private void EnsureTables()
         {

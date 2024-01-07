@@ -1,13 +1,8 @@
-﻿using Npgsql;
+﻿using MTCG.DAL.Interfaces;
+using MTCG.HttpServer.Schemas;
+using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MTCG.HttpServer.Schemas;
-using MTCG.DAL.Interfaces;
-using MTCG.API.Routing.MarketDeals;
-using MTCG.API.Routing.TradingDeals;
 using System.Data;
 
 namespace MTCG.DAL
@@ -20,12 +15,6 @@ namespace MTCG.DAL
         private const string SelectMarketDealByIdCommand = "SELECT marketdeal_id, card_id, price FROM marketDeals WHERE marketdeal_id=@marketdeal_id";
         private const string CreateMarketDealCommand = @"INSERT INTO marketDeals (marketdeal_id, card_id, price) VALUES (@marketdeal_id, @card_id, @price)";
         private const string DeleteMarketDealByIdCommand = @"DELETE FROM marketDeals WHERE marketdeal_id = @marketdeal_id;";
-        /*   private const string DeleteMultipleDealsByCardIdCommand = @"DELETE FROM tradingDeals WHERE card_id = @card_id;";
-           private const string ConfigureDeckCommand = @"UPDATE stacks SET in_deck = true WHERE card_id = @card_id";
-           private const string SelectCardsInDeckByUsernameCommand = "SELECT card_id FROM stacks WHERE username=@username AND in_deck = true";
-
-           DELETE FROM tradingDeals WHERE deal_id = 'your_deal_id';
-           */
 
         private readonly string _connectionString;
         public DatabaseMarketDealsDao(string connectionString)
@@ -36,7 +25,6 @@ namespace MTCG.DAL
 
         public List<MarketDeal> GetAllMarketDeals()
         {
-            // TODO: handle exceptions
             var allDeals = new List<MarketDeal>();
 
             using var connection = new NpgsqlConnection(_connectionString);

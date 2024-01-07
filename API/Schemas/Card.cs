@@ -2,6 +2,7 @@
 
 namespace MTCG.HttpServer.Schemas
 {
+    // Enum holding the accepted card names, as specified by the OpenAPI specification (with added Potion card)
     public enum CardName
     {
         WaterGoblin, FireGoblin, RegularGoblin, WaterTroll, FireTroll, RegularTroll, WaterElf, FireElf, RegularElf, WaterSpell, FireSpell, RegularSpell, Knight, Dragon, Ork, Kraken, Wizzard, Potion
@@ -10,7 +11,8 @@ namespace MTCG.HttpServer.Schemas
     {
         public string Id { get; set; }
         private CardName? _cName;
-        //implemented custom setter to convert from string to Enum using JSON.NET
+        // implemented custom setter/getter to convert from string to Enum using JSON.NET
+        // these custom setters/getters require a private field (here, _cName)
         public String Name
         {
             get
@@ -40,6 +42,7 @@ namespace MTCG.HttpServer.Schemas
             }
         }
         public double? Damage { get; set; }
+        // To be used when converting to BLL/CardLogic
         public string GetCardType()
         {
             if (Name.Contains("Spell"))
@@ -68,33 +71,6 @@ namespace MTCG.HttpServer.Schemas
             return $"{Name} (DMG: {Damage}, ID: {Id})";
         }
 
-        public void Print()
-        {
-            if (_cName == null)
-            {
-                Console.WriteLine("cName: NULL");
-            }
-            else
-            {
-                Console.WriteLine("cName: {0}", _cName);
-            }
-            if (Id == null)
-            {
-                Console.WriteLine("Id: NULL");
-            }
-            else
-            {
-                Console.WriteLine("Id: {0}", Id);
-            }
-            if (Damage == null)
-            {
-                Console.WriteLine("Damage: NULL");
-            }
-            else
-            {
-                Console.WriteLine("Damage: {0}", Damage);
-            }
-        }
 
     }
 }

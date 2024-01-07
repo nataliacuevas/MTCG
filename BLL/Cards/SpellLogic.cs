@@ -1,13 +1,6 @@
-﻿using MTCG.Models;
+﻿using MTCG.HttpServer.Schemas;
+using MTCG.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-using System.Xml.Linq;
-using MTCG.Interfaces;
-using MTCG.HttpServer.Schemas;
 
 namespace MTCG.BLL
 {
@@ -15,10 +8,6 @@ namespace MTCG.BLL
     {
         public SpellLogic(string name, ElementType type, double damage) : base(name, type, damage) { }
         public SpellLogic(Card cardSchema) : base(cardSchema) { }
-        public override void Print()
-        {
-            Console.WriteLine("Spell Card Name: {0}, Element Type:  {1}, Damage: {2}", Name, Type, Damage);
-        }
 
         public override (string, double) DamageModifier(CardLogic other)
         {

@@ -60,7 +60,7 @@ namespace MTCG.API.Routing.Packages
             _cardDao.CreateCards(_cards);
             _dbPackagesDao.CreatePackage(_cards);
 
-            return new HttpResponse(StatusCode.Ok);
+            return new HttpResponse(StatusCode.Created);
         }
 
     }

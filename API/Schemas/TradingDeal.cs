@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
 
 
 namespace MTCG.HttpServer.Schemas
 {
+    // enum to enforce the OpenAPI specification for the trading deals
     internal enum Type
     {
         monster, spell
@@ -16,8 +11,8 @@ namespace MTCG.HttpServer.Schemas
 
     public class TradingDeal
     {
-        public string Id {  get; set; }
-        public string CardToTrade {  get; set; }
+        public string Id { get; set; }
+        public string CardToTrade { get; set; }
         private Type? _cType;
         //implemented custom setter to convert from string to Enum using JSON.NET
         public String Type
@@ -55,42 +50,6 @@ namespace MTCG.HttpServer.Schemas
                 return false;
             }
             return true;
-        }
-        public void Print()
-        {
-            if (Id == null)
-            {
-                Console.WriteLine("Trading Deal Id: NULL");
-            }
-            else
-            {
-                Console.WriteLine("Trading Deal Id {0}", Id);
-            }
-            if (CardToTrade == null)
-            {
-                Console.WriteLine("Card To Trade Id: NULL");
-            }
-            else
-            {
-                Console.WriteLine("Card To Trade Id:: {0}", CardToTrade);
-            }
-            if (_cType == null)
-            {
-                Console.WriteLine("cType: NULL");
-            }
-            else
-            {
-                Console.WriteLine("cType: {0}", _cType);
-            }
-            
-            if (MinimumDamage == null)
-            {
-                Console.WriteLine("Minimum Damage: NULL");
-            }
-            else
-            {
-                Console.WriteLine("Minimum Damage: {0}", MinimumDamage);
-            }
         }
     }
 }

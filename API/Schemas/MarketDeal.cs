@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MTCG.HttpServer.Schemas
+﻿namespace MTCG.HttpServer.Schemas
 {
     public class MarketDeal
     {
@@ -20,32 +14,6 @@ namespace MTCG.HttpServer.Schemas
             }
             return true;
         }
-        public void Print()
-        {
-            if (Id == null)
-            {
-                Console.WriteLine("Market Deal Id: NULL");
-            }
-            else
-            {
-                Console.WriteLine("Market Deal Id {0}", Id);
-            }
-            if (CardToSell == null)
-            {
-                Console.WriteLine("Card To Sell Id: NULL");
-            }
-            else
-            {
-                Console.WriteLine("Card To Sell Id:: {0}", CardToSell);
-            }
-            if (Price == 0)
-            {
-                Console.WriteLine("price: NULL");
-            }
-            else
-            {
-                Console.WriteLine("price: {0}", Price);
-            }
-        }
+
     }
 }

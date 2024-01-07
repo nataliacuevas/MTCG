@@ -1,14 +1,9 @@
-﻿using MTCG.HttpServer.Response;
-using MTCG.HttpServer.Routing;
+﻿using MTCG.API.Routing;
+using MTCG.HttpServer.Response;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Sockets;
 using System.Net;
-using System.Text;
+using System.Net.Sockets;
 using System.Threading;
-using MTCG.API.Routing;
 
 namespace MTCG.HttpServer
 {
@@ -31,9 +26,11 @@ namespace MTCG.HttpServer
             _listening = true;
             Console.WriteLine("Listening incoming connection...");
             while (_listening)
-            {   var client = _listener.AcceptTcpClient();
-             
-                var thready = new Thread(() => {
+            {
+                var client = _listener.AcceptTcpClient();
+
+                var thready = new Thread(() =>
+                {
                     var clientHandler = new HttpClientHandler(client);
                     // Uncomment to verify multithreading
                     // Console.WriteLine("Thread Id: {0}", Thread.CurrentThread.ManagedThreadId.ToString());
@@ -41,7 +38,7 @@ namespace MTCG.HttpServer
                     HandleClient(clientHandler);
                 });
                 thready.Start();
-                
+
                 Console.WriteLine("Listening incoming connection...");
             }
         }
@@ -87,12 +84,9 @@ namespace MTCG.HttpServer
             }
             catch (InvalidOperationException)
             {
-                //TODO ERASE DEBUG
-                // to avoid swagger sending a strange empty message
-                // crashing the server
-                Console.WriteLine("OOPS");
+
             }
-            
+
         }
     }
 }
