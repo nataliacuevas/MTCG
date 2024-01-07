@@ -1,15 +1,8 @@
-﻿using MTCG.BLL;
-using MTCG.DAL.Interfaces;
+﻿using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.Users
 {
@@ -26,17 +19,9 @@ namespace MTCG.API.Routing.Users
 
         public HttpResponse Execute()
         {
-            User user;
-            try
-            {
-                user = _dbUserDao.LoginUser(_credentials);
-            }
-            catch (UserNotFoundException)
-            {
-                user = null;
-            }
-
+            User user = _dbUserDao.LoginUser(_credentials);
             HttpResponse response;
+            //if login fails 
             if (user == null)
             {
                 response = new HttpResponse(StatusCode.Unauthorized);

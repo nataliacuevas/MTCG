@@ -1,15 +1,10 @@
 ﻿using Json.Net;
-using MTCG.DAL;
 using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.Stats
 {
@@ -20,6 +15,7 @@ namespace MTCG.API.Routing.Stats
 
         public RetrieveScoreboardCommand(IUserDao userdao, User user)
         {
+            // _user is used only for GetIdentity function and authentication
             _user = user;
             _userDao = userdao;
         }

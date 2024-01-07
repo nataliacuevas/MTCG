@@ -1,17 +1,9 @@
-﻿using MTCG.BLL;
-using MTCG.DAL;
-using MTCG.DAL.Interfaces;
+﻿using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
-using MTCG.Interfaces;
 using MTCG.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.TradingDeals
 {
@@ -37,6 +29,7 @@ namespace MTCG.API.Routing.TradingDeals
                 response = new HttpResponse(StatusCode.BadRequest);
                 return response;
             }
+            //checks that card is in stacks and not in user´s deck
             List<string> userCards = _stacksDao.SelectCardsByUsername(_user.Username);
             List<string> cardsInDeck = _stacksDao.SelectCardsInDeckByUsername(_user.Username);
             if (!userCards.Contains(_deal.CardToTrade) || cardsInDeck.Contains(_deal.CardToTrade))
@@ -57,7 +50,7 @@ namespace MTCG.API.Routing.TradingDeals
             string payload = $"Trading deal successfully created\n";
             response = new HttpResponse(StatusCode.Created, payload);
             return response;
-           
+
         }
     }
 }

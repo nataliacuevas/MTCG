@@ -1,14 +1,9 @@
-﻿using MTCG.DAL;
-using MTCG.DAL.Interfaces;
+﻿using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.TradingDeals
 {
@@ -19,7 +14,7 @@ namespace MTCG.API.Routing.TradingDeals
         private readonly ITradingsDao _tradingDealsDao;
         private readonly ICardDao _cardDao;
         private readonly string _dealId;
-        private readonly string _offeredCardId;  
+        private readonly string _offeredCardId;
 
         public SealDealCommand(ICardDao cardDao, IStacksDao stacksDao, ITradingsDao tradingDealsDao, User user, string dealId, string offeredCardId)
         {
@@ -55,7 +50,7 @@ namespace MTCG.API.Routing.TradingDeals
                 return response;
             }
             Card offeredCard = _cardDao.GetCardbyId(_offeredCardId);
-            if(offeredCard == null)
+            if (offeredCard == null)
             {
                 payload = "The offered card does not exist\n";
                 response = new HttpResponse(StatusCode.Forbidden, payload);
@@ -68,7 +63,7 @@ namespace MTCG.API.Routing.TradingDeals
                 response = new HttpResponse(StatusCode.Forbidden, payload);
                 return response;
             }
-            if(offeredCard.Damage < deal.MinimumDamage || offeredCard.GetCardType() != deal.Type)
+            if (offeredCard.Damage < deal.MinimumDamage || offeredCard.GetCardType() != deal.Type)
             {
                 payload = "the deal requirements are not met (Type, MinimumDamage)\n";
                 response = new HttpResponse(StatusCode.Forbidden, payload);

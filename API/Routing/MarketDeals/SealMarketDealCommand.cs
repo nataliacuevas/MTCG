@@ -1,14 +1,9 @@
-﻿using MTCG.DAL;
-using MTCG.DAL.Interfaces;
+﻿using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.MarketDeals
 {
@@ -18,13 +13,11 @@ namespace MTCG.API.Routing.MarketDeals
         private readonly IUserDao _userDao;
         private readonly IStacksDao _stacksDao;
         private readonly ITradingsDao _tradingDealsDao;
-        private readonly ICardDao _cardDao;
         private readonly IMarketDao _marketDealsDao;
         private readonly string _dealId;
 
-        public SealMarketDealCommand(ICardDao cardDao, IStacksDao stacksDao, ITradingsDao tradingDealsDao, IMarketDao databaseMarketDealsDao, IUserDao databaseUserDao, User user, string dealId)
+        public SealMarketDealCommand(IStacksDao stacksDao, ITradingsDao tradingDealsDao, IMarketDao databaseMarketDealsDao, IUserDao databaseUserDao, User user, string dealId)
         {
-            _cardDao = cardDao;
             _userDao = databaseUserDao;
             _user = user;
             _stacksDao = stacksDao;
@@ -37,6 +30,7 @@ namespace MTCG.API.Routing.MarketDeals
             HttpResponse response;
             string payload;
             List<string> userCards = _stacksDao.SelectCardsByUsername(_user.Username);
+            //Makes sure that the deals exists
             MarketDeal deal = _marketDealsDao.SelectMarketDealById(_dealId);
             if (deal == null)
             {
@@ -62,7 +56,10 @@ namespace MTCG.API.Routing.MarketDeals
             string dealOwner = _stacksDao.GetCardOwnerbyCardId(deal.CardToSell);
             User deal_owner = _userDao.SelectUserByUsername(dealOwner);
 
-            // I am completely sure that the value is not null here. Required for the addition +
+            /* I did not find another way to cast this nullable value to int. I am 100% sure that it is not null. 
+             Required for the addition operator "+"
+            deal.price is nullable for the JSON.Net library, to detect missing keys from the schema
+            */
             int dealPrice = deal.Price ?? 0;
             _userDao.UpdateUserCoins(deal_owner, deal_owner.Coins + dealPrice);
             _userDao.UpdateUserCoins(_user, _user.Coins - dealPrice);

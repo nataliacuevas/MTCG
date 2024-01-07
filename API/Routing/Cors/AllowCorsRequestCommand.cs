@@ -1,19 +1,14 @@
 ﻿using MTCG.HttpServer.Response;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Net;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Threading.Tasks;
 using MTCG.HttpServer.Routing;
+using System.Collections.Generic;
 
 namespace MTCG.API.Routing.Cors
 {
+    /* Class implemented to allow Cors request for Swagger. Ultimately did not work, pending to fix
+     */
     internal class AllowCorsRequestCommand : IRouteCommand
     {
-        public AllowCorsRequestCommand() {        }
+        public AllowCorsRequestCommand() { }
         public HttpResponse Execute()
         {
             Dictionary<string, string> header = new Dictionary<string, string>();
@@ -21,8 +16,8 @@ namespace MTCG.API.Routing.Cors
             header.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
             header.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-            return new HttpResponse(StatusCode.Ok, header : header);
-        
+            return new HttpResponse(StatusCode.Ok, header: header);
+
         }
     }
 }

@@ -1,14 +1,9 @@
-﻿using MTCG.DAL;
-using MTCG.DAL.Interfaces;
+﻿using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.MarketDeals
 {
@@ -31,19 +26,18 @@ namespace MTCG.API.Routing.MarketDeals
         {
             string payload;
             HttpResponse response;
-            //Here we check if the price is non-positive
+            // check if the price is non-positive and the format is right
             if (!_deal.IsValid())
             {
                 response = new HttpResponse(StatusCode.BadRequest);
                 return response;
             }
+            // checking that the card is in the stack and not in the configured deck 
             List<string> userCards = _stacksDao.SelectCardsByUsername(_user.Username);
             List<string> cardsInDeck = _stacksDao.SelectCardsInDeckByUsername(_user.Username);
             if (!userCards.Contains(_deal.CardToSell) || cardsInDeck.Contains(_deal.CardToSell))
             {
-                if (!userCards.Contains(_deal.CardToSell)) { payload = "card not in stack"; }
-                else { payload = "card in configured deck"; }
-                response = new HttpResponse(StatusCode.Forbidden, payload);
+                response = new HttpResponse(StatusCode.Forbidden);
                 return response;
             }
             MarketDeal exist_already = _marketDealsDao.SelectMarketDealById(_deal.Id);

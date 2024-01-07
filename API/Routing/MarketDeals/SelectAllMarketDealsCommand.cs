@@ -1,15 +1,10 @@
 ﻿using Json.Net;
-using MTCG.DAL;
 using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.MarketDeals
 {
@@ -21,6 +16,7 @@ namespace MTCG.API.Routing.MarketDeals
         public SelectAllMarketDealsCommand(IMarketDao databaseMarketDealsDao, User user)
         {
             //user only used for the GetIdentity function
+            // this is for authentication
             _user = user;
             _marketDealsDao = databaseMarketDealsDao;
         }
@@ -36,7 +32,6 @@ namespace MTCG.API.Routing.MarketDeals
                 response = new HttpResponse(StatusCode.NoContent, payload);
                 return response;
             }
-            //401 ERROR covered by GetIdentity
             else
             {
                 payload = JsonNet.Serialize(deals);

@@ -1,15 +1,10 @@
 ﻿using Json.Net;
-using MTCG.DAL;
+using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MTCG.DAL.Interfaces;
 
 namespace MTCG.API.Routing.Deck
 {
@@ -40,16 +35,17 @@ namespace MTCG.API.Routing.Deck
 
             List<Card> userCards = _cardDao.GetCardsByIdList(requestedCardsIds);
 
-
+            //if no format is given, _format is = null, and since JSON is the default format, that format will be returned
             string payload = "";
-            if(_format == "json" || _format == null)
+            if (_format == "json" || _format == null)
             {
                 payload = JsonNet.Serialize(userCards);
             }
-            else if(_format == "plain")
+            else if (_format == "plain")
             {
-                foreach(var card in userCards)
+                foreach (var card in userCards)
                 {
+                    //the plain format is defined by .PlainFormat function which is "glued" together with \n 
                     payload += card.PlainFormat() + "\n";
                 }
             }

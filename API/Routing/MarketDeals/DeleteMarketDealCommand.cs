@@ -1,19 +1,13 @@
-﻿using MTCG.DAL;
-using MTCG.DAL.Interfaces;
+﻿using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.MarketDeals
 {
-    public class DeleteMarketDealCommand: IRouteCommand
+    public class DeleteMarketDealCommand : IRouteCommand
     {
         private readonly User _user;
         private readonly IStacksDao _stacksDao;

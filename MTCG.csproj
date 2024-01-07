@@ -126,7 +126,6 @@
     <Compile Include="BLL\Cards\MonsterLogic.cs" />
     <Compile Include="BLL\Cards\PotionLogic.cs" />
     <Compile Include="BLL\Cards\SpellLogic.cs" />
-    <Compile Include="API\Routing\UserNotFoundException.cs" />
     <Compile Include="BLL\Battle\Battle.cs" />
     <Compile Include="DAL\Daos\DatabaseCardDao.cs" />
     <Compile Include="DAL\Daos\DatabaseMarketDealsDao.cs" />

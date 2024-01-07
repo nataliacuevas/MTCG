@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MTCG.API.Routing.Users;
-using MTCG.API.Routing.Cards;
-using MTCG.API.Routing.Deck;
-using MTCG.DAL;
+﻿using System.Collections.Generic;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Response;
 using MTCG.Models;
@@ -14,19 +6,19 @@ using MTCG.DAL.Interfaces;
 
 namespace MTCG.API.Routing.Battles
 {
+    /* Class that handles the battles route. When a request comes to this route, 
+      it is redirected to the _inMemoryBattleLobbyDao which handles the match-making and databse updates  (ELO, wins, losses)
+     * */
     public class EnterToLobbyForBattleCommand : IRouteCommand
     {
-        private readonly ICardDao _cardDao;
         private readonly IStacksDao _stacksDao;
-        private readonly IUserDao _userDao;
         private readonly User _user;
         private readonly IInMemoryBattleLobbyDao _inMemoryBattleLobbyDao;
 
-        public EnterToLobbyForBattleCommand(ICardDao cardDao, IStacksDao stacksDao, IUserDao userDao, User user, IInMemoryBattleLobbyDao inMemoryBattleLobbyDao)
+        public EnterToLobbyForBattleCommand(IStacksDao stacksDao, User user, IInMemoryBattleLobbyDao inMemoryBattleLobbyDao)
         {
-            _cardDao = cardDao;
+            //_inMemoryBattleLobbyDao holds a reference to cardDao and UserDao
             _stacksDao = stacksDao;
-            _userDao = userDao;
             _user = user;
             _inMemoryBattleLobbyDao = inMemoryBattleLobbyDao;
         }

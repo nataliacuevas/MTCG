@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace MTCG.HttpServer.Schemas
 {
     public enum CardName
     {
-        WaterGoblin, FireGoblin, RegularGoblin, WaterTroll, FireTroll, RegularTroll, WaterElf, FireElf, RegularElf, WaterSpell, FireSpell, RegularSpell, Knight, Dragon, Ork, Kraken, Wizzard
+        WaterGoblin, FireGoblin, RegularGoblin, WaterTroll, FireTroll, RegularTroll, WaterElf, FireElf, RegularElf, WaterSpell, FireSpell, RegularSpell, Knight, Dragon, Ork, Kraken, Wizzard, Potion
     }
     public class Card
     {
@@ -73,7 +67,7 @@ namespace MTCG.HttpServer.Schemas
         {
             return $"{Name} (DMG: {Damage}, ID: {Id})";
         }
-        
+
         public void Print()
         {
             if (_cName == null)

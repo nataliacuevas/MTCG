@@ -3,18 +3,13 @@ using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MTCG.API.Routing.Stats
 {
     public class RetrieveUserStatsCommand : IRouteCommand
     {
         private readonly User _user;
-        public RetrieveUserStatsCommand(User user) 
+        public RetrieveUserStatsCommand(User user)
         {
             _user = user;
         }

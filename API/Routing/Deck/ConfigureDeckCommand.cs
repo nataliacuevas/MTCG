@@ -1,16 +1,9 @@
-﻿using Json.Net;
-using Microsoft.SqlServer.Server;
-using MTCG.DAL;
+﻿using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
-using MTCG.HttpServer.Schemas;
 using MTCG.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MTCG.DAL.Interfaces;
 
 namespace MTCG.API.Routing.Deck
 {
@@ -29,8 +22,8 @@ namespace MTCG.API.Routing.Deck
         {
             HttpResponse response;
 
-            //SECURITY CHECKS
-            if(_cardsIds == null || _cardsIds.Count != 4)
+            //Deserialization checks
+            if (_cardsIds == null || _cardsIds.Count != 4)
             {
                 response = new HttpResponse(StatusCode.BadRequest);
                 return response;
@@ -41,7 +34,7 @@ namespace MTCG.API.Routing.Deck
             //here we compare both list of ids and check if the cardsIds are contained in allUserCards
             bool isContained = _cardsIds.All(id => allUserCards.Contains(id));
 
-            if(!isContained)
+            if (!isContained)
             {
                 response = new HttpResponse(StatusCode.Forbidden);
                 return response;

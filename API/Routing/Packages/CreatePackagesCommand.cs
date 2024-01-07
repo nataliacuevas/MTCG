@@ -1,21 +1,13 @@
-﻿using MTCG.DAL;
-using MTCG.DAL.Interfaces;
+﻿using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
-using MTCG.API.Routing.Packages;
 using MTCG.HttpServer.Schemas;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MTCG.Models;
-using MTCG.Interfaces;
+using System.Collections.Generic;
 
 namespace MTCG.API.Routing.Packages
 {
-    internal class CreatePackagesCommand :IRouteCommand
+    internal class CreatePackagesCommand : IRouteCommand
     {
 
         private readonly IPackagesDao _dbPackagesDao;
@@ -37,28 +29,28 @@ namespace MTCG.API.Routing.Packages
         {
             HttpResponse response;
             //check is the user is authorized (admin)
-            if(!_user.IsAdmin)
+            if (!_user.IsAdmin)
             {
                 response = new HttpResponse(StatusCode.Unauthorized);
                 return response;
             }
             //check that evry card is valid
-            foreach(Card card in _cards)
+            foreach (Card card in _cards)
             {
                 if (!card.IsValid())
                 {
                     response = new HttpResponse(StatusCode.BadRequest);
                     return response;
                 }
-                if(_cardDao.GetCardbyId(card.Id) != null) 
+                if (_cardDao.GetCardbyId(card.Id) != null)
                 {
                     string payload = $"Card with ID: {card.Id} already stored in DB\n";
-                    response = new HttpResponse(StatusCode.Conflict, payload:payload);
+                    response = new HttpResponse(StatusCode.Conflict, payload: payload);
                     return response;
                 }
             }
             //check correct number of cards
-            if(_cards.Count != 5)
+            if (_cards.Count != 5)
             {
                 response = new HttpResponse(StatusCode.BadRequest);
                 return response;
@@ -69,26 +61,8 @@ namespace MTCG.API.Routing.Packages
             _dbPackagesDao.CreatePackage(_cards);
 
             return new HttpResponse(StatusCode.Ok);
-
-
-
-            /*
-            try
-            {
-                _dbPackagesDao.CreatePackages(_cardDao);
-
-                response = new HttpResponse(StatusCode.Created);
-            }
-            //Other way to check if the user is already in DB
-            catch (DuplicateNameException)
-            {
-                response = new HttpResponse(StatusCode.Conflict);
-            }
-
-            return response;
-            */
         }
 
     }
-    
+
 }

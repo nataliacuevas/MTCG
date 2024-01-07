@@ -1,15 +1,10 @@
 ﻿using Json.Net;
-using MTCG.DAL;
+using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
 using MTCG.HttpServer.Routing;
 using MTCG.HttpServer.Schemas;
 using MTCG.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MTCG.DAL.Interfaces;
 
 namespace MTCG.API.Routing.Cards
 {
@@ -28,7 +23,7 @@ namespace MTCG.API.Routing.Cards
         public HttpResponse Execute()
         {
             HttpResponse response;
-  
+
             List<string> requestedCardsIds = _stacksDao.SelectCardsByUsername(_user.Username);
             if (requestedCardsIds == null)
             {

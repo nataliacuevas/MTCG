@@ -1,29 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MTCG.HttpServer
 {
-    [Serializable]
+    // This exception is thrown by the GetIdentity function to indicate that the user is not authenticated
     public class RouteNotAuthenticatedException : Exception
     {
-        public RouteNotAuthenticatedException()
-        {
-        }
-
-        public RouteNotAuthenticatedException(string message) : base(message)
-        {
-        }
-
-        public RouteNotAuthenticatedException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected RouteNotAuthenticatedException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+        public RouteNotAuthenticatedException() { }
     }
 }

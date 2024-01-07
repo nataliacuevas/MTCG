@@ -1,17 +1,11 @@
-﻿using MTCG.Interfaces;
-using MTCG.Models;
+﻿using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Schemas;
+using MTCG.Models;
 using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Json.Net;
-using MTCG.BLL;
-using System.Net;
-using MTCG.DAL.Interfaces;
 
 namespace MTCG.DAL
 {
@@ -26,7 +20,7 @@ namespace MTCG.DAL
         private const string UpdateUserEloWinsLossesCommand = @"UPDATE users SET elo = @elo, wins = @wins, losses = @losses WHERE username = @username";
 
         private readonly string _connectionString;
-        public DatabaseUserDao(string connectionString) 
+        public DatabaseUserDao(string connectionString)
         {
             _connectionString = connectionString;
             EnsureTables();
@@ -42,16 +36,16 @@ namespace MTCG.DAL
 
             cmd.Parameters.AddWithValue("username", Username);
             using (IDataReader reader = cmd.ExecuteReader())
-            
-            if (reader.Read())
-            {
-                return ReadUser(reader);
-            }
-            else
-            {
-                //instead of using exception, function returns null, meaning that the username is not in the DB
-                return null;
-            }
+
+                if (reader.Read())
+                {
+                    return ReadUser(reader);
+                }
+                else
+                {
+                    //instead of using exception, function returns null, meaning that the username is not in the DB
+                    return null;
+                }
         }
         public void CreateUser(UserCredentials userCredentials)
         {
@@ -157,9 +151,9 @@ namespace MTCG.DAL
         public User LoginUser(UserCredentials credentials)
         {
 
-            if(SelectUserByUsername(credentials.Username).Password != credentials.Password)
+            if (SelectUserByUsername(credentials.Username).Password != credentials.Password)
             {
-                throw new UserNotFoundException();
+                return null;
 
             }
             return SelectUserByUsername(credentials.Username);

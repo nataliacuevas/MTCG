@@ -1,16 +1,11 @@
-﻿using MTCG.DAL;
-using MTCG.DAL.Interfaces;
-using MTCG.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Request;
+using MTCG.Models;
 
 namespace MTCG.API.Routing
 {
-    public class IdentityProvider 
+    // Class that handles the authentication by bearer token for all the requests 
+    public class IdentityProvider
     {
         private readonly IUserDao _databaseUserDao;
 
@@ -32,9 +27,9 @@ namespace MTCG.API.Routing
                     {
                         currentUser = _databaseUserDao.GetUserByAuthToken(authToken.Substring(prefix.Length));
                     }
-                    catch 
+                    catch
                     {
-                        Console.WriteLine("Failed to identify user by Auth Token");
+                        // if not found current user remains null
                     }
                 }
             }

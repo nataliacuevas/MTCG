@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-using MTCG.DAL;
-using MTCG.DAL.Interfaces;
+﻿using MTCG.DAL.Interfaces;
 using MTCG.HttpServer.Response;
-using MTCG.Models;
-using MTCG.HttpServer.Schemas;
-using MTCG.API.Routing;
-using MTCG.BLL;
 using MTCG.HttpServer.Routing;
+using MTCG.HttpServer.Schemas;
+using MTCG.Models;
 
 namespace MTCG.API.Routing.Users
 {
@@ -23,7 +13,7 @@ namespace MTCG.API.Routing.Users
         private readonly User _identity;
         private readonly string _username;
 
-        public UpdateUserDataCommand(IUserDao dbUserDao, User identity, string username, UserData userData) 
+        public UpdateUserDataCommand(IUserDao dbUserDao, User identity, string username, UserData userData)
 
         {
             _dbUserDao = dbUserDao;
@@ -35,21 +25,20 @@ namespace MTCG.API.Routing.Users
         public HttpResponse Execute()
         {
             HttpResponse response;
-            if(_identity.Username != _username)
+            // From the API specification is not clear if the Admin has this right, but I decided that it made sense for the admin to have it
+            if (_identity.Username != _username && !_identity.IsAdmin)
             {
                 response = new HttpResponse(StatusCode.Unauthorized);
                 return response;
             }
-
-            try
-            {
-                _dbUserDao.UpdateUserData(_userData, _identity);
-                response = new HttpResponse(StatusCode.Ok);
-            }
-            catch (UserNotFoundException)
+            if (_dbUserDao.SelectUserByUsername(_username) == null)
             {
                 response = new HttpResponse(StatusCode.NotFound);
+                return response;
             }
+            // Good Request
+            _dbUserDao.UpdateUserData(_userData, _identity);
+            response = new HttpResponse(StatusCode.Ok);
 
             return response;
         }
