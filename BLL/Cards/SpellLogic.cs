@@ -13,6 +13,7 @@ namespace MTCG.BLL
 {
     public class SpellLogic : CardLogic
     {
+        public SpellLogic(string name, ElementType type, double damage) : base(name, type, damage) { }
         public SpellLogic(Card cardSchema) : base(cardSchema) { }
         public override void Print()
         {

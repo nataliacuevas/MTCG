@@ -15,6 +15,12 @@ namespace MTCG.BLL
         public ElementType Type { get; }
         public double Damage { get; }
 
+        public CardLogic(string name, ElementType type, double damage)
+        {
+            Name = name;
+            Type = type;
+            Damage = damage;
+        }
 
         public CardLogic(Card cardSchema)
         {

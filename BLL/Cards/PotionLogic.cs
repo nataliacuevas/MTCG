@@ -8,11 +8,13 @@ using MTCG.HttpServer.Schemas;
 
 using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
+using MTCG.Models;
 
 namespace MTCG.BLL.Cards
 {
     public class PotionLogic : CardLogic
     {
+        public PotionLogic(string name, ElementType type, double damage) : base(name, type, damage) { }
         public PotionLogic(Card cardSchema) : base(cardSchema)
         {
 
@@ -27,12 +29,10 @@ namespace MTCG.BLL.Cards
         {
             if (otherCard is MonsterLogic)
             {
-                var intermediateSchema = new Card();
-                intermediateSchema.Name = otherCard.Name;
-                intermediateSchema.Id = "";
+                var tempCard = (MonsterLogic)otherCard;
                 // The potion amplifies the damage of this monster
-                intermediateSchema.Damage = otherCard.Damage * this.Damage;
-                var poweredUpMonster = new MonsterLogic(intermediateSchema);
+                double newDamage = otherCard.Damage * this.Damage;
+                var poweredUpMonster = new MonsterLogic(otherCard.Name, otherCard.Type, newDamage, tempCard.Mtype);
                 // Do something
                 return poweredUpMonster;
             }

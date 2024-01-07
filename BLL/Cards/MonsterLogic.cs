@@ -15,6 +15,11 @@ namespace MTCG.BLL
     {
         public MonsterType Mtype { get; }
 
+        public MonsterLogic(string name, ElementType type, double damage, MonsterType mtype) : base(name, type, damage)
+        {
+            Mtype = mtype;
+        }
+
         public MonsterLogic(Card cardSchema) : base(cardSchema) 
         {
             Mtype = DeduceMonsterType(cardSchema.Name);
