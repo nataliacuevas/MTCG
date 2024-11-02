@@ -26,7 +26,7 @@ namespace MTCG.DAL
         public InMemoryBattleLobbyDao(DatabaseCardDao cardDao, DatabaseStacksDao stacksDao, DatabaseUserDao userDao)
         {
             _otherUsername = null;
-            _fightLog = "";  // necesary for both players to have the same battle log
+            _fightLog = "";  // necessary for both players to have the same battle log
             _cardDao = cardDao;
             _stacksDao = stacksDao;
             _userDao = userDao;

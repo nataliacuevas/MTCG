@@ -21,7 +21,7 @@ namespace MTCG.Classes
         {
 
             //using deconstruction to get the output results
-            // the damange modifier produces a description string that is included in the logs.
+            // the damage modifier produces a description string that is included in the logs.
             var (description1, dmg1) = cardOne.DamageModifier(cardTwo);
 
             var (description2, dmg2) = cardTwo.DamageModifier(cardOne);

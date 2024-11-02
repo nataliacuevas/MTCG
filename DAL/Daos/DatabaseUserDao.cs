@@ -98,6 +98,8 @@ namespace MTCG.DAL
         //This will return null if the token doesnt correspond to any user
         public User GetUserByAuthToken(string authToken)
         {
+            //GetAllUsers() = gets a list of all the users in the DB
+            //SingleOrDefault = returns the only users that satisfy the condition
             return GetAllUsers().SingleOrDefault(u => u.Token == authToken);
         }
 

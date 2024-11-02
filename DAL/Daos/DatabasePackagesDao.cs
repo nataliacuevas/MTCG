@@ -31,6 +31,7 @@ namespace MTCG.DAL
 
             using var cmd = new NpgsqlCommand(InsertPackageCommand, connection);
 
+            //This for Loop prepares the sql statement 
             for (int i = 0; i < cards.Count; i++)
             {
                 cmd.Parameters.AddWithValue($"card{i + 1}_id", cards[i].Id);

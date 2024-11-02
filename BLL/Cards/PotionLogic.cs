@@ -17,7 +17,7 @@ namespace MTCG.BLL.Cards
         }
 
         // General method that can be implemented for different potion cards for different effects 
-        // Ex. Change elemental type or monster type
+        // Ex. Change element type or monster type
         public CardLogic ApplyPotion(CardLogic otherCard)
         {
             if (otherCard is MonsterLogic)
